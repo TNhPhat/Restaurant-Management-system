@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(RestaurantManagementSystem LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# ========== Fetch Libraries ==========
+include(FetchContent)
+
+FetchContent_Declare(
+    json
+    GIT_REPOSITORY https://github.com/nlohmann/json
+    GIT_TAG v3.11.3
+)
+FetchContent_MakeAvailable(json)
+
+# ========== Source Files ==========
+set(SRC_FILES
+    src/main.cpp
+    src/Application/Resource/filehandle.cpp
+    src/Application/Utility/logger.cpp
+)
+
+# ========== Executable ==========
+add_executable(RESTAURANT ${SRC_FILES})
+
+# ========== Include Dirs ==========
+target_include_directories(RESTAURANT PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Resource
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Utility
+)
+
+# ========== Link Libraries ==========
+target_link_libraries(RESTAURANT PRIVATE nlohmann_json)
