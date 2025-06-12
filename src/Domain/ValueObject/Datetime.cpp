@@ -19,52 +19,52 @@ DateTime::DateTime(int Day, int Month, int Year, int Hour, int Minute)
     this->m_Minute = Minute;  
 }
 
-void DateTime::setDay(int Day)
+void DateTime::SetDay(int Day)
 {
     this->m_Day = Day;
 }
 
-void DateTime::setMonth(int Month)
+void DateTime::SetMonth(int Month)
 {
     this->m_Month = Month;
 }
 
-void DateTime::setYear(int Year)
+void DateTime::SetYear(int Year)
 {
     this->m_Year = Year;
 }
 
-void DateTime::setHour(int Hour)
+void DateTime::SetHour(int Hour)
 {
     this->m_Hour = Hour;
 }
 
-void DateTime::setMinute(int Minute)
+void DateTime::SetMinute(int Minute)
 {
     this->m_Minute = Minute;
 }
 
-int DateTime::getDay()
+int DateTime::GetDay()
 {
     return this->m_Day;
 }
 
-int DateTime::getMonth()
+int DateTime::GetMonth()
 {
     return this->m_Month;
 }
 
-int DateTime::getYear()
+int DateTime::GetYear()
 {
     return this->m_Year;
 }
 
-int DateTime::getHour()
+int DateTime::GetHour()
 {
     return this->m_Hour;
 }
 
-int DateTime::getMinute()
+int DateTime::GetMinute()
 {
     return this->m_Minute;
 }
