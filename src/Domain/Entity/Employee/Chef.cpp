@@ -2,7 +2,7 @@
 Chef::Chef(): Employee(), m_Sub(nullptr) {}
 
 Chef::Chef(const std::string& Name, const std::string& Email, const std::string& Phone,
-        const int& EmployeeID, const int& Salary, const Date& DateJoined, UsingResourceSubject* Sub)
+        const int& EmployeeID, const int& Salary, const DateTime& DateJoined, UsingResourceSubject* Sub)
         : Employee(Name, Email, Phone, EmployeeID, DateJoined, Salary), m_Sub(Sub) 
 {
     if(this->m_Sub)

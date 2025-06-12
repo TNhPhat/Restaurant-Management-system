@@ -1,5 +1,6 @@
-#include "person.hpp"
+#include "Person.hpp"
 Person::Person() : m_Name(""), m_Email(""), m_Phone("") {};
+
 Person::Person(const std::string& Name, const std::string& Email,const std::string& Phone):
     m_Name(Name),m_Email(Email),m_Phone(Phone) {}
 

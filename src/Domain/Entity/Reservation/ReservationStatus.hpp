@@ -8,4 +8,4 @@ enum class ReservationStatus
     CheckedIn,
     Canceled,
     Abandoned
-}
+};

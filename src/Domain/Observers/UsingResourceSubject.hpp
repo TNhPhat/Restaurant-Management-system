@@ -1,6 +1,7 @@
 #pragma once
 #include<vector>
 #include"ISubject.hpp"
+#include<algorithm>
 class UsingResourceSubject : public ISubject {
 public:
     bool Attach(IObserver* observer) override;

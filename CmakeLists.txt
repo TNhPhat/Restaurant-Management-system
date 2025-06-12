@@ -15,21 +15,31 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(json)
 
-# ========== Source Files ==========
-set(SRC_FILES
-    src/main.cpp
-    src/Application/Resource/filehandle.cpp
-    src/Application/Utility/logger.cpp
+set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
+
+
+include_directories("${SRC_DIR}")
+
+
+file(GLOB_RECURSE DOMAIN_SRC
+     "${SRC_DIR}/domain/*.cpp" "${SRC_DIR}/domain/*.hpp")
+file(GLOB_RECURSE INFRA_SRC
+     "${SRC_DIR}/infrastructure/*.cpp" "${SRC_DIR}/infrastructure/*.hpp")
+file(GLOB_RECURSE MAIN_SRC
+     "${CMAKE_SOURCE_DIR}/main.cpp")
+
+
+set(ALL_SRC ${DOMAIN_SRC} ${INFRA_SRC} ${MAIN_SRC})
+
+
+add_executable(${PROJECT_NAME} ${ALL_SRC})
+
+
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
-# ========== Executable ==========
-add_executable(RESTAURANT ${SRC_FILES})
 
-# ========== Include Dirs ==========
-target_include_directories(RESTAURANT PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Resource
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Utility
-)
-
-# ========== Link Libraries ==========
-target_link_libraries(RESTAURANT PRIVATE nlohmann_json)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)

@@ -7,7 +7,7 @@ public:
     Chef();
     ~Chef();
     Chef(const std::string& Name, const std::string& Email, const std::string& Phone,
-        const int& EmployeeID,const int& Salary, const Date& DateJoined, UsingResourceSubject* Subject);
+        const int& EmployeeID,const int& Salary, const DateTime& DateJoined, UsingResourceSubject* Subject);
     bool Update() override;
     bool TakeOrder();
 

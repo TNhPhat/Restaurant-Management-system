@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Application/Resource/filehandle.hpp"
+#include "Infrastructure/FileHandle/FileHandle.hpp"
 
 int main() {
     JsonHandle j;
@@ -9,7 +9,7 @@ int main() {
     std::cout << "Loaded JSON data: " << j.GetDaTa().dump(4) << std::endl;
 
     // Set a nested key
-    json newValue = {{"ppp","pppp"}};
+    json newValue = {2};
     JsonCommand* setCmd = new SetKeyCommand({"name", "first"}, newValue);
     j.ExecuteCommand(setCmd);
     std::cout << "After SetKeyCommand: " << j.GetDaTa().dump(4) << std::endl;
