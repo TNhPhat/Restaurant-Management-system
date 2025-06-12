@@ -1,18 +1,19 @@
-#pragma once 
+#pragma once
 
-#include <unordered_map>
+#include "FileHandle.hpp" // or wherever your JsonHandle is
 #include <string>
-#include "../Infrastructure/FileHandle/FileHandle.h"
+#include <unordered_map>
 
 class IDManager {
-private:
-    nlohmann::json IDData;
-    std::string Filename;
-
-    void LoadData();
-    void SaveData();
-
 public:
-    IDManager(const std::string& File = "id_registry.json");
-    int GetNextID(const std::string& Key);
+    IDManager(const std::string& FilePath, JsonHandle* FileHandler);
+    int GetNextID(const std::string& EntityType); // e.g. "Order", "Employee"
+    void Save(); // persist changes
+
+private:
+    JsonHandle* m_FileHandler;
+    std::unordered_map<std::string, int> m_CurrentIDs;
+    std::string m_FilePath;
+
+    void Load();
 };
