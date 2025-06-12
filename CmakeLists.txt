@@ -5,41 +5,40 @@ project(RestaurantManagementSystem LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# ========== Fetch Libraries ==========
-include(FetchContent)
-
-FetchContent_Declare(
-    json
-    GIT_REPOSITORY https://github.com/nlohmann/json
-    GIT_TAG v3.11.3
-)
-FetchContent_MakeAvailable(json)
-
-set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
-
-
-include_directories("${SRC_DIR}")
-
-
-file(GLOB_RECURSE DOMAIN_SRC
-     "${SRC_DIR}/domain/*.cpp" "${SRC_DIR}/domain/*.hpp")
-file(GLOB_RECURSE INFRA_SRC
-     "${SRC_DIR}/infrastructure/*.cpp" "${SRC_DIR}/infrastructure/*.hpp")
-file(GLOB_RECURSE MAIN_SRC
-     "${CMAKE_SOURCE_DIR}/main.cpp")
-
-
-set(ALL_SRC ${DOMAIN_SRC} ${INFRA_SRC} ${MAIN_SRC})
-
-
-add_executable(${PROJECT_NAME} ${ALL_SRC})
-
-
-set_target_properties(${PROJECT_NAME}
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+# ========== Source Files ==========
+set(SRC_FILES
+    src/main.cpp
+    src/Infrastructure/FileHandle/FileHandle.cpp
+    src/Infrastructure/Logging/Logger.cpp
+    src/Core/Utils/IDManager.cpp
 )
 
+# ========== Executable ==========
+add_executable(RESTAURANT ${SRC_FILES})
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json)
+# ========== Include Dirs ==========
+target_include_directories(RESTAURANT PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Budget 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Employee
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Interface
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Observers
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
+    ${CMAKE_CURRENT_SOURCE_DIR}/external
+
+)
+
+# ========== Output Directory ==========
+set_target_properties(RESTAURANT PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+# ========== Link Libraries ==========
+# target_link_libraries(RESTAURANT PRIVATE) // for later

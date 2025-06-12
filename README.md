@@ -17,19 +17,12 @@ This project uses [CMake](https://cmake.org/) for building and [nlohmann/json](h
     cd Restaurant-Management-system
     ```
 
-2. **Configure the project with CMake:**
+2. **Run build.bat file**
     ```sh
-    mkdir build
-    cd build
-    cmake -G “Ninja” ..
+    .\build.bat
     ```
 
-3. **Build the project:**
-    ```sh
-    cmake --build .
-    ```
-
-4. **Run the executable:**
+3. **Run the executable:**
     ```sh
     ./RESTAURANT
     ```
