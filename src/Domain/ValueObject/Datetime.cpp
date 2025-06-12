@@ -1,3 +1,6 @@
+#include"DateTime.hpp"
+DateTime::DateTime(): m_Day(1), m_Month(1), m_Year(1), m_Hour(0), m_Minute(0) {}
+
 DateTime::DateTime(int Day, int Month, int Year)
 {
     this->m_Day = Day;
@@ -26,7 +29,7 @@ void DateTime::setMonth(int Month)
     this->m_Month = Month;
 }
 
-void DateTime::setYear(int year)
+void DateTime::setYear(int Year)
 {
     this->m_Year = Year;
 }
@@ -36,7 +39,7 @@ void DateTime::setHour(int Hour)
     this->m_Hour = Hour;
 }
 
-void DateTime::setMinute(int minute)
+void DateTime::setMinute(int Minute)
 {
     this->m_Minute = Minute;
 }
