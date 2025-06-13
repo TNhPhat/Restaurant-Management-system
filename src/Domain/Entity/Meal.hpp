@@ -1,6 +1,7 @@
 #pragma once
 #include "Menu.hpp"
 #include <vector>
+#include <memory>
 class MealItem
 {
 private:
@@ -25,13 +26,15 @@ class Meal
 private:
     const int m_MealID;
     static int m_MealCount;
-    std::vector<const MealItem &> m_MealItems;
+    std::vector<std::shared_ptr<const MealItem>> m_MealItems;
 
 public:
     Meal();
     ~Meal() = default;
-    void AddItem(const MealItem &Item);
+    void AddItem(std::shared_ptr<const MealItem> Item);
+    template <typename... Args>
+    void AddItem(Args &&...args);
     int GetID() const;
     double GetPrice() const;
-    const std::vector<const MealItem &> GetMealItems() const;
+    const std::vector<std::shared_ptr<const MealItem>> GetMealItems() const;
 };

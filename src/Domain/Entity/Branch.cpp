@@ -33,12 +33,18 @@ Restaurant::Restaurant(std::string Name) : m_Name(Name)
 {
 }
 
-void Restaurant::AddBranch(const Branch &branch)
+template <typename... Args>
+void Restaurant::AddBranch(Args &&...args)
+{
+    AddBranch(std::make_shared<const Branch>(std::forward<Args>(args)...));
+}
+
+void Restaurant::AddBranch(std::shared_ptr<const Branch> branch)
 {
     this->m_Branches.emplace_back(branch);
 }
 
-const std::vector<const Branch &> Restaurant::GetBranches() const
+const std::vector<std::shared_ptr<const Branch>> Restaurant::GetBranches() const
 {
     return this->m_Branches;
 }
