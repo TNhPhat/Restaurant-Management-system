@@ -58,7 +58,7 @@ int MenuSection::GetID() const
     return this->m_MenuSectionID;
 }
 
-const std::vector<const MenuItem &> MenuSection::GetMenuItems() const
+const std::vector<std::shared_ptr<const MenuItem>> MenuSection::GetMenuItems() const
 {
     return this->m_MenuItems;
 }
@@ -73,9 +73,15 @@ void MenuSection::SetDescription(std::string Description)
     m_Description = Description;
 }
 
-void MenuSection::AddMenuItem(const MenuItem &Item)
+void MenuSection::AddMenuItem(std::shared_ptr<const MenuItem> Item)
 {
     m_MenuItems.emplace_back(Item);
+}
+
+template <typename... Args>
+void MenuSection::AddMenuItem(Args &&...args)
+{
+    AddMenuItem(std::make_shared<const MenuItem>(std::forward<Args>(args)...));
 }
 
 void MenuSection::GetMenuSection() const
@@ -87,9 +93,15 @@ Menu::Menu(std::string Title, std::string Description) : m_Title(Title), m_Descr
 {
 }
 
-void Menu::AddSection(const MenuSection &Section)
+void Menu::AddSection(std::shared_ptr<const MenuSection> Section)
 {
     this->m_Sections.emplace_back(Section);
+}
+
+template <typename... Args>
+void Menu::AddSection(Args &&...args)
+{
+    AddSection(std::make_shared<const MenuSection>(std::forward<Args>(args)...));
 }
 
 void Menu::GetMenu() const
@@ -102,7 +114,7 @@ int Menu::GetID() const
     return this->m_MenuID;
 }
 
-const std::vector<const MenuSection &> Menu::GetSections() const
+const std::vector<std::shared_ptr<const MenuSection>> Menu::GetSections() const
 {
     return this->m_Sections;
 }
