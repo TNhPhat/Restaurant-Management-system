@@ -5,8 +5,8 @@
 int main() {
     JsonHandle* JsonHandler = new JsonHandle();
     IDManager IDManager("Data/IDRegistry.json", JsonHandler);
-
-    std::cout << IDManager.GetNextID("Bill");
+    IDManager::SetInstance(&IDManager);
+    std::cout <<  IDManager::GetInstance().GetNextID("Bill");
    
 
     return 0;

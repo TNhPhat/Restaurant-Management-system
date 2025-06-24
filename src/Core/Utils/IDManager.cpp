@@ -2,13 +2,15 @@
 #include "../Logging/Logger.hpp"
 #include <vector>
 
+IDManager *IDManager::s_Instance = nullptr;
+
 IDManager::IDManager(const std::string& FilePath, JsonHandle* FileHandler)
     : m_FilePath(FilePath), m_FileHandler(FileHandler) {
     m_FileHandler->LoadFile(FilePath);
-    Load();
+    LoadID();
 }
 
-void IDManager::Load() {
+void IDManager::LoadID() {
     json data = m_FileHandler->GetDaTa();
 
     for (auto it = data.begin(); it != data.end(); ++it) {
@@ -27,6 +29,20 @@ int IDManager::GetNextID(const std::string& entityType) {
     return id;
 }
 
-void IDManager::Save() {
+void IDManager::SaveID() {
     m_FileHandler->SaveFile();
+}
+
+void IDManager::SetInstance(IDManager *Instance) {
+    s_Instance = Instance;
+}
+
+IDManager &IDManager::GetInstance() {
+    if (!s_Instance) {
+        Logger::Log(LogLevel::CRITICAL, __FILE__, __LINE__, 
+            "IDManager::getInstance called before initialization. Call setInstance() first.");
+        // You can still choose to throw afterwards:
+        throw std::runtime_error("IDManager not initialized.");
+    }
+    return *s_Instance;
 }
