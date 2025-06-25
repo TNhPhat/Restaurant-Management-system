@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <memory>
 #include "Menu.hpp"
 
 class Branch
@@ -25,10 +26,12 @@ class Restaurant
 {
 private:
     std::string m_Name;
-    std::vector<const Branch &> m_Branches;
+    std::vector<std::shared_ptr<const Branch>> m_Branches;
 
 public:
     Restaurant(std::string Name);
-    void AddBranch(const Branch &branch);
-    const std::vector<const Branch &> GetBranches() const;
+    void AddBranch(std::shared_ptr<const Branch> branch);
+    template <typename... Args>
+    void AddBranch(Args &&...args);
+    const std::vector<std::shared_ptr<const Branch>> GetBranches() const;
 };

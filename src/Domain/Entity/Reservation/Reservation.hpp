@@ -1,12 +1,13 @@
 #pragma once
-#include "Reservation.hpp"
-#include "../ValueObject/DateTime.hpp"
+
+#include"ReservationStatus.hpp"
+#include "../../ValueObject/DateTime.hpp"
 //#include "./Customer/Customer.hpp"
 
 class Reservation
 {
 private:
-    const int m_ReservationID;
+    int m_ReservationID;
     DateTime m_TimeOfReservation;
     int m_PeopleCount;
     ReservationStatus m_Status;
@@ -14,10 +15,10 @@ private:
     //Customer m_Customer
 public:
     Reservation(DateTime TimeOfReservation, int PeopleCount, DateTime CheckinTime);
-    void setPeopleCount();
-    int getID();
-    DateTime getTimeOfReservation();
-    int getPeopeCount();
-    ReservationStatus getStatus();
-    DateTime getCheckinTime;
-}
+    void setPeopleCount(int count);
+    int getID() const;
+    DateTime getTimeOfReservation() const;
+    int getPeopleCount() const;
+    ReservationStatus getStatus() const;
+    DateTime getCheckinTime() const;
+};

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <memory>
 class MenuItem
 {
 private:
@@ -29,7 +30,7 @@ private:
     const int m_MenuSectionID;
     std::string m_Title;
     std::string m_Description;
-    std::vector<const MenuItem &> m_MenuItems;
+    std::vector<std::shared_ptr<const MenuItem>> m_MenuItems;
 
 public:
     MenuSection(std::string Title, std::string Description);
@@ -39,8 +40,10 @@ public:
     std::string GetDescription() const;
     void SetTitle(std::string Title);
     void SetDescription(std::string Description);
-    void AddMenuItem(const MenuItem &Item);
-    const std::vector<const MenuItem &> GetMenuItems() const;
+    void AddMenuItem(std::shared_ptr<const MenuItem> Item);
+    template <typename... Args>
+    void AddMenuItem(Args &&...args);
+    const std::vector<std::shared_ptr<const MenuItem>> GetMenuItems() const;
     void GetMenuSection() const;
 };
 
@@ -51,17 +54,20 @@ private:
     static int m_MenuCount;
     std::string m_Title;
     std::string m_Description;
-    std::vector<const MenuSection &> m_Sections;
+    std::vector<std::shared_ptr<const MenuSection>> m_Sections;
 
 public:
     Menu(std::string Title, std::string Description);
     ~Menu() = default;
     void GetMenu() const;
     void AddSection(const MenuSection &Section);
+    void AddSection(std::shared_ptr<const MenuSection> Section);
+    template <typename... Args>
+    void AddSection(Args &&...args);
     int GetID() const;
     std::string GetTitle() const;
     std::string GetDescription() const;
-    const std::vector<const MenuSection &> GetSections() const;
+    const std::vector<std::shared_ptr<const MenuSection>> GetSections() const;
     void SetTitle(std::string Title);
     void SetDescription(std::string Description);
 };

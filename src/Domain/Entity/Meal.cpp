@@ -32,9 +32,15 @@ Meal::Meal() : m_MealID(m_MealCount++)
 {
 }
 
-void Meal::AddItem(const MealItem &Item)
+void Meal::AddItem(std::shared_ptr<const MealItem> Item)
 {
     this->m_MealItems.emplace_back(Item);
+}
+
+template <typename... Args>
+void Meal::AddItem(Args &&...args)
+{
+    AddItem(std::make_shared<const MealItem>(std::forward<Args>(args)...));
 }
 
 int Meal::GetID() const
@@ -45,13 +51,13 @@ int Meal::GetID() const
 double Meal::GetPrice() const
 {
     double total = 0;
-    for (int i = 0; i < m_MealItems.size(); i++)
+    for (size_t i = 0; i < m_MealItems.size(); i++)
     {
-        total += m_MealItems[i].GetPrice();
+        total += m_MealItems[i]->GetPrice();
     }
 }
 
-const std::vector<const MealItem &> Meal::GetMealItems() const
+const std::vector<std::shared_ptr<const MealItem>> Meal::GetMealItems() const
 {
     return this->m_MealItems;
 }
