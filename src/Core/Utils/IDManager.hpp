@@ -5,15 +5,19 @@
 #include <unordered_map>
 
 class IDManager {
-public:
-    IDManager(const std::string& FilePath, JsonHandle* FileHandler);
-    int GetNextID(const std::string& EntityType); // e.g. "Order", "Employee"
-    void Save(); // persist changes
-
 private:
+    static IDManager *s_Instance;
     JsonHandle* m_FileHandler;
     std::unordered_map<std::string, int> m_CurrentIDs;
     std::string m_FilePath;
+    
+    void LoadID();
 
-    void Load();
+public:
+    IDManager(const std::string& FilePath, JsonHandle* FileHandler);
+    int GetNextID(const std::string& EntityType); 
+    void SaveID(); 
+    static void SetInstance(IDManager *Instance);
+    static IDManager &GetInstance();
+
 };
