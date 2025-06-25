@@ -1,5 +1,5 @@
 #pragma once
-#include "../Entity/Meal.hpp"
+#include "../Entity/Meal/Meal.hpp"
 
 class IMealItemDecorator : public MealItem
 {
