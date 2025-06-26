@@ -1,27 +1,41 @@
 @echo off
-echo ==== Creating build directory ====
+setlocal
+
+:: Clean previous build directory if it exists
 if exist build (
-    rmdir /s /q build
+    echo Cleaning previous build directory...
+    rd /s /q build
 )
+
+:: Create build directory and enter it
 mkdir build
 cd build
 
-echo ==== Configuring with CMake and Ninja ====
-cmake -G "Ninja" ..
+echo Configuring with CMake (MinGW Makefiles)...
+cmake .. -G "MinGW Makefiles"
+if errorlevel 1 goto :error
 
-if %errorlevel% neq 0 (
-    echo [ERROR] CMake configuration failed.
-    exit /b %errorlevel%
-)
+echo Building project...
+mingw32-make
+if errorlevel 1 goto :error
 
-echo ==== Building the project ====
-cmake --build .
-
-if %errorlevel% neq 0 (
-    echo [ERROR] Build failed.
-    exit /b %errorlevel%
-)
-
-echo ==== Running the executable ====
 cd ..
-RESTAURANT.exe
+
+echo.
+echo Running executable...
+if exist build\RESTAURANT.exe (
+    build\RESTAURANT.exe
+) else if exist RESTAURANT.exe (
+    RESTAURANT.exe
+) else (
+    echo [ERROR] Executable RESTAURANT.exe not found!
+    pause
+    exit /b 1
+)
+
+goto :eof
+
+:error
+echo [ERROR] Build or configuration failed!
+pause
+exit /b 1
