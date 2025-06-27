@@ -1,13 +1,20 @@
 #include "IDManager.hpp"
-#include "../Logging/Logger.hpp"
-#include <vector>
+#include "Logger.hpp"
 
-IDManager *IDManager::s_Instance = nullptr;
+std::unique_ptr<IDManager> IDManager::s_Instance = nullptr;
 
 IDManager::IDManager(const std::string& FilePath, JsonHandle* FileHandler)
     : m_FilePath(FilePath), m_FileHandler(FileHandler) {
     m_FileHandler->LoadFile(FilePath);
     LoadID();
+}
+
+void IDManager::Init(const std::string &FilePath, JsonHandle *FileHandler) {
+    if (s_Instance) {
+        LOG_ERROR("IDManager already initialized!");
+        return;
+    }
+    s_Instance = std::unique_ptr<IDManager>(new IDManager(FilePath, FileHandler));
 }
 
 void IDManager::LoadID() {
@@ -25,7 +32,7 @@ int IDManager::GetNextID(const std::string& entityType) {
     std::vector<std::string> key = { entityType };
     m_FileHandler->ExecuteCommand(new SetKeyCommand(key, id));
 
-    m_FileHandler->SaveFile();
+    SaveID();
     return id;
 }
 
@@ -33,16 +40,10 @@ void IDManager::SaveID() {
     m_FileHandler->SaveFile();
 }
 
-void IDManager::SetInstance(IDManager *Instance) {
-    s_Instance = Instance;
-}
-
 IDManager &IDManager::GetInstance() {
     if (!s_Instance) {
-        Logger::Log(LogLevel::CRITICAL, __FILE__, __LINE__, 
-            "IDManager::getInstance called before initialization. Call setInstance() first.");
-        // You can still choose to throw afterwards:
-        throw std::runtime_error("IDManager not initialized.");
+        LOG_CRITICAL("IDManager::GetInstance called before Init()");
+        throw std::runtime_error("IDManager not initialized. Call IDManager::Init() first.");
     }
     return *s_Instance;
 }
