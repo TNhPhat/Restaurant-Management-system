@@ -4,7 +4,7 @@
 #include<fstream>
 #include"json.hpp"
 #include"../Logging/Logger.hpp"
-#include<stack>
+#include<deque>
 #include <vector>
 using json = nlohmann::json;
 class FileHandle{
@@ -75,6 +75,7 @@ public:
     JsonHandle();
 private:
     json m_Data;
-    std::stack<JsonCommand*> m_UndoStack;
-    std::stack<JsonCommand*> m_RedoStack;
+    std::deque<JsonCommand*> m_UndoDeque;
+    std::deque<JsonCommand*> m_RedoDeque;
+    
 };
