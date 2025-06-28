@@ -1,6 +1,7 @@
 #include "Menu.hpp"
+#include "../../../Core/Utils/IDManager.hpp"
 
-MenuItem::MenuItem(std::string Title, std::string Description, double Price) : m_Title(Title), m_Description(Description), m_Price(Price), m_MenuItemID(m_MenuItemCount++)
+MenuItem::MenuItem(std::string Title, std::string Description, double Price) : m_Title(Title), m_Description(Description), m_Price(Price), m_MenuItemID(IDManager::GetInstance().GetNextID("MenuItem"))
 {
 }
 
@@ -24,6 +25,11 @@ int MenuItem::GetID() const
     return this->m_MenuItemID;
 }
 
+std::vector<MealIngredient> MenuItem::GetIngredients() const
+{
+    return this->m_Ingredients;
+}
+
 void MenuItem::SetTitle(std::string Title)
 {
     m_Title = Title;
@@ -39,7 +45,36 @@ void MenuItem::SetPrice(double Price)
     m_Price = Price;
 }
 
-MenuSection::MenuSection(std::string Title, std::string Description) : m_Title(Title), m_Description(Description), m_MenuSectionID(m_MenuSectionCount++)
+void MenuItem::AddIngredient(std::string Ingredient, int Quantity)
+{
+    bool found = false;
+    for (auto &iter : this->m_Ingredients)
+    {
+        if (iter.Name == Ingredient)
+        {
+            found = true;
+            iter.Quantity += Quantity;
+            break;
+        }
+    }
+    if (found == false)
+    {
+        this->m_Ingredients.emplace_back(Ingredient, Quantity);
+    }
+}
+
+void MenuItem::RemoveIngredient(std::string Ingredient)
+{
+    for (size_t index = 0; index < this->m_Ingredients.size(); index++)
+    {
+        if (this->m_Ingredients[index].Name == Ingredient)
+        {
+            this->m_Ingredients.erase(this->m_Ingredients.begin() + index);
+        }
+    }
+}
+
+MenuSection::MenuSection(std::string Title, std::string Description) : m_Title(Title), m_Description(Description), m_MenuSectionID(IDManager::GetInstance().GetNextID("MenuSection"))
 {
 }
 
@@ -58,7 +93,7 @@ int MenuSection::GetID() const
     return this->m_MenuSectionID;
 }
 
-const std::vector<std::shared_ptr<const MenuItem>> MenuSection::GetMenuItems() const
+std::vector<std::shared_ptr<const MenuItem>> MenuSection::GetMenuItems() const
 {
     return this->m_MenuItems;
 }
@@ -89,7 +124,7 @@ void MenuSection::GetMenuSection() const
     return;
 }
 
-Menu::Menu(std::string Title, std::string Description) : m_Title(Title), m_Description(Description), m_MenuID(m_MenuCount++)
+Menu::Menu(std::string Title, std::string Description) : m_Title(Title), m_Description(Description), m_MenuID(IDManager::GetInstance().GetNextID("Menu"))
 {
 }
 

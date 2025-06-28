@@ -1,6 +1,7 @@
 #include "Branch.hpp"
+#include "../../../Core/Utils/IDManager.hpp"
 
-Branch::Branch(std::string Name, std::string Location, const Menu &menu) : m_Name(Name), m_Location(Location), m_BranchID(m_BranchCount++), m_Menu(menu)
+Branch::Branch(std::string Name, std::string Location, const Menu &menu) : m_Name(Name), m_Location(Location), m_BranchID(IDManager::GetInstance().GetNextID("Branch")), m_Menu(menu)
 {
 }
 
