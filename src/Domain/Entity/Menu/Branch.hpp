@@ -8,7 +8,6 @@ class Branch
 {
 private:
     const int m_BranchID;
-    static int m_BranchCount;
     std::string m_Name;
     std::string m_Location;
     const Menu &m_Menu;

@@ -1,6 +1,7 @@
 #include "Meal.hpp"
+#include "../../../Core/Utils/IDManager.hpp"
 
-MealItem::MealItem(const MenuItem &Item, int Quantity) : m_MenuItem(Item), m_Quantity(Quantity), m_MealItemID(m_MealItemCount++)
+MealItem::MealItem(const MenuItem &Item, int Quantity) : m_MenuItem(Item), m_Quantity(Quantity), m_MealItemID(IDManager::GetInstance().GetNextID("MealItem"))
 {
 }
 
@@ -28,11 +29,16 @@ void MealItem::SetQuantity(int Quantity)
     this->m_Quantity = Quantity;
 }
 
-Meal::Meal() : m_MealID(m_MealCount++)
+std::vector<MealIngredient> MealItem::GetResources() const
+{
+    return this->m_MenuItem.GetIngredients();
+}
+
+Meal::Meal() : m_MealID(IDManager::GetInstance().GetNextID("Meal"))
 {
 }
 
-void Meal::AddItem(std::shared_ptr<const MealItem> Item)
+void Meal::AddItem(std::shared_ptr<MealItem> Item)
 {
     this->m_MealItems.emplace_back(Item);
 }
@@ -55,9 +61,10 @@ double Meal::GetPrice() const
     {
         total += m_MealItems[i]->GetPrice();
     }
+    return total;
 }
 
-const std::vector<std::shared_ptr<const MealItem>> Meal::GetMealItems() const
+std::vector<std::shared_ptr<MealItem>> Meal::GetMealItems() const
 {
     return this->m_MealItems;
 }
