@@ -9,7 +9,7 @@ private:
 public:
     static DateTime Now();  
     DateTime();
-    DateTime(int Day, int Month, int Year, int Hour = 0, int Minute = 0, int Second = 0);
+    DateTime(int Day, int Month, int Year, int Hour, int Minute, int Second);
     ~DateTime() = default;
 
     void SetDay(int Day);
@@ -29,5 +29,5 @@ public:
     std::string ToStringDate() const;
     std::string ToStringDateTime() const;
 
-    static DateTime DateTime::FromDateTimeString(const std::string& str);
+    static DateTime FromDateTimeString(const std::string& str);
 };

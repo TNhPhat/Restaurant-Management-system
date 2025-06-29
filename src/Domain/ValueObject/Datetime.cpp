@@ -86,14 +86,14 @@ int DateTime::GetSecond() const
 std::string DateTime::ToStringDate() const
 {
     std::ostringstream oss;
-    oss << m_Month << '/' << m_Day << '/' << m_Year;
+    oss << m_Day << '/' << m_Month << '/' << m_Year;
     return oss.str();
 }
 
 std::string DateTime::ToStringDateTime() const
 {
     std::ostringstream oss;
-    oss << m_Month << '/' << m_Day << '/' << m_Year << ' '
+    oss << m_Day << '/' << m_Month << '/' << m_Year << ' '
         << std::setw(2) << std::setfill('0') << m_Hour << ':'
         << std::setw(2) << std::setfill('0') << m_Minute << ':'
         << std::setw(2) << std::setfill('0') << m_Second;
@@ -106,9 +106,9 @@ DateTime DateTime::FromDateTimeString(const std::string &str)
     char sep1, sep2, space, sep3, sep4;
 
     std::istringstream iss(str);
-    iss >> month >> sep1 >> day >> sep2 >> year >> space >> hour >> sep3 >> minute >> sep4 >> second;
+    iss >> day >> sep1 >> month >> sep2 >> year >> hour >> sep3 >> minute >> sep4 >> second;
 
-    if (!iss || sep1 != '/' || sep2 != '/' || space != ' ' || sep3 != ':' || sep4 != ':') {
+    if (!iss || sep1 != '/' || sep2 != '/' || sep3 != ':' || sep4 != ':') {
         throw std::invalid_argument("Invalid datetime format: " + str);
     }
 

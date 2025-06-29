@@ -11,6 +11,7 @@ set(SRC_FILES
     src/Infrastructure/FileHandle/FileHandle.cpp
     src/Infrastructure/Logging/Logger.cpp
     src/Core/Utils/IDManager.cpp
+    src/Domain/ValueObject/DateTime.cpp
 )
 
 # ========== Executable ==========
