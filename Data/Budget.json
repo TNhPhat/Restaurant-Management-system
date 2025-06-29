@@ -1,0 +1,352 @@
+[
+    {
+        "id": 30,
+        "date": "2025-05-14 04:50:39",
+        "message": "Membership Fee",
+        "total": 921.82,
+        "type": "income"
+    },
+    {
+        "id": 36,
+        "date": "2025-06-06 04:50:39",
+        "message": "Cleaning Supplies",
+        "total": 229.73,
+        "type": "expense"
+    },
+    {
+        "id": 44,
+        "date": "2025-06-13 04:50:39",
+        "message": "Utility Bills",
+        "total": 395.87,
+        "type": "expense"
+    },
+    {
+        "id": 13,
+        "date": "2025-06-03 04:50:39",
+        "message": "Customer Payment",
+        "total": 423.08,
+        "type": "income"
+    },
+    {
+        "id": 10,
+        "date": "2025-05-10 04:50:39",
+        "message": "Membership Fee",
+        "total": 728.33,
+        "type": "income"
+    },
+    {
+        "id": 41,
+        "date": "2025-06-03 04:50:39",
+        "message": "Cleaning Supplies",
+        "total": 498.25,
+        "type": "expense"
+    },
+    {
+        "id": 45,
+        "date": "2025-05-31 04:50:39",
+        "message": "Ingredient Purchase",
+        "total": 182.08,
+        "type": "expense"
+    },
+    {
+        "id": 38,
+        "date": "2025-05-15 04:50:39",
+        "message": "Ingredient Purchase",
+        "total": 437.5,
+        "type": "expense"
+    },
+    {
+        "id": 40,
+        "date": "2025-06-06 04:50:39",
+        "message": "Cleaning Supplies",
+        "total": 78.59,
+        "type": "expense"
+    },
+    {
+        "id": 43,
+        "date": "2025-05-10 04:50:39",
+        "message": "Ingredient Purchase",
+        "total": 356.77,
+        "type": "expense"
+    },
+    {
+        "id": 15,
+        "date": "2025-05-12 04:50:39",
+        "message": "Sponsorship",
+        "total": 582.61,
+        "type": "income"
+    },
+    {
+        "id": 48,
+        "date": "2025-06-27 04:50:39",
+        "message": "Maintenance",
+        "total": 278.46,
+        "type": "expense"
+    },
+    {
+        "id": 23,
+        "date": "2025-06-01 04:50:39",
+        "message": "Membership Fee",
+        "total": 703.16,
+        "type": "income"
+    },
+    {
+        "id": 31,
+        "date": "2025-06-15 04:50:39",
+        "message": "Event Booking",
+        "total": 291.36,
+        "type": "income"
+    },
+    {
+        "id": 12,
+        "date": "2025-06-27 04:50:39",
+        "message": "Event Booking",
+        "total": 191.99,
+        "type": "income"
+    },
+    {
+        "id": 19,
+        "date": "2025-05-14 04:50:39",
+        "message": "Customer Payment",
+        "total": 695.14,
+        "type": "income"
+    },
+    {
+        "id": 7,
+        "date": "2025-06-14 04:50:39",
+        "message": "Membership Fee",
+        "total": 744.42,
+        "type": "income"
+    },
+    {
+        "id": 14,
+        "date": "2025-06-01 04:50:39",
+        "message": "Gift Card",
+        "total": 338.07,
+        "type": "income"
+    },
+    {
+        "id": 17,
+        "date": "2025-06-19 04:50:39",
+        "message": "Gift Card",
+        "total": 896.91,
+        "type": "income"
+    },
+    {
+        "id": 9,
+        "date": "2025-06-07 04:50:39",
+        "message": "Gift Card",
+        "total": 350.37,
+        "type": "income"
+    },
+    {
+        "id": 33,
+        "date": "2025-06-20 04:50:39",
+        "message": "Sponsorship",
+        "total": 228.58,
+        "type": "income"
+    },
+    {
+        "id": 28,
+        "date": "2025-05-30 04:50:39",
+        "message": "Customer Payment",
+        "total": 306.14,
+        "type": "income"
+    },
+    {
+        "id": 47,
+        "date": "2025-06-25 04:50:39",
+        "message": "Utility Bills",
+        "total": 487.35,
+        "type": "expense"
+    },
+    {
+        "id": 22,
+        "date": "2025-06-08 04:50:39",
+        "message": "Event Booking",
+        "total": 246.39,
+        "type": "income"
+    },
+    {
+        "id": 26,
+        "date": "2025-05-20 04:50:39",
+        "message": "Sponsorship",
+        "total": 441.51,
+        "type": "income"
+    },
+    {
+        "id": 5,
+        "date": "2025-05-12 04:50:39",
+        "message": "Customer Payment",
+        "total": 184.33,
+        "type": "income"
+    },
+    {
+        "id": 29,
+        "date": "2025-05-12 04:50:39",
+        "message": "Event Booking",
+        "total": 461.05,
+        "type": "income"
+    },
+    {
+        "id": 18,
+        "date": "2025-06-02 04:50:39",
+        "message": "Gift Card",
+        "total": 273.06,
+        "type": "income"
+    },
+    {
+        "id": 25,
+        "date": "2025-05-20 04:50:39",
+        "message": "Gift Card",
+        "total": 756.21,
+        "type": "income"
+    },
+    {
+        "id": 3,
+        "date": "2025-06-26 04:50:39",
+        "message": "Customer Payment",
+        "total": 709.03,
+        "type": "income"
+    },
+    {
+        "id": 27,
+        "date": "2025-06-19 04:50:39",
+        "message": "Gift Card",
+        "total": 297.65,
+        "type": "income"
+    },
+    {
+        "id": 42,
+        "date": "2025-06-12 04:50:39",
+        "message": "Utility Bills",
+        "total": 486.99,
+        "type": "expense"
+    },
+    {
+        "id": 46,
+        "date": "2025-05-20 04:50:39",
+        "message": "Staff Salary",
+        "total": 51.46,
+        "type": "expense"
+    },
+    {
+        "id": 6,
+        "date": "2025-05-24 04:50:39",
+        "message": "Gift Card",
+        "total": 641.82,
+        "type": "income"
+    },
+    {
+        "id": 37,
+        "date": "2025-05-24 04:50:39",
+        "message": "Maintenance",
+        "total": 279.29,
+        "type": "expense"
+    },
+    {
+        "id": 4,
+        "date": "2025-06-13 04:50:39",
+        "message": "Customer Payment",
+        "total": 631.44,
+        "type": "income"
+    },
+    {
+        "id": 16,
+        "date": "2025-06-03 04:50:39",
+        "message": "Customer Payment",
+        "total": 596.84,
+        "type": "income"
+    },
+    {
+        "id": 20,
+        "date": "2025-06-28 04:50:39",
+        "message": "Event Booking",
+        "total": 986.7,
+        "type": "income"
+    },
+    {
+        "id": 50,
+        "date": "2025-06-11 04:50:39",
+        "message": "Cleaning Supplies",
+        "total": 139.51,
+        "type": "expense"
+    },
+    {
+        "id": 8,
+        "date": "2025-06-23 04:50:39",
+        "message": "Gift Card",
+        "total": 477.57,
+        "type": "income"
+    },
+    {
+        "id": 2,
+        "date": "2025-05-27 04:50:39",
+        "message": "Membership Fee",
+        "total": 300.89,
+        "type": "income"
+    },
+    {
+        "id": 32,
+        "date": "2025-06-10 04:50:39",
+        "message": "Sponsorship",
+        "total": 896.21,
+        "type": "income"
+    },
+    {
+        "id": 21,
+        "date": "2025-05-24 04:50:39",
+        "message": "Customer Payment",
+        "total": 442.11,
+        "type": "income"
+    },
+    {
+        "id": 39,
+        "date": "2025-05-19 04:50:39",
+        "message": "Maintenance",
+        "total": 406.44,
+        "type": "expense"
+    },
+    {
+        "id": 1,
+        "date": "2025-06-19 04:50:39",
+        "message": "Customer Payment",
+        "total": 122.51,
+        "type": "income"
+    },
+    {
+        "id": 34,
+        "date": "2025-05-18 04:50:39",
+        "message": "Membership Fee",
+        "total": 770.49,
+        "type": "income"
+    },
+    {
+        "id": 35,
+        "date": "2025-06-13 04:50:39",
+        "message": "Event Booking",
+        "total": 772.31,
+        "type": "income"
+    },
+    {
+        "id": 11,
+        "date": "2025-05-31 04:50:39",
+        "message": "Event Booking",
+        "total": 239.93,
+        "type": "income"
+    },
+    {
+        "id": 49,
+        "date": "2025-05-16 04:50:39",
+        "message": "Utility Bills",
+        "total": 428.75,
+        "type": "expense"
+    },
+    {
+        "id": 24,
+        "date": "2025-06-23 04:50:39",
+        "message": "Customer Payment",
+        "total": 648.22,
+        "type": "income"
+    }
+]

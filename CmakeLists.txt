@@ -7,7 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ========== Source Files ==========
 file(GLOB_RECURSE SRC_FILES
-    src/*.cpp
+    src/main.cpp
+    src/Infrastructure/FileHandle/FileHandle.cpp
 )
 
 # ========== Executable ==========
@@ -40,6 +41,7 @@ target_include_directories(RESTAURANT PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Budget
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/UserInterface
 
