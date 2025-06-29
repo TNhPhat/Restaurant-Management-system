@@ -9,7 +9,7 @@ private:
     const int m_OrderID;
     DateTime m_Date;
     OrderStatus m_Status;
-    std::vector<const Meal&> m_Meals;
+    std::vector<std::shared_ptr<Meal>> m_Meals;
 
 public: 
     Order(const int &OrderID, const DateTime &Date);
@@ -19,6 +19,6 @@ public:
 
     void SetOrderStatus(const OrderStatus &NewOrderStatus);
 
-    bool AddMeal(const Meal &NewMeal);
+    bool AddMeal(const std::shared_ptr<Meal>& NewMeal);
     bool RemoveMeal(const int &MealID);
 };

@@ -43,6 +43,8 @@ target_include_directories(RESTAURANT PRIVATE
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/UserInterface
 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Test
+
     ${CMAKE_CURRENT_SOURCE_DIR}/external
 )
 
