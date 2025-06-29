@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ========== Source Files ==========
-set(SRC_FILES
+file(GLOB_RECURSE SRC_FILES
     src/main.cpp
     src/Infrastructure/FileHandle/FileHandle.cpp
     src/Infrastructure/Logging/Logger.cpp
@@ -22,24 +22,41 @@ target_include_directories(RESTAURANT PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Utils
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Budget 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Account
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Address
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Budget
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Employee
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Payment
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Reservation
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Seat
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Storage
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Table
+
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Interface
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Observers
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
+
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
-    ${CMAKE_CURRENT_SOURCE_DIR}/external
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Budget
 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/UserInterface
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Test
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/external
 )
 
 # ========== Output Directory ==========
 set_target_properties(RESTAURANT PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
+
 # ========== Link Libraries ==========
-# target_link_libraries(RESTAURANT PRIVATE) // for later
+# target_link_libraries(RESTAURANT PRIVATE) # for future use

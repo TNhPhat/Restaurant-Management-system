@@ -2,6 +2,7 @@
 
 #include <string>
 #include "DateTime.hpp"
+#include "BillType.hpp"
 
 class Bill {
 private:
@@ -9,7 +10,11 @@ private:
     DateTime m_Date;
     std::string m_Message;
     double m_Total;
+    BillType m_Type;
 
 public: 
-    Bill(const int BillID, const DateTime &Date, const std::string &Message, const double Total);
+    Bill(const int BillID, const DateTime &Date, const std::string &Message, const double &Total, const BillType &Type);
+    double GetTotal() const;
+    DateTime GetDate() const;
+    std::string GetMessage() const;
 };

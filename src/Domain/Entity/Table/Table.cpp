@@ -1,0 +1,47 @@
+#include "Table.hpp"
+
+Table::Table(int TableID, int MaxCapacity, int LocationIdentifier)
+    : m_TableID(TableID), m_MaxCapacity(MaxCapacity), m_LocationIdentifier(LocationIdentifier) {
+    SetTableStatus(TableStatus::Free);
+}
+
+int Table::GetMaxCapacity() const {
+    return m_MaxCapacity;
+}
+
+int Table::GetLocationIdentifier() const {
+    return m_LocationIdentifier;
+}
+
+void Table::SetTableStatus(const TableStatus &NewTableStatus) {
+    m_Status = NewTableStatus;
+}
+
+bool Table::AddReservation(std::shared_ptr<const Reservation> NewReservation) {
+    auto it = std::find_if(m_Reservations.begin(), m_Reservations.end(),
+        [&NewReservation](const std::shared_ptr<const Reservation> &r) {
+            return r->getID() == NewReservation->getID();
+        });
+
+    if (it != m_Reservations.end()) {
+        return false; // Already reserved
+    }
+
+    m_Reservations.push_back(NewReservation);
+    return true;
+}
+
+bool Table::RemoveReservation(int ReservationID) {
+    auto originalSize = m_Reservations.size();
+    auto it = std::remove_if(m_Reservations.begin(), m_Reservations.end(),
+        [ReservationID](const std::shared_ptr<const Reservation> &r) {
+            return r->getID() == ReservationID;
+        });
+        
+    m_Reservations.erase(it, m_Reservations.end());
+    return m_Reservations.size() < originalSize;
+}
+
+const std::vector<std::shared_ptr<const Reservation>> &Table::GetReservations() const {
+    return m_Reservations;
+}

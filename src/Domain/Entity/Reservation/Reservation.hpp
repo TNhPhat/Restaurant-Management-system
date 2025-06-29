@@ -2,7 +2,6 @@
 
 #include"ReservationStatus.hpp"
 #include "../../ValueObject/DateTime.hpp"
-//#include "./Customer/Customer.hpp"
 
 class Reservation
 {
@@ -12,7 +11,6 @@ private:
     int m_PeopleCount;
     ReservationStatus m_Status;
     DateTime m_CheckinTime;
-    //Customer m_Customer
 public:
     Reservation(DateTime TimeOfReservation, int PeopleCount, DateTime CheckinTime);
     void setPeopleCount(int count);
