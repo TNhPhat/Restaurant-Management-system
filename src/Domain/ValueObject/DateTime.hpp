@@ -1,23 +1,33 @@
 #pragma once
+#include <string>
 
 class DateTime
 {
 private:
     int m_Day, m_Month, m_Year;
-    int m_Hour, m_Minute;
+    int m_Hour, m_Minute, m_Second;
 public:
+    static DateTime Now();  
     DateTime();
-    DateTime(int Day, int Month, int Year);
-    DateTime(int Day, int Month, int Year, int Hour, int Minute);
+    DateTime(int Day, int Month, int Year, int Hour, int Minute, int Second);
     ~DateTime() = default;
+
     void SetDay(int Day);
     void SetMonth(int Month);
     void SetYear(int Year);
     void SetHour(int Hour);
     void SetMinute(int Minute);
-    int GetDay();
-    int GetMonth();
-    int GetYear();
-    int GetHour();
-    int GetMinute();
+    void SetSecond(int Second);
+
+    int GetDay() const;
+    int GetMonth() const;
+    int GetYear() const;
+    int GetHour() const;
+    int GetMinute() const;
+    int GetSecond() const;
+
+    std::string ToStringDate() const;
+    std::string ToStringDateTime() const;
+
+    static DateTime FromDateTimeString(const std::string& str);
 };

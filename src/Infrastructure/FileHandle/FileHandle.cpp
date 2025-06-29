@@ -208,37 +208,45 @@ RemoveDataCommand::~RemoveDataCommand() {
 }
 
 void JsonHandle::ExecuteCommand(JsonCommand* command){
-    if (command){
+    if (command)
         if(command->execute(this->m_Data)){
-            this->m_UndoStack.push(command);      
-            while (!this->m_RedoStack.empty()) {
-                delete this->m_RedoStack.top();
-                this->m_RedoStack.pop();
+            this->m_UndoDeque.push_back(command);
+            if(this->m_UndoDeque.size() > 15){
+                delete this->m_UndoDeque.front();
+                this->m_UndoDeque.pop_front();
             }
+                
         }
-    }
 }
 
 void JsonHandle::Undo() {
-    if (!this->m_UndoStack.empty()) {
-        JsonCommand* command = this->m_UndoStack.top();
-        this->m_UndoStack.pop();
+    if (!this->m_UndoDeque.empty()) {
+        JsonCommand* command = this->m_UndoDeque.back();
+        this->m_UndoDeque.pop_back();
         command->undo(this->m_Data);
-        this->m_RedoStack.push(command);
+        this->m_RedoDeque.push_front(command);
+        if(this->m_RedoDeque.size() > 15){
+            delete this->m_RedoDeque.back();
+            this->m_UndoDeque.pop_back();
+        }
     } 
     else {
-        LOG_WARNING("Undo stack is empty.");
+        LOG_WARNING("Undo deque is empty.");
     }
 }
 void JsonHandle::Redo() {
-    if (!this->m_RedoStack.empty()) {
-        JsonCommand* command = this->m_RedoStack.top();
-        this->m_RedoStack.pop();
+    if (!this->m_RedoDeque.empty()) {
+        JsonCommand* command = this->m_RedoDeque.front();
+        this->m_RedoDeque.pop_front();
         command->execute(this->m_Data);
-        this->m_UndoStack.push(command);
+        this->m_UndoDeque.push_back(command);
+        if(this->m_UndoDeque.size() > 15){
+            delete this->m_UndoDeque.front();
+            this->m_UndoDeque.pop_front();
+        }
     } 
     else {
-        LOG_WARNING("Redo stack is empty.");
+        LOG_WARNING("Redo deque is empty.");
     }
 }
 
@@ -288,12 +296,12 @@ json JsonHandle::GetKeyData(const std::vector<std::string> &Key) {
     return *current; 
 }
 JsonHandle::~JsonHandle() {
-    while (!this->m_UndoStack.empty()) {
-        delete this->m_UndoStack.top();
-        this->m_UndoStack.pop();
+    while (!this->m_UndoDeque.empty()) {
+        delete this->m_UndoDeque.back();
+        this->m_UndoDeque.pop_back();
     }
-    while (!this->m_RedoStack.empty()) {
-        delete this->m_RedoStack.top();
-        this->m_RedoStack.pop();
+    while (!this->m_RedoDeque.empty()) {
+        delete this->m_RedoDeque.front();
+        this->m_RedoDeque.pop_front();
     }
 }
