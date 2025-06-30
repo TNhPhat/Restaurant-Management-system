@@ -15,7 +15,9 @@ std::string Person::GetEmail() const {
 std::string Person::GetPhone() const {
     return m_Phone;
 }
-
+Gender Person::GetGender() const{
+    return this->m_Gender;
+}
 void Person::SetName(const std::string& Name) {
     m_Name = Name;
 }

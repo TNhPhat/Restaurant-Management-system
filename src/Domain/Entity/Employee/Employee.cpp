@@ -64,15 +64,15 @@ std::string Employee::NumToString(int num){
 }
 json Employee::EmployeeToJson() const{
     json Info;
-    std::string n = NumToString(this->m_EmployeeID);
-    Info[n]["ID"] = this->m_EmployeeID;
-    Info[n]["Name"] = this->GetName();
-    Info[n]["Gender"] = this->GenderToString();
-    Info[n]["Phone"] = this->GetPhone();
-    Info[n]["Email"] = this->GetEmail();
-    Info[n]["Salary"] = this->m_Salary;
-    Info[n]["DateJoined"] = this->m_DateJoined.ToStringDate();
-    Info[n]["Position"] = this->PositionToString();
+    
+    Info["ID"] = this->m_EmployeeID;
+    Info["Name"] = this->GetName();
+    Info["Gender"] = this->GenderToString();
+    Info["Phone"] = this->GetPhone();
+    Info["Email"] = this->GetEmail();
+    Info["Salary"] = this->m_Salary;
+    Info["DateJoined"] = this->m_DateJoined.ToStringDate();
+    Info["Position"] = this->PositionToString();
     return Info;
 }
 
