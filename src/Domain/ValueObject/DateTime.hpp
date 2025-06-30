@@ -30,4 +30,5 @@ public:
     std::string ToStringDateTime() const;
 
     static DateTime FromDateTimeString(const std::string& str);
+    static DateTime FromDateString(const std::string& str);
 };
