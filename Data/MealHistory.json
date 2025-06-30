@@ -1,0 +1,117 @@
+[
+  {
+    "MealID": 1,
+    "MealDate": "2025-06-29T18:30:00Z",
+    "Items": [
+      {
+        "MealItemID": 1,
+        "MenuItemID": 1,
+        "Quantity": 1,
+        "Addons": [
+          {
+            "AddonID": 2,
+            "Quantity": 1
+          },
+          {
+            "AddonID": 4,
+            "Quantity": 1
+          }
+        ]
+      },
+      {
+        "MealItemID": 2,
+        "MenuItemID": 6,
+        "Quantity": 1,
+        "Addons": [
+          {
+            "AddonID": 8,
+            "Quantity": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "MealID": 2,
+    "MealDate": "2025-06-29T19:15:00Z",
+    "Items": [
+      {
+        "MealItemID": 3,
+        "MenuItemID": 2,
+        "Quantity": 1,
+        "Addons": [
+          {
+            "AddonID": 11,
+            "Quantity": 1
+          },
+          {
+            "AddonID": 1,
+            "Quantity": 1
+          }
+        ]
+      },
+      {
+        "MealItemID": 4,
+        "MenuItemID": 3,
+        "Quantity": 1,
+        "Addons": []
+      }
+    ]
+  },
+  {
+    "MealID": 3,
+    "MealDate": "2025-06-30T12:45:00Z",
+    "Items": [
+      {
+        "MealItemID": 5,
+        "MenuItemID": 10,
+        "Quantity": 1,
+        "Addons": []
+      },
+      {
+        "MealItemID": 6,
+        "MenuItemID": 7,
+        "Quantity": 1,
+        "Addons": []
+      }
+    ]
+  },
+  {
+    "MealID": 4,
+    "MealDate": "2025-06-30T13:20:00Z",
+    "Items": [
+      {
+        "MealItemID": 7,
+        "MenuItemID": 5,
+        "Quantity": 1,
+        "Addons": [
+          {
+            "AddonID": 1,
+            "Quantity": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "MealID": 5,
+    "MealDate": "2025-06-30T14:00:00Z",
+    "Items": [
+      {
+        "MealItemID": 8,
+        "MenuItemID": 8,
+        "Quantity": 1,
+        "Addons": [
+          {
+            "AddonID": 14,
+            "Quantity": 1
+          },
+          {
+            "AddonID": 10,
+            "Quantity": 1
+          }
+        ]
+      }
+    ]
+  }
+]
