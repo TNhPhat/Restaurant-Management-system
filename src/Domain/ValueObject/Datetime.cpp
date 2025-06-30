@@ -114,3 +114,18 @@ DateTime DateTime::FromDateTimeString(const std::string &str)
 
     return DateTime(day, month, year, hour, minute, second);
 }
+
+DateTime DateTime::FromDateString(const std::string &str)
+{
+    int month, day, year, hour, minute, second;
+    char sep1, sep2, space, sep3, sep4;
+
+    std::istringstream iss(str);
+    iss >> day >> sep1 >> month >> sep2 >> year;
+
+    if (!iss || sep1 != '/' || sep2 != '/' ) {
+        throw std::invalid_argument("Invalid date format: " + str);
+    }
+
+    return DateTime(day, month, year, hour, minute, second);
+}

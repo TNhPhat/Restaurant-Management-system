@@ -1,0 +1,12 @@
+{
+  "Restaurant Name": "The Hehe Kitchen",
+  "Number of Branches": 1,
+  "Branches": [
+    {
+      "Branch ID": 1,
+      "Branch Name": "Main Branch",
+      "Address": "1234 Foodie Food",
+      "Menu ID": 1
+    }
+  ]
+}
