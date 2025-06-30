@@ -43,3 +43,10 @@ std::string Person::GenderToString() const{
             return "";
     }
 }
+
+Gender Person::StringToGender(const std::string& gender){
+    if(gender == "Male")
+        return Gender::Male;
+    else    
+        return Gender::Female;
+}

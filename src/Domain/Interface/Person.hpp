@@ -21,6 +21,7 @@ public:
     void SetPhone(const std::string& Phone);
     void SetGender(const Gender& Gender);
     std::string GenderToString() const;
+    static Gender StringToGender(const std::string& gender);
 
 private:
     std::string m_Name;

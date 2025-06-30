@@ -14,6 +14,7 @@ public:
     virtual void LoadFile(const std::string &FilePath) = 0;
     virtual void SaveFile() = 0;
     virtual void SaveFileAs(const std::string &SavePath) = 0;
+    std::string GetFilePath() const;
     // virtual void CloseFile() = 0;
 protected:
     std::string m_FilePath;

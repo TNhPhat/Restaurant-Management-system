@@ -1,7 +1,9 @@
 #include"FileHandle.hpp"
 
 FileHandle::FileHandle():m_FilePath("") {}   
-
+std::string FileHandle::GetFilePath() const{
+    return this->m_FilePath;
+}
 void JsonHandle::LoadFile(const std::string &FilePath) {
     //open
     this->m_FilePath = FilePath;
@@ -215,7 +217,10 @@ void JsonHandle::ExecuteCommand(JsonCommand* command){
                 delete this->m_UndoDeque.front();
                 this->m_UndoDeque.pop_front();
             }
-                
+            while(!this->m_RedoDeque.empty()){
+                delete this->m_RedoDeque.back();
+                this->m_RedoDeque.pop_back();
+            }
         }
 }
 
