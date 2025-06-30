@@ -9,56 +9,60 @@ BudgetPersistence::BudgetPersistence(const std::string& FilePath, JsonHandle* Fi
     m_FileHandler->LoadFile(FilePath);
 }
 
-void BudgetPersistence::SaveBill(const std::shared_ptr<Bill>& bill)
+void BudgetPersistence::SaveBill(const std::shared_ptr<Bill>& Bill)
 {
-    json billData = {
-        {"id", bill->GetID()},
-        {"date", bill->GetDate().ToString()},
-        {"message", bill->GetMessage()},
-        {"total", bill->GetTotal()},
-        {"type", BillTypeToString(bill->GetType())}
+    json BillData = {
+        {"id", Bill->GetID()},
+        {"date", Bill->GetDate().ToStringDate()},
+        {"message", Bill->GetMessage()},
+        {"total", Bill->GetTotal()},
+        {"type", BillTypeToString(Bill->GetType())}
     };
 
-    std::vector<std::string> path = { "bills" };
-    m_FileHandler->ExecuteCommand(new AddDataCommand(path, billData));
+    if (!m_FileHandler->GetDaTa().contains("bills")) {
+        m_FileHandler->ExecuteCommand(new SetKeyCommand({ "bills" }, json::array()));
+    }
+
+    std::vector<std::string> Path = { "bills" };
+    m_FileHandler->ExecuteCommand(new PushArrayCommand(Path, BillData));
     m_FileHandler->SaveFile();
 }
 
 std::vector<std::shared_ptr<Bill>> BudgetPersistence::LoadAllBills()
 {
     m_FileHandler->LoadFile(m_FilePath);
-    json data = m_FileHandler->GetDaTa();
-    std::vector<std::shared_ptr<Bill>> result;
+    json Data = m_FileHandler->GetDaTa();
+    std::vector<std::shared_ptr<Bill>> Result;
 
-    if (!data.contains("bills")) return result;
+    if (!Data.contains("bills")) return Result;
 
-    for (const auto& billJson : data["bills"]) {
-        int id = billJson.value("id", 0);
-        std::string message = billJson.value("message", "");
-        double total = billJson.value("total", 0.0);
-        std::string dateStr = billJson.value("date", "");
-        std::string typeStr = billJson.value("type", "Income");
+    for (const auto& BillJson : Data["bills"]) {
+        int ID = BillJson.value("id", 0);
+        std::string Message = BillJson.value("message", "");
+        double Total = BillJson.value("total", 0.0);
+        std::string DateStr = BillJson.value("date", "");
+        std::string TypeStr = BillJson.value("type", "Income");
 
-        DateTime date = DateTime::FromDateTimeString(dateStr);
-        BillType type = StringToBillType(typeStr);
+        DateTime Date = DateTime::FromDateTimeString(DateStr);
+        BillType Type = StringToBillType(TypeStr);
 
-        result.push_back(std::make_shared<Bill>(id, date, message, total, type));
+        Result.push_back(std::make_shared<Bill>(ID, Date, Message, Total, Type));
     }
 
-    return result;
+    return Result;
 }
 
-bool BudgetPersistence::RemoveBillByID(int billID)
+bool BudgetPersistence::RemoveBillByID(const int &BillID)
 {
-    json data = m_FileHandler->GetDaTa();
+    json Data = m_FileHandler->GetDaTa();
 
-    if (!data.contains("bills")) return false;
+    if (!Data.contains("bills")) return false;
 
-    auto& bills = data["bills"];
-    for (size_t i = 0; i < bills.size(); ++i) {
-        if (bills[i].contains("id") && bills[i]["id"] == billID) {
-            std::vector<std::string> path = { "bills" };
-            m_FileHandler->ExecuteCommand(new RemoveDataCommand(path, i));
+    auto& Bills = Data["bills"];
+    for (size_t i = 0; i < Bills.size(); ++i) {
+        if (Bills[i].contains("id") && Bills[i]["id"] == BillID) {
+            std::vector<std::string> Path = { "bills" };
+            m_FileHandler->ExecuteCommand(new RemoveDataCommand(Path, i));
             m_FileHandler->SaveFile();
             return true;
         }

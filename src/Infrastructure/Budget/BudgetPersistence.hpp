@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 #include "Bill.hpp"
-#include "JsonHandle.hpp"
+#include "FileHandle.hpp"
 
 class BudgetPersistence {
 private:
@@ -13,8 +13,7 @@ private:
 public:
     BudgetPersistence(const std::string& FilePath, JsonHandle* FileHandler);
 
-    void SaveBill(const std::shared_ptr<Bill>& bill);
+    void SaveBill(const std::shared_ptr<Bill>& Bill);
     std::vector<std::shared_ptr<Bill>> LoadAllBills();
-
-    bool RemoveBillByID(int billID);
+    bool RemoveBillByID(const int &BillID);
 };

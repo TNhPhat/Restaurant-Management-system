@@ -18,6 +18,7 @@ file(GLOB_RECURSE SRC_FILES
         src/Application/Meal/MealManager.cpp
         src/Application/Menu/MenuManager.cpp
         src/Application/Menu/RestaurantManager.cpp
+
 )
 
 # ========== Executable ==========

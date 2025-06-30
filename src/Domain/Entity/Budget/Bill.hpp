@@ -13,8 +13,11 @@ private:
     BillType m_Type;
 
 public: 
-    Bill(const int BillID, const DateTime &Date, const std::string &Message, const double &Total, const BillType &Type);
+    Bill(const int &BillID, const DateTime &Date, const std::string &Message, const double &Total, const BillType &Type);
+    
+    int GetID() const;
     double GetTotal() const;
     DateTime GetDate() const;
     std::string GetMessage() const;
+    BillType GetType() const;
 };
