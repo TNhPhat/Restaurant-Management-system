@@ -1,0 +1,187 @@
+[
+    {
+        "ID": 1,
+        "Ingredients": [
+            {
+                "Name": "Cheddar Cheese",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Extra Cheese",
+        "Price": 2.5
+    },
+    {
+        "ID": 2,
+        "Ingredients": [
+            {
+                "Name": "Crispy Bacon",
+                "Quantity": 3
+            }
+        ],
+        "Name": "Bacon",
+        "Price": 3.99
+    },
+    {
+        "ID": 3,
+        "Ingredients": [
+            {
+                "Name": "Fresh Avocado",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Avocado",
+        "Price": 2.25
+    },
+    {
+        "ID": 4,
+        "Ingredients": [
+            {
+                "Name": "Button Mushrooms",
+                "Quantity": 5
+            },
+            {
+                "Name": "Olive Oil",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Grilled Mushrooms",
+        "Price": 2.75
+    },
+    {
+        "ID": 5,
+        "Ingredients": [
+            {
+                "Name": "Yellow Onions",
+                "Quantity": 1
+            },
+            {
+                "Name": "Vegetable Oil",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Fried Onions",
+        "Price": 1.99
+    },
+    {
+        "ID": 6,
+        "Ingredients": [
+            {
+                "Name": "Sliced Jalapeños",
+                "Quantity": 8
+            }
+        ],
+        "Name": "Jalapeños",
+        "Price": 1.5
+    },
+    {
+        "ID": 7,
+        "Ingredients": [
+            {
+                "Name": "BBQ Sauce",
+                "Quantity": 1
+            }
+        ],
+        "Name": "BBQ Sauce",
+        "Price": 0.75
+    },
+    {
+        "ID": 8,
+        "Ingredients": [
+            {
+                "Name": "Ranch Dressing",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Ranch Dressing",
+        "Price": 0.75
+    },
+    {
+        "ID": 9,
+        "Ingredients": [
+            {
+                "Name": "Beef Patty",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Extra Patty",
+        "Price": 5.99
+    },
+    {
+        "ID": 10,
+        "Ingredients": [
+            {
+                "Name": "Dill Pickles",
+                "Quantity": 4
+            }
+        ],
+        "Name": "Pickles",
+        "Price": 0.5
+    },
+    {
+        "ID": 11,
+        "Ingredients": [
+            {
+                "Name": "Pepperoni Slices",
+                "Quantity": 10
+            }
+        ],
+        "Name": "Pepperoni",
+        "Price": 2.99
+    },
+    {
+        "ID": 12,
+        "Ingredients": [
+            {
+                "Name": "Pineapple Chunks",
+                "Quantity": 8
+            }
+        ],
+        "Name": "Pineapple",
+        "Price": 2.25
+    },
+    {
+        "ID": 13,
+        "Ingredients": [
+            {
+                "Name": "Buffalo Hot Sauce",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Buffalo Sauce",
+        "Price": 1.25
+    },
+    {
+        "ID": 14,
+        "Ingredients": [
+            {
+                "Name": "Sour Cream",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Sour Cream",
+        "Price": 1.5
+    },
+    {
+        "ID": 15,
+        "Ingredients": [
+            {
+                "Name": "Avocado",
+                "Quantity": 1
+            },
+            {
+                "Name": "Lime Juice",
+                "Quantity": 1
+            },
+            {
+                "Name": "Cilantro",
+                "Quantity": 1
+            },
+            {
+                "Name": "Diced Onion",
+                "Quantity": 1
+            }
+        ],
+        "Name": "Guacamole",
+        "Price": 3.5
+    }
+]
