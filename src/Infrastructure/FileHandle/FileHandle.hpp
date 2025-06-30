@@ -50,15 +50,30 @@ private:
     json m_OldData;
 };
 
+class PushArrayCommand : public JsonCommand {
+private:
+    std::vector<std::string> m_Key;
+    json m_NewElement;
+
+public:
+    PushArrayCommand(const std::vector<std::string>& Key, const json& NewElement);
+    ~PushArrayCommand();
+
+    bool execute(json& Data) override;
+    bool undo(json& Data) override;
+};
+
 class RemoveDataCommand: public JsonCommand{
 public: 
     RemoveDataCommand(std::vector<std::string> m_Key);
+    RemoveDataCommand(std::vector<std::string> Key, size_t Index);
     ~RemoveDataCommand();
     bool execute(json &Data) override;
     bool undo(json &Data) override;
 private:
     std::vector<std::string> m_Key;
     json m_OldData;
+    std::optional<size_t> m_ArrayIndex;
 };
 
 class JsonHandle: public FileHandle{

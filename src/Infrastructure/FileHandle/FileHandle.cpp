@@ -145,58 +145,136 @@ AddDataCommand::~AddDataCommand() {
     }
 }
 
-RemoveDataCommand::RemoveDataCommand(std::vector<std::string> Key): m_Key(Key), m_OldData(nullptr) {}
-bool RemoveDataCommand::execute(json &Data) {
-    if (this->m_Key.empty()) {
-        LOG_ERROR("Key vector is empty. Cannot remove value.");
-        return false;
+PushArrayCommand::PushArrayCommand(const std::vector<std::string>& Key, const json& NewElement)
+    : m_Key(Key), m_NewElement(NewElement) {}
+
+PushArrayCommand::~PushArrayCommand() {
+    while (!this->m_Key.empty()) {
+        this->m_Key.pop_back();
     }
+}
+
+bool PushArrayCommand::execute(json& Data) {
     json* current = &Data;
+
     for (size_t i = 0; i + 1 < m_Key.size(); ++i) {
-        if (current->contains(this->m_Key[i]) && (*current)[this->m_Key[i]].is_object()) {
-            current = &((*current)[this->m_Key[i]]);
-        } 
-        else {
-            LOG_WARNING("Path does not exist at '{}'. No value removed.", m_Key[i]);
+        const std::string& key = m_Key[i];
+
+        if (current->contains(key)) {
+            current = &(*current)[key];
+
+            if (!current->is_object()) {
+                LOG_ERROR("Expected object at '{}', but found non-object.", key);
+                return false;
+            }
+        } else {
+            LOG_WARNING("PushArrayCommand failed: Key '{}' not found.", key);
             return false;
         }
     }
-    std::string lastKey = this->m_Key.back();
-    if (current->contains(lastKey)) {
-        this->m_OldData = (*current)[lastKey];
-        current->erase(lastKey);
-        LOG_INFO("RemoveDataCommand executed: Key = {}", lastKey);
+
+    std::string lastKey = m_Key.back();
+
+    if (!current->contains(lastKey)) {
+        (*current)[lastKey] = json::array();
+    }
+
+    if (!(*current)[lastKey].is_array()) {
+        LOG_ERROR("Target for PushArrayCommand is not an array: '{}'", lastKey);
+        return false;
+    }
+
+    (*current)[lastKey].push_back(m_NewElement);
+    LOG_INFO("PushArrayCommand executed: New element = {}", m_NewElement.dump());
+    return true;
+}
+
+bool PushArrayCommand::undo(json& Data) {
+    json* current = &Data;
+
+    for (const auto& key : m_Key) {
+        if (current->contains(key)) {
+            current = &(*current)[key];
+        } else {
+            LOG_WARNING("PushArrayCommand undo failed: Key '{}' not found.", key);
+            return false;
+        }
+    }
+
+    if (!current->is_array() || current->empty()) {
+        LOG_ERROR("Undo failed: target is not a non-empty array.");
+        return false;
+    }
+
+    current->erase(current->end() - 1);  
+    LOG_INFO("PushArrayCommand undo executed: Removed last element.");
+    return true;
+}
+
+RemoveDataCommand::RemoveDataCommand(std::vector<std::string> Key)
+    : m_Key(std::move(Key)), m_OldData(nullptr), m_ArrayIndex(std::nullopt) {}
+
+RemoveDataCommand::RemoveDataCommand(std::vector<std::string> Key, size_t Index)
+    : m_Key(std::move(Key)), m_OldData(nullptr), m_ArrayIndex(Index) {}
+
+bool RemoveDataCommand::execute(json &Data) {
+    if (m_Key.empty()) {
+        LOG_ERROR("Key vector is empty. Cannot remove.");
+        return false;
+    }
+
+    json* current = &Data;
+    for (const auto& key : m_Key) {
+        if (!current->contains(key)) {
+            LOG_WARNING("RemoveDataCommand: Key '{}' not found.", key);
+            return false;
+        }
+        current = &(*current)[key];
+    }
+
+    if (m_ArrayIndex.has_value()) {
+        if (!current->is_array() || m_ArrayIndex.value() >= current->size()) {
+            LOG_ERROR("RemoveDataCommand: Invalid array index {}", m_ArrayIndex.value());
+            return false;
+        }
+        m_OldData = (*current)[m_ArrayIndex.value()];
+        current->erase(current->begin() + m_ArrayIndex.value());
+        LOG_INFO("RemoveDataCommand: Removed array element at index {}", m_ArrayIndex.value());
         return true;
-    } 
-    else {
-        LOG_WARNING("Key '{}' does not exist. No value removed.", lastKey);
+    } else {
+        std::string lastKey = m_Key.back();
+        if (current->contains(lastKey)) {
+            m_OldData = (*current)[lastKey];
+            current->erase(lastKey);
+            LOG_INFO("RemoveDataCommand: Removed object key '{}'", lastKey);
+            return true;
+        }
         return false;
     }
 }
 
 bool RemoveDataCommand::undo(json &Data) {
-    if (this->m_Key.empty()) {
-        LOG_ERROR("Key vector is empty. Cannot undo remove.");
-        return false;
-    }
     json* current = &Data;
-    for (size_t i = 0; i + 1 < this->m_Key.size(); ++i) {
-        if (current->contains(m_Key[i]) && (*current)[m_Key[i]].is_object()) {
-            current = &((*current)[m_Key[i]]);
-        } 
-        else {
-            LOG_WARNING("Path does not exist at '{}'. Cannot undo remove.", m_Key[i]);
+    for (const auto& key : m_Key) {
+        if (!current->contains(key)) {
+            LOG_WARNING("RemoveDataCommand undo: Key '{}' not found.", key);
             return false;
         }
+        current = &(*current)[key];
     }
-    std::string lastKey = m_Key.back();
-    if (m_OldData.is_null()) {
-        LOG_WARNING("No old data to restore for key '{}'.", lastKey);
-        return false;
-    } 
-    else {
-        (*current)[lastKey] = this->m_OldData;
-        LOG_INFO("Undo RemoveDataCommand: Key '{}' restored with old data.", lastKey);
+
+    if (m_ArrayIndex.has_value()) {
+        if (!current->is_array() || m_ArrayIndex.value() > current->size()) {
+            LOG_ERROR("RemoveDataCommand undo: Invalid index.");
+            return false;
+        }
+        current->insert(current->begin() + m_ArrayIndex.value(), m_OldData);
+        LOG_INFO("RemoveDataCommand undo: Restored array element at index {}", m_ArrayIndex.value());
+        return true;
+    } else {
+        std::string lastKey = m_Key.back();
+        (*current)[lastKey] = m_OldData;
+        LOG_INFO("RemoveDataCommand undo: Restored object key '{}'", lastKey);
         return true;
     }
 }

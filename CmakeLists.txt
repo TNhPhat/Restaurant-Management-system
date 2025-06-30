@@ -10,8 +10,13 @@ file(GLOB_RECURSE SRC_FILES
     src/main.cpp
     src/Infrastructure/FileHandle/FileHandle.cpp
     src/Infrastructure/Logging/Logger.cpp
+    src/Infrastructure/Budget/*.cpp
+
     src/Core/Utils/IDManager.cpp
     src/Domain/ValueObject/DateTime.cpp
+    src/Domain/Entity/Budget/*.cpp
+    src/Application/Budget/*.cpp
+    src/main.cpp
 )
 
 # ========== Executable ==========
@@ -20,6 +25,9 @@ add_executable(RESTAURANT ${SRC_FILES})
 # ========== Include Dirs ==========
 target_include_directories(RESTAURANT PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Budget
+
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Utils
 
