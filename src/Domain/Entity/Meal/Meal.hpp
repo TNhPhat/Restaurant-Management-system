@@ -93,6 +93,8 @@ public:
     double GetPrice() const;
 
     std::vector<std::shared_ptr<MealItem>> GetMealItems() const;
+
+    std::vector<MealIngredient> GetResources() const;
 };
 
 template <typename... Args>
