@@ -88,12 +88,22 @@ const MenuItem &MealItem::GetMenuItem() const {
     return this->m_MenuItem;
 }
 
-void MealItem::SetQuantity(int Quantity) {
+void MealItem::SetQuantity(const int Quantity) {
     this->m_Quantity = Quantity;
 }
 
 std::vector<MealIngredient> MealItem::GetResources() const {
-    return this->m_MenuItem.GetIngredients();
+    std::unordered_map<std::string, int> ingredients;
+    for (const auto &[Name, Quantity]: this->m_MenuItem.GetIngredients()) {
+        ingredients[Name] += Quantity * this->m_Quantity;
+    }
+    for (const auto &AddonPtr: this->m_Addons) {
+        for (auto addonIngredients = AddonPtr->GetIngredients(); const auto &[Name, Quantity]: addonIngredients) {
+            ingredients[Name] += Quantity * AddonPtr->GetQuantity();
+        }
+    }
+    std::vector<MealIngredient> result(ingredients.begin(), ingredients.end());
+    return result;
 }
 
 void MealItem::SetNote(const std::string &Note) {
@@ -169,4 +179,15 @@ double Meal::GetPrice() const {
 
 std::vector<std::shared_ptr<MealItem> > Meal::GetMealItems() const {
     return this->m_MealItems;
+}
+
+std::vector<MealIngredient> Meal::GetResources() const {
+    std::unordered_map<std::string, int> ingredients;
+    for (const auto &Item: this->m_MealItems) {
+        for (const auto &[Name, Quantity]: Item->GetResources()) {
+            ingredients[Name] += Quantity;
+        }
+    }
+    std::vector<MealIngredient> result(ingredients.begin(), ingredients.end());
+    return result;
 }
