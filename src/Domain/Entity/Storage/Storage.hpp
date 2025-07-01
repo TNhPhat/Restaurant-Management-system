@@ -5,14 +5,14 @@
 class Storage
 {
 private:
-    std::vector<Resource> m_Resources;
+    std::vector<std::shared_ptr<Resource>> m_Resources;
     Storage() = default;
 public:
     ~Storage();
-    Resource *SearchByName(std::string Name);
-    bool AddResource(std::string Name, int Quantity, float Price);
-    bool Use(std::string Name, int q);
-    bool Add(std::string Name, int q);
+    Resource *SearchByID(const int ID);
+    bool AddResource(int ID, std::string Name, int Quantity, float Price);
+    bool Use(int ID, int q);
+    bool Add(int ID, int q);
 };
 
 

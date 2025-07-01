@@ -1,54 +1,53 @@
 #include "Storage.hpp"
-#include <vector>
-#include <stdexcept>
 
 Storage::~Storage()
 {
     m_Resources.clear();
 }
 
-Resource *Storage::SearchByName(std::string Name){
-    for (auto r : m_Resources) {
-        if (r.GetName() == Name) {
-            return &r;
+Resource *Storage::SearchByID(const int ID)
+{
+    for (const auto& tmp : this->m_Resources){
+        if (tmp && tmp->GetID() == ID) {
+            return tmp.get();
         }
     }
     return nullptr;
 }
 
-bool Storage::AddResource(std::string Name, int Quantity, float Price)
+bool Storage::AddResource(int ID, std::string Name, int Quantity, float Price)
 {
-    if (SearchByName(Name) != nullptr){
-        //Log error
-
-        return false;
+    if (SearchByID(ID) != nullptr)
+    {
+        // Log error
+        throw std::invalid_argument("Resource ID must be unique");
     }
-    Resource newResource;
-    newResource.SetName(Name);
-    newResource.SetQuantity(Quantity);
-    newResource.SetPrice(Price);
+    auto newResource = std::make_shared<Resource>(ID);
+    newResource->SetName(Name);
+    newResource->SetQuantity(Quantity);
+    newResource->SetPrice(Price);
     this->m_Resources.push_back(newResource);
 }
 
-bool Storage::Use(std::string Name, int q)
+bool Storage::Use(int ID, int q)
 {
-    Resource * r = SearchByName(Name);
-    if (r == nullptr || !r->Use(q)){
-        //Log error
-
-        return false;
+    Resource *r = SearchByID(ID);
+    if (r == nullptr)
+    {
+        // Log error
+        throw std::invalid_argument("Can not find resource");
     }
-
+    r->Use(q);
     return true;
 }
 
-bool Storage::Add(std::string Name, int q)
+bool Storage::Add(int ID, int q)
 {
-    Resource * r = SearchByName(Name);
-    if (r == nullptr){
-        //Log error
-
-        return false;
+    Resource *r = SearchByID(ID);
+    if (r == nullptr)
+    {
+        // Log error
+        throw std::invalid_argument("Can not find resource");
     }
     r->Add(q);
     return true;
