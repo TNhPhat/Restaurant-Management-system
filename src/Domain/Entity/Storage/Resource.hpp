@@ -23,4 +23,6 @@ public:
     bool Use(int q);
     std::string GetName() const;
     int GetID() const;
+    int GetQuantity() const;
+    float GetPrice() const;
 };

@@ -41,3 +41,11 @@ int Resource::GetID() const
 {
     return this->m_ResourceID;
 }
+int Resource::GetQuantity() const
+{
+    return m_Quantity;
+}
+float Resource::GetPrice() const
+{
+    return m_Price;
+}

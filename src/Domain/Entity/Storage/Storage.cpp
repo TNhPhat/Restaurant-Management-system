@@ -1,10 +1,18 @@
 #include "Storage.hpp"
 
+
+Storage::Storage(const int ID):m_StorageID(ID){}
 Storage::~Storage()
 {
     m_Resources.clear();
 }
 
+const int Storage::GetID() const{
+    return this->m_StorageID;
+}
+const std::vector<std::shared_ptr<Resource>> Storage::GetResources() const{
+    return m_Resources;
+}
 Resource *Storage::SearchByID(const int ID)
 {
     for (const auto& tmp : this->m_Resources){
