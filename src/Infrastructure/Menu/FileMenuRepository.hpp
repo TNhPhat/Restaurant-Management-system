@@ -14,7 +14,7 @@ private:
 
 class FileMenuItemRepository : public IMenuItemRepository {
 public:
-    FileMenuItemRepository(std::string filePath, const std::shared_ptr<IMenuAddonRepository> &menuAddonRepository);
+    FileMenuItemRepository(std::string filePath,const IMenuAddonRepository &menuAddonRepository);
 
     void SaveMenuItems(std::string filePath) const override;
 
@@ -24,7 +24,7 @@ private:
 
 class FileMenuRepository : public IMenuRepository {
 public:
-    FileMenuRepository(std::string filePath, const std::shared_ptr<IMenuItemRepository> &menuItemRepository);
+    FileMenuRepository(std::string filePath,const IMenuItemRepository &menuItemRepository);
 
     void SaveMenu(std::string filePath) const override;
 

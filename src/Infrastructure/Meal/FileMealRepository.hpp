@@ -6,8 +6,8 @@
 class FileMealRepository : public IMealRepository {
 public:
     FileMealRepository(const std::string &filePath,
-                       const std::shared_ptr<IMenuItemRepository> &menuItemRepository,
-                       const std::shared_ptr<IMenuAddonRepository> &menuAddonRepository);
+                       const IMenuItemRepository &menuItemRepository,
+                       const IMenuAddonRepository &menuAddonRepository);
 
     void SaveMeals(std::string filePath) const override;
 
