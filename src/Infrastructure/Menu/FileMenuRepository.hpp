@@ -2,7 +2,8 @@
 
 #include "IMenuRepository.hpp"
 
-class FileMenuAddonRepository : public IMenuAddonRepository {
+class FileMenuAddonRepository : public IMenuAddonRepository
+{
 public:
     FileMenuAddonRepository(std::string filePath);
 
@@ -12,7 +13,8 @@ private:
     std::unique_ptr<JsonHandle> m_FileHandle;
 };
 
-class FileMenuItemRepository : public IMenuItemRepository {
+class FileMenuItemRepository : public IMenuItemRepository
+{
 public:
     FileMenuItemRepository(std::string filePath, const IMenuAddonRepository &menuAddonRepository);
 
@@ -22,7 +24,8 @@ private:
     std::unique_ptr<JsonHandle> m_FileHandle;
 };
 
-class FileMenuRepository : public IMenuRepository {
+class FileMenuRepository : public IMenuRepository
+{
 public:
     FileMenuRepository(std::string filePath, const IMenuItemRepository &menuItemRepository);
 
