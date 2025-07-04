@@ -3,10 +3,9 @@
 #include "IRestaurantRepository.hpp"
 #include "Menu/IMenuRepository.hpp"
 
-class FileRestaurantRepository : public IRestaurantRepository
-{
+class FileRestaurantRepository : public IRestaurantRepository {
 public:
-    FileRestaurantRepository(std::string filePath, const std::shared_ptr<IMenuRepository> &menuRepository);
+    FileRestaurantRepository(std::string filePath, const IMenuRepository &menuRepository);
 
     void SaveRestaurantData(std::string filePath) const override;
 
