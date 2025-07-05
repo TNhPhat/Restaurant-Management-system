@@ -308,7 +308,7 @@ void JsonHandle::Undo() {
         this->m_UndoDeque.pop_back();
         command->undo(this->m_Data);
         this->m_RedoDeque.push_front(command);
-        if(this->m_RedoDeque.size() > 15){
+        if(this->m_RedoDeque.size() > 30){
             delete this->m_RedoDeque.back();
             this->m_UndoDeque.pop_back();
         }
@@ -323,7 +323,7 @@ void JsonHandle::Redo() {
         this->m_RedoDeque.pop_front();
         command->execute(this->m_Data);
         this->m_UndoDeque.push_back(command);
-        if(this->m_UndoDeque.size() > 15){
+        if(this->m_UndoDeque.size() > 30){
             delete this->m_UndoDeque.front();
             this->m_UndoDeque.pop_front();
         }
