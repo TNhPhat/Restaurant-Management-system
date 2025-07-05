@@ -22,7 +22,14 @@ DateTime::DateTime(int Day, int Month, int Year, int Hour = 0, int Minute = 0, i
     this->m_Minute = Minute;  
     this->m_Second = Second;
 }
-
+DateTime::DateTime(const DateTime& datetime){
+    this->m_Day = datetime.GetDay();
+    this->m_Month = datetime.GetMonth();
+    this->m_Year = datetime.GetYear();
+    this->m_Hour = datetime.GetHour();
+    this->m_Minute = datetime.GetMinute();
+    this->m_Second = datetime.GetSecond();
+}
 void DateTime::SetDay(int Day)
 {
     this->m_Day = Day;
@@ -83,6 +90,50 @@ int DateTime::GetSecond() const
     return this->m_Second;
 }
 
+bool DateTime::operator < (const DateTime& other) const{
+    if(this->m_Year == other.m_Year){
+        if(this->m_Month == other.m_Month){
+            if(this->m_Day == other.m_Day){
+                if(this->m_Hour == other.m_Hour){
+                    if(this->m_Minute == other.m_Minute)
+                        return this->m_Second < other.m_Second;
+                    return this->m_Minute < other.m_Minute;
+                }
+                return this->m_Hour < other.m_Hour;
+            }
+            return this->m_Day < other.m_Day;
+        }
+        return this->m_Month < other.m_Month;
+    }
+    return this->m_Year < other.m_Year;
+}
+
+bool DateTime::operator > (const DateTime& other) const{
+    if(this->m_Year == other.m_Year){
+        if(this->m_Month == other.m_Month){
+            if(this->m_Day == other.m_Day){
+                if(this->m_Hour == other.m_Hour){
+                    if(this->m_Minute == other.m_Minute)
+                        return this->m_Second > other.m_Second;
+                    return this->m_Minute > other.m_Minute;
+                }
+                return this->m_Hour > other.m_Hour;
+            }
+            return this->m_Day > other.m_Day;
+        }
+        return this->m_Month > other.m_Month;
+    }
+    return this->m_Year > other.m_Year;
+}
+
+bool DateTime::operator >= (const DateTime& other) const{
+    return !(*this < other);
+}
+
+bool DateTime::operator <= (const DateTime& other) const{
+    return !(*this > other);
+}
+
 std::string DateTime::ToStringDate() const
 {
     std::ostringstream oss;
@@ -129,3 +180,16 @@ DateTime DateTime::FromDateString(const std::string &str)
 
     return DateTime(day, month, year, hour, minute, second);
 }
+
+time_t DateTime::ToTimeT() const {
+    std::tm timeinfo = {};
+    timeinfo.tm_year = m_Year - 1900;  
+    timeinfo.tm_mon  = m_Month - 1;   
+    timeinfo.tm_mday = m_Day;
+    timeinfo.tm_hour = m_Hour;
+    timeinfo.tm_min  = m_Minute;
+    timeinfo.tm_sec  = m_Second;
+
+    return std::mktime(&timeinfo);     
+}
+
