@@ -1,0 +1,117 @@
+[
+    {
+        "Items": [
+            {
+                "Addons": [
+                    {
+                        "AddonID": 2,
+                        "Quantity": 1
+                    },
+                    {
+                        "AddonID": 4,
+                        "Quantity": 1
+                    }
+                ],
+                "MealItemID": 1,
+                "MenuItemID": 1,
+                "Quantity": 1
+            },
+            {
+                "Addons": [
+                    {
+                        "AddonID": 8,
+                        "Quantity": 1
+                    }
+                ],
+                "MealItemID": 2,
+                "MenuItemID": 6,
+                "Quantity": 1
+            }
+        ],
+        "MealDate": "2025-06-30T12:00:00Z",
+        "MealID": 1
+    },
+    {
+        "Items": [
+            {
+                "Addons": [
+                    {
+                        "AddonID": 11,
+                        "Quantity": 1
+                    },
+                    {
+                        "AddonID": 1,
+                        "Quantity": 1
+                    }
+                ],
+                "MealItemID": 3,
+                "MenuItemID": 2,
+                "Quantity": 1
+            },
+            {
+                "Addons": [],
+                "MealItemID": 4,
+                "MenuItemID": 3,
+                "Quantity": 1
+            }
+        ],
+        "MealDate": "2025-06-30T12:00:00Z",
+        "MealID": 2
+    },
+    {
+        "Items": [
+            {
+                "Addons": [],
+                "MealItemID": 5,
+                "MenuItemID": 10,
+                "Quantity": 1
+            },
+            {
+                "Addons": [],
+                "MealItemID": 6,
+                "MenuItemID": 7,
+                "Quantity": 1
+            }
+        ],
+        "MealDate": "2025-06-30T12:00:00Z",
+        "MealID": 3
+    },
+    {
+        "Items": [
+            {
+                "Addons": [
+                    {
+                        "AddonID": 1,
+                        "Quantity": 1
+                    }
+                ],
+                "MealItemID": 7,
+                "MenuItemID": 5,
+                "Quantity": 1
+            }
+        ],
+        "MealDate": "2025-06-30T12:00:00Z",
+        "MealID": 4
+    },
+    {
+        "Items": [
+            {
+                "Addons": [
+                    {
+                        "AddonID": 14,
+                        "Quantity": 1
+                    },
+                    {
+                        "AddonID": 10,
+                        "Quantity": 1
+                    }
+                ],
+                "MealItemID": 8,
+                "MenuItemID": 8,
+                "Quantity": 1
+            }
+        ],
+        "MealDate": "2025-06-30T12:00:00Z",
+        "MealID": 5
+    }
+]

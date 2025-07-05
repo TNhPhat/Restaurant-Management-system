@@ -1,11 +1,11 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "Person.hpp"
-#include "DateTime.hpp"
-#include "FileHandle.hpp"
+#include "../../Interface/Person.hpp"
+#include "../../ValueObject/DateTime.hpp"
+#include "../../../Infrastructure/FileHandle/FileHandle.hpp"
 #include <chrono>
-
+#include<fstream>
 enum EmployeePosition{
     Chef,
     Manager,
@@ -18,7 +18,7 @@ class Employee : public Person {
 public:
     Employee();
     Employee(const std::string& Name,const std::string &Email,const std::string &Phone, const Gender& Gender,
-        const int &EmployeeID,const DateTime &DateJoined,const int &Salary,const EmployeePosition& Position);
+        const DateTime &DateJoined,const int &Salary,const EmployeePosition& Position);
     ~Employee() = default;
     int GetEmployeeID() const;
     DateTime GetDateJoined() const;
@@ -29,9 +29,10 @@ public:
     void SetDateJoined(const DateTime &DateJoined);
     void SetSalary(const int& Salary);
     std::string PositionToString() const;
-    json EmployeeToJson(const int& num) const;
+    json EmployeeToJson() const;
     int GetYearOfService() ;
     static std::string NumToString(int num);
+    static EmployeePosition StringToPosition(const std::string& position);
 
 private:
     EmployeePosition m_Position;

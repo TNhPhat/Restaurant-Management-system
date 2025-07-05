@@ -1,0 +1,308 @@
+[
+  {
+    "MenuItemID": 1,
+    "Title": "Classic Cheeseburger",
+    "Description": "Juicy beef patty with melted cheddar cheese, lettuce, tomato, onion, and house sauce on a toasted bun",
+    "Price": 14.99,
+    "Ingredients": [
+      {
+        "Name": "Beef Patty",
+        "Quantity": 1
+      },
+      {
+        "Name": "Cheddar Cheese",
+        "Quantity": 1
+      },
+      {
+        "Name": "Lettuce",
+        "Quantity": 2
+      },
+      {
+        "Name": "Tomato",
+        "Quantity": 2
+      },
+      {
+        "Name": "Red Onion",
+        "Quantity": 3
+      },
+      {
+        "Name": "Burger Bun",
+        "Quantity": 1
+      },
+      {
+        "Name": "House Sauce",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 2,
+    "Title": "Margherita Pizza",
+    "Description": "Traditional Italian pizza with fresh mozzarella, tomato sauce, fresh basil, and extra virgin olive oil",
+    "Price": 16.50,
+    "Ingredients": [
+      {
+        "Name": "Pizza Dough",
+        "Quantity": 1
+      },
+      {
+        "Name": "Tomato Sauce",
+        "Quantity": 1
+      },
+      {
+        "Name": "Fresh Mozzarella",
+        "Quantity": 1
+      },
+      {
+        "Name": "Fresh Basil",
+        "Quantity": 8
+      },
+      {
+        "Name": "Extra Virgin Olive Oil",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 3,
+    "Title": "Caesar Salad",
+    "Description": "Crisp romaine lettuce tossed with Caesar dressing, parmesan cheese, and crunchy croutons",
+    "Price": 11.99,
+    "Ingredients": [
+      {
+        "Name": "Romaine Lettuce",
+        "Quantity": 1
+      },
+      {
+        "Name": "Caesar Dressing",
+        "Quantity": 1
+      },
+      {
+        "Name": "Parmesan Cheese",
+        "Quantity": 1
+      },
+      {
+        "Name": "Croutons",
+        "Quantity": 15
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 4,
+    "Title": "Grilled Salmon",
+    "Description": "Fresh Atlantic salmon grilled to perfection, served with lemon butter sauce and seasonal vegetables",
+    "Price": 24.99,
+    "Ingredients": [
+      {
+        "Name": "Atlantic Salmon Fillet",
+        "Quantity": 1
+      },
+      {
+        "Name": "Lemon",
+        "Quantity": 1
+      },
+      {
+        "Name": "Butter",
+        "Quantity": 1
+      },
+      {
+        "Name": "Asparagus",
+        "Quantity": 5
+      },
+      {
+        "Name": "Baby Carrots",
+        "Quantity": 4
+      },
+      {
+        "Name": "Herbs",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 5,
+    "Title": "Chicken Alfredo Pasta",
+    "Description": "Tender grilled chicken breast over creamy fettuccine alfredo with fresh parsley",
+    "Price": 18.75,
+    "Ingredients": [
+      {
+        "Name": "Fettuccine Pasta",
+        "Quantity": 1
+      },
+      {
+        "Name": "Chicken Breast",
+        "Quantity": 1
+      },
+      {
+        "Name": "Heavy Cream",
+        "Quantity": 1
+      },
+      {
+        "Name": "Parmesan Cheese",
+        "Quantity": 1
+      },
+      {
+        "Name": "Garlic",
+        "Quantity": 2
+      },
+      {
+        "Name": "Fresh Parsley",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 6,
+    "Title": "Buffalo Wings",
+    "Description": "Eight crispy chicken wings tossed in spicy buffalo sauce, served with celery and blue cheese dip",
+    "Price": 13.50,
+    "Ingredients": [
+      {
+        "Name": "Chicken Wings",
+        "Quantity": 8
+      },
+      {
+        "Name": "Buffalo Sauce",
+        "Quantity": 1
+      },
+      {
+        "Name": "Celery Sticks",
+        "Quantity": 4
+      },
+      {
+        "Name": "Blue Cheese Dip",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 7,
+    "Title": "Chocolate Lava Cake",
+    "Description": "Warm chocolate cake with a molten chocolate center, served with vanilla ice cream",
+    "Price": 8.99,
+    "Ingredients": [
+      {
+        "Name": "Chocolate Cake",
+        "Quantity": 1
+      },
+      {
+        "Name": "Dark Chocolate",
+        "Quantity": 1
+      },
+      {
+        "Name": "Vanilla Ice Cream",
+        "Quantity": 1
+      },
+      {
+        "Name": "Powdered Sugar",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 8,
+    "Title": "Fish and Chips",
+    "Description": "Beer-battered cod served with golden fries, mushy peas, and tartar sauce",
+    "Price": 17.25,
+    "Ingredients": [
+      {
+        "Name": "Cod Fillet",
+        "Quantity": 1
+      },
+      {
+        "Name": "Beer Batter",
+        "Quantity": 1
+      },
+      {
+        "Name": "French Fries",
+        "Quantity": 1
+      },
+      {
+        "Name": "Mushy Peas",
+        "Quantity": 1
+      },
+      {
+        "Name": "Tartar Sauce",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 9,
+    "Title": "Vegetarian Stir Fry",
+    "Description": "Fresh mixed vegetables stir-fried with ginger soy sauce, served over jasmine rice",
+    "Price": 15.50,
+    "Ingredients": [
+      {
+        "Name": "Bell Peppers",
+        "Quantity": 2
+      },
+      {
+        "Name": "Broccoli",
+        "Quantity": 1
+      },
+      {
+        "Name": "Snap Peas",
+        "Quantity": 1
+      },
+      {
+        "Name": "Carrots",
+        "Quantity": 2
+      },
+      {
+        "Name": "Jasmine Rice",
+        "Quantity": 1
+      },
+      {
+        "Name": "Soy Sauce",
+        "Quantity": 1
+      },
+      {
+        "Name": "Fresh Ginger",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  },
+  {
+    "MenuItemID": 10,
+    "Title": "Ribeye Steak",
+    "Description": "12oz premium ribeye steak grilled to your preference, served with garlic mashed potatoes",
+    "Price": 32.99,
+    "Ingredients": [
+      {
+        "Name": "Ribeye Steak",
+        "Quantity": 1
+      },
+      {
+        "Name": "Potatoes",
+        "Quantity": 3
+      },
+      {
+        "Name": "Garlic",
+        "Quantity": 3
+      },
+      {
+        "Name": "Butter",
+        "Quantity": 1
+      },
+      {
+        "Name": "Heavy Cream",
+        "Quantity": 1
+      },
+      {
+        "Name": "Fresh Herbs",
+        "Quantity": 1
+      }
+    ],
+    "AvailableAddons": []
+  }
+]

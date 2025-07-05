@@ -1,0 +1,40 @@
+[
+    {
+        "Description": "Our complete restaurant menu featuring appetizers, main courses, and desserts",
+        "ID": 1,
+        "Name": "Main Menu",
+        "Sections": [
+            {
+                "Description": "Light bites and appetizers to start your meal",
+                "ID": 1,
+                "Menu Items": [
+                    3,
+                    6
+                ],
+                "Title": "Appetizers & Starters"
+            },
+            {
+                "Description": "Hearty main dishes and entrees",
+                "ID": 2,
+                "Menu Items": [
+                    1,
+                    2,
+                    4,
+                    5,
+                    8,
+                    9,
+                    10
+                ],
+                "Title": "Main Courses"
+            },
+            {
+                "Description": "Sweet endings to your meal",
+                "ID": 3,
+                "Menu Items": [
+                    7
+                ],
+                "Title": "Desserts"
+            }
+        ]
+    }
+]
