@@ -1,9 +1,8 @@
 #include <iostream>
-#include "FileHandle.hpp"
-#include "IDManager.hpp"
-#include "DateTime.hpp"
+#include "BudgetTest.hpp"
 
 int main()
 {
+    BudgetTest();
     return 0;
 }

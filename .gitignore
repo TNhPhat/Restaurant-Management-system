@@ -1,6 +1,24 @@
-build
-.vscode
-.cache
-cmake-build-debug
-.idea
+
+# === Binaries and Build Files ===
+bin/
 *.exe
+*.o
+*.obj
+*.dll
+*.lib
+*.a
+
+# === Temporary / Debug Files ===
+*.log
+*.tmp
+*.bak
+
+# === Editor/IDE Configs ===
+.vscode/
+
+# === CMake / Make Output (if used later) ===
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+build/
