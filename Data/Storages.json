@@ -1,0 +1,51 @@
+[
+    {
+        "StorageID" : 1,
+        "Resources": 
+        [
+            {
+                "ResourceID": 1,
+                "ResourceName": "chicken",
+                "ResourceQuantity": 10,
+                "ResourcePrice": 100
+            },
+            {
+                "ResourceID": 2,
+                "ResourceName": "noodle",
+                "ResourceQuantity": 10,
+                "ResourcePrice": 5
+            },
+            {
+                "ResourceID": 3,
+                "ResourceName": "rice",
+                "ResourceQuantity": 100,
+                "ResourcePrice": 10
+            }
+        ]
+    },
+    
+    {
+        "StorageID" : 2,
+        "Resources": 
+        [
+            {
+                "ResourceID": 1,
+                "ResourceName": "pig",
+                "ResourceQuantity": 10,
+                "ResourcePrice": 100
+            },
+            {
+                "ResourceID": 2,
+                "ResourceName": "noodle",
+                "ResourceQuantity": 10,
+                "ResourcePrice": 5
+            },
+            {
+                "ResourceID": 3,
+                "ResourceName": "rice",
+                "ResourceQuantity": 100,
+                "ResourcePrice": 10
+            }
+        ]
+    }
+]
