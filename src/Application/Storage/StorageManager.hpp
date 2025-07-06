@@ -17,5 +17,6 @@ public:
     bool LoadStorageFromFile();
     void SaveStorageToFile();
     bool IsLoaded() const;
+    static StorageManager &GetInstance();
 };
 

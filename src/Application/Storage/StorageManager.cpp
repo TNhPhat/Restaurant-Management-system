@@ -44,7 +44,7 @@ bool StorageManager::LoadStorageFromFile()
                 const int resourceID = resourceJson["ResourceID"];
                 const std::string resourceName = resourceJson["ResourceName"];
                 const int resourceQuantity = resourceJson["ResourceQuantity"];
-                const float resourcePrice = resourceJson["ResourcePrie"];
+                const float resourcePrice = resourceJson["ResourcePrice"];
 
                 storage->AddResource(resourceID, resourceName, resourceQuantity, resourcePrice);
             }
@@ -106,4 +106,10 @@ void StorageManager::SaveStorageToFile()
 bool StorageManager::IsLoaded() const
 {
     return this->m_IsLoaded;
+}
+
+StorageManager &StorageManager::GetInstance()
+{
+    static StorageManager instance;
+    return instance;
 }
