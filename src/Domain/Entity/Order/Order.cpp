@@ -20,6 +20,10 @@ void Order::SetOrderStatus(const OrderStatus& NewOrderStatus) {
     m_Status = NewOrderStatus;
 }
 
+std::vector<std::shared_ptr<Meal>> Order::GetMeals(){
+    return m_Meals;
+}
+
 bool Order::AddMeal(const std::shared_ptr<Meal>& NewMeal) {
     auto it = std::find_if(m_Meals.begin(), m_Meals.end(),
         [&NewMeal](const std::shared_ptr<Meal>& m) {

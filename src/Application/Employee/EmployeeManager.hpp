@@ -1,27 +1,30 @@
 #pragma once
 #include"../../Domain/Entity/Employee/Employee.hpp"
-#include"FileHandle.hpp"
-#include"IDManager.hpp"
-#include"Logger.hpp"
+#include"../../Infrastructure/FileHandle/FileHandle.hpp"
+#include"../../Core/Utils/IDManager.hpp"
+#include"../../Infrastructure/Logging/Logger.hpp"
+#include"../../Domain/Service/Employee/EmployeeService.hpp"
+#include<vector>
 class EmployeeManager{
 public:
-    ~EmployeeManager();
+    ~EmployeeManager() = default;
     static EmployeeManager &GetInstance();
-    static void Init(const std::string& FilePath, JsonHandle* FileHandler);
+    bool CheckIDExist(const int& ID);
+
+    void AddEmployee(std::shared_ptr<Employee> Employee);
+    std::shared_ptr<Employee> SearchEmployeebyID(const int& ID);
+    std::vector<std::shared_ptr<Employee>> SearchEmployeebyName(const std::string& Name);
+    std::vector<std::shared_ptr<Employee>> SearchEmployeebyPosition(const EmployeePosition& Position);
+    void RemoveEmployeebyID(const int& ID);
     void SaveEmployeeInfo();
-    void AddEmployee(const Employee& employee);
-    Employee& SearchEmployeebyId(const int& ID);
-    Employee& SearchEmployeebyName(const std::string& Name);
-    void RemoveEmployeebyId(const int& ID);
+
+    void CheckIn(const int& ID, const DateTime& Time);
+    void CheckOut(const int& ID, const DateTime& Time);
+    float CalcTotalWorkedHoursByID(const int& ID,const DateTime& Start,const DateTime& End);
+    void SaveAttendanceRecord();
 
 private:
-
-    EmployeeManager(const std::string& FilePath, JsonHandle* FileHandler);
-    static std::unique_ptr<EmployeeManager> s_Instance;
-
-    JsonHandle* m_FileHandler;
-
-    void LoadEmployeeInfo();
-    int m_EmployeeCount;
-    std::vector<std::shared_ptr<Employee>> m_EmployeeList;
+    EmployeeManager();
+    std::unique_ptr<AttendanceService> m_Attendance;
+    std::unique_ptr<EmployeeInfoService> m_Info;
 };

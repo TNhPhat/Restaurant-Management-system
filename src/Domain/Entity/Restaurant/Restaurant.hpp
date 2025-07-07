@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "FileHandle.hpp"
-#include "Menu.hpp"
+#include "Menu/Menu.hpp"
 
 class Branch
 {
@@ -41,7 +41,7 @@ private:
 public:
     Restaurant(const std::string &Name);
 
-    void AddBranch(std::shared_ptr<Branch> branch);
+    void AddBranch(const std::shared_ptr<Branch> &branch);
 
     template <typename... Args>
     void AddBranch(Args &&...args);

@@ -18,6 +18,23 @@ file(GLOB_RECURSE SRC_FILES
         src/Infrastructure/Budget/*.cpp 
         src/Application/Budget/*.cpp
         src/Test/*.cpp
+        src/Domain/ValueObject/MealAddon.cpp
+        src/Domain/ValueObject/MealIngredients.cpp
+        src/Domain/Entity/Meal/Meal.cpp
+        src/Domain/Entity/Menu/Menu.cpp
+        src/Domain/Entity/Restaurant/Restaurant.cpp
+        src/Application/Meal/MealManager.cpp
+        src/Application/Menu/MenuManager.cpp
+        src/Application/Restaurant/RestaurantManager.cpp
+
+        src/Infrastructure/Meal/IMealRepository.cpp
+        src/Infrastructure/Meal/FileMealRepository.cpp
+
+        src/Infrastructure/Menu/IMenuRepository.cpp
+        src/Infrastructure/Menu/FileMenuRepository.cpp
+
+        src/Infrastructure/Restaurant/IRestaurantRepository.cpp
+        src/Infrastructure/Restaurant/FileRestaurantRepository.cpp
 )
 
 # ========== Executable ==========
@@ -33,6 +50,9 @@ target_include_directories(RESTAURANT PRIVATE
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Meal
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Menu
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Restaurant
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Account
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Address
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Budget
@@ -51,6 +71,9 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Meal
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Menu
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Restaurant
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Budget

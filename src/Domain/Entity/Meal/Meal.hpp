@@ -1,29 +1,7 @@
 #pragma once
-#include "../Menu/Menu.hpp"
 #include <vector>
 #include <memory>
-
-class MealAddon
-{
-private:
-    std::shared_ptr<MenuAddon> m_Addon;
-    unsigned int m_Quantity;
-
-public:
-    MealAddon(const std::shared_ptr<MenuAddon> &Addon, int Quantity);
-
-    std::shared_ptr<MenuAddon> GetAddon() const;
-
-    int GetQuantity() const;
-
-    void SetQuantity(unsigned int Quantity);
-
-    void AddQuantity(unsigned int Quantity);
-
-    void RemoveQuantity(unsigned int Quantity);
-
-    std::vector<MealIngredient> GetIngredients() const;
-};
+#include "MealAddon.hpp"
 
 class MealItem
 {
@@ -59,6 +37,8 @@ public:
 
     const MenuItem &GetMenuItem() const;
 
+    bool ContainsAddon(const int AddonID) const;
+
     void SetQuantity(int Quantity);
 
     void SetNote(const std::string &Note);
@@ -83,7 +63,7 @@ public:
 
     ~Meal() = default;
 
-    void AddItem(std::shared_ptr<MealItem> &Item);
+    void AddItem(const std::shared_ptr<MealItem> &Item);
 
     template <typename... Args>
     void AddItem(Args &&...args);
@@ -93,6 +73,12 @@ public:
     double GetPrice() const;
 
     std::vector<std::shared_ptr<MealItem>> GetMealItems() const;
+
+    std::vector<MealIngredient> GetResources() const;
+
+    bool ContainsItem(const int ItemID) const;
+
+    void RemoveItem(const int ItemID);
 };
 
 template <typename... Args>
