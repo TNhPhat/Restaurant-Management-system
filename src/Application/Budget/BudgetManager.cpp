@@ -1,21 +1,46 @@
 #include "BudgetManager.hpp"
 #include "Bill.hpp"
+#include "Logger.hpp"
 
-BudgetManager::BudgetManager(std::shared_ptr<Budget> Budget, std::unique_ptr<BudgetPersistence> Persistence)
-    : m_Budget(Budget), m_Persistence(std::move(Persistence)) {}
+std::unique_ptr<BudgetManager> BudgetManager::s_Instance = nullptr;
 
-void BudgetManager::AddIncome(const int &Id, const DateTime& Date, const std::string& Message, const double &Total) {
-    const BillType Type = BillType::Expense;
-    auto NewBill = std::make_shared<Bill>(Id, Date, Message, Total, Type);
-    m_Budget->AddIncome(NewBill);
-    m_Persistence->SaveBill(NewBill);
+BudgetManager::BudgetManager(std::shared_ptr<Budget> &Budget, std::unique_ptr<BudgetRepository> &Repository, std::unique_ptr<BudgetService> &Service)
+    : m_Repository(std::move(Repository)), m_Budget(Budget), m_Service(std::move(Service)) {
+    m_Budget->LoadBills(m_Repository->LoadAllBills());
 }
 
-void BudgetManager::AddExpense(const int &Id, const DateTime& Date, const std::string& Message, const double &Total) {
-    const BillType Type = BillType::Expense;
-    auto NewBill = std::make_shared<Bill>(Id, Date, Message, Total, Type);
-    m_Budget->AddExpense(NewBill);
-    m_Persistence->SaveBill(NewBill);
+void BudgetManager::Init(std::shared_ptr<Budget> &Budget, std::unique_ptr<BudgetRepository> &Repository, std::unique_ptr<BudgetService> &Service) {
+    if (s_Instance) 
+        LOG_ERROR("IDManager already initialized!");
+    s_Instance = std::unique_ptr<BudgetManager>(new BudgetManager(Budget, Repository, Service));
+}
+
+BudgetManager &BudgetManager::GetInstance() {
+    if (!s_Instance) {
+        LOG_CRITICAL("BudgetManager not initialized");
+        throw std::runtime_error("BudgetManager not initialized");
+    }
+    return *s_Instance;
+}
+
+void BudgetManager::AddIncome(const DateTime& Date, const std::string& Message, const double& Total) {
+    auto bill = m_Service->GenerateBill(Date, Message, Total, BillType::Income);
+    m_Budget->AddIncome(bill);
+    m_Repository->SaveBill(bill);
+}
+
+void BudgetManager::AddExpense(const DateTime& Date, const std::string& Message, const double& Total) {
+    auto bill = m_Service->GenerateBill(Date, Message, Total, BillType::Expense);
+    m_Budget->AddExpense(bill);
+    m_Repository->SaveBill(bill);
+}
+
+void BudgetManager::RemoveBillByID(const int &BillID) {
+    if(!m_Repository->RemoveBillByID(BillID)) {
+        LOG_ERROR("Bill ID: {} not found in repository", BillID);
+    } else if(!m_Budget->RemoveBillByID(BillID)) {
+        LOG_ERROR("Bill ID: {} not found in Budget", BillID);
+    }
 }
 
 double BudgetManager::GetIncomeTotal() const {
