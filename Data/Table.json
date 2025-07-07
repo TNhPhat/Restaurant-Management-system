@@ -1,0 +1,23 @@
+[
+  {
+    "TableID": 1,
+    "Status": 0,
+    "MaxCapacity": 4,
+    "LocationIdentifier": 101,
+    "Reservations": [101, 102]
+  },
+  {
+    "TableID": 2,
+    "Status": 1,
+    "MaxCapacity": 6,
+    "LocationIdentifier": 202,
+    "Reservations": []
+  },
+  {
+    "TableID": 3,
+    "Status": 0,
+    "MaxCapacity": 2,
+    "LocationIdentifier": 314,
+    "Reservations": [103]
+  }
+]

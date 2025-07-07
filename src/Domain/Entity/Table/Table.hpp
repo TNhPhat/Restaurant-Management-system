@@ -17,10 +17,15 @@ private:
 public:
     Table(int TableID, int MaxCapacity, int LocationIdentifier);
     ~Table() = default;
+    int GetTableID() const;
+    TableStatus GetTableStatus() const; 
     int GetMaxCapacity() const;
     int GetLocationIdentifier() const;
 
+    void SetTableID(int TableID);
     void SetTableStatus(const TableStatus &NewTableStatus);
+    void SetMaxCapacity(int MaxCapacity);
+    void SetLocationIdentifier(int LocationIdentifier);
 
     bool AddReservation(const std::shared_ptr<const Reservation> NewReservation);
     bool RemoveReservation(int ReservationID);
