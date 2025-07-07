@@ -5,6 +5,14 @@ Table::Table(int TableID, int MaxCapacity, int LocationIdentifier)
     SetTableStatus(TableStatus::Free);
 }
 
+int Table::GetTableID() const {
+    return m_TableID;
+}
+
+TableStatus Table::GetTableStatus() const {
+    return m_Status;
+}
+
 int Table::GetMaxCapacity() const {
     return m_MaxCapacity;
 }
@@ -13,8 +21,21 @@ int Table::GetLocationIdentifier() const {
     return m_LocationIdentifier;
 }
 
+void Table::SetTableID(int TableID)
+{
+    m_TableID = TableID;
+}
+
 void Table::SetTableStatus(const TableStatus &NewTableStatus) {
     m_Status = NewTableStatus;
+}
+
+void Table::SetMaxCapacity(int MaxCapacity) {
+    m_MaxCapacity = MaxCapacity;
+}
+
+void Table::SetLocationIdentifier(int LocationIdentifier) {
+    m_LocationIdentifier = LocationIdentifier;
 }
 
 bool Table::AddReservation(std::shared_ptr<const Reservation> NewReservation) {
