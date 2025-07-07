@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "Order.hpp"
 
-Order::Order(const int& OrderID, const DateTime& Date)
+Order::Order(const int& OrderID, const int &TableID, const DateTime& Date)
     : m_OrderID(OrderID), m_Date(Date), m_Status(OrderStatus::None) {}
 
 DateTime Order::GetDate() const {
