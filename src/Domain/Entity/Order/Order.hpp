@@ -7,12 +7,13 @@
 class Order {
 private:
     const int m_OrderID;
+    int m_TableID;
+    int m_CustomerID;
     DateTime m_Date;
     OrderStatus m_Status;
     std::vector<std::shared_ptr<Meal>> m_Meals;
-
 public: 
-    Order(const int &OrderID, const DateTime &Date);
+    Order(const int &OrderID, const int &TableID, const DateTime &Date);
     ~Order() = default;
     DateTime GetDate() const; 
     double GetTotalPrice() const; 

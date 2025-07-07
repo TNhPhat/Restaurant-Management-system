@@ -1,19 +1,19 @@
-#include "BudgetPersistence.hpp"
+#include "BudgetRepository.hpp"
 #include "Logger.hpp"
 #include "FileHandle.hpp"
 #include "DateTime.hpp"
 
-BudgetPersistence::BudgetPersistence(const std::string& FilePath, JsonHandle* FileHandler)
+BudgetRepository::BudgetRepository(const std::string& FilePath, JsonHandle* FileHandler)
     : m_FileHandler(FileHandler), m_FilePath(FilePath)
 {
     m_FileHandler->LoadFile(FilePath);
 }
 
-void BudgetPersistence::SaveBill(const std::shared_ptr<Bill>& Bill)
+void BudgetRepository::SaveBill(const std::shared_ptr<Bill>& Bill)
 {
     json BillData = {
         {"id", Bill->GetID()},
-        {"date", Bill->GetDate().ToStringDate()},
+        {"date", Bill->GetDate().ToStringDateTime()},
         {"message", Bill->GetMessage()},
         {"total", Bill->GetTotal()},
         {"type", BillTypeToString(Bill->GetType())}
@@ -28,7 +28,7 @@ void BudgetPersistence::SaveBill(const std::shared_ptr<Bill>& Bill)
     m_FileHandler->SaveFile();
 }
 
-std::vector<std::shared_ptr<Bill>> BudgetPersistence::LoadAllBills()
+std::vector<std::shared_ptr<Bill>> BudgetRepository::LoadAllBills()
 {
     m_FileHandler->LoadFile(m_FilePath);
     json Data = m_FileHandler->GetDaTa();
@@ -52,8 +52,7 @@ std::vector<std::shared_ptr<Bill>> BudgetPersistence::LoadAllBills()
     return Result;
 }
 
-bool BudgetPersistence::RemoveBillByID(const int &BillID)
-{
+bool BudgetRepository::RemoveBillByID(const int &BillID) {
     json Data = m_FileHandler->GetDaTa();
 
     if (!Data.contains("bills")) return false;

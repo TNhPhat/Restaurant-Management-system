@@ -5,13 +5,13 @@
 #include "Bill.hpp"
 #include "FileHandle.hpp"
 
-class BudgetPersistence {
+class BudgetRepository {
 private:
     JsonHandle* m_FileHandler;
     std::string m_FilePath;
 
 public:
-    BudgetPersistence(const std::string& FilePath, JsonHandle* FileHandler);
+    BudgetRepository(const std::string& FilePath, JsonHandle* FileHandler);
 
     void SaveBill(const std::shared_ptr<Bill>& Bill);
     std::vector<std::shared_ptr<Bill>> LoadAllBills();

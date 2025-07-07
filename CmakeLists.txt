@@ -11,7 +11,13 @@ file(GLOB_RECURSE SRC_FILES
         src/Infrastructure/FileHandle/FileHandle.cpp
         src/Infrastructure/Logging/Logger.cpp
         src/Core/Utils/IDManager.cpp
+        
         src/Domain/ValueObject/DateTime.cpp
+        src/Domain/Entity/Budget/*.cpp 
+        src/Domain/Service/Budget/*.cpp 
+        src/Infrastructure/Budget/*.cpp 
+        src/Application/Budget/*.cpp
+        src/Test/*.cpp
         src/Domain/ValueObject/MealAddon.cpp
         src/Domain/ValueObject/MealIngredients.cpp
         src/Domain/Entity/Meal/Meal.cpp
@@ -40,6 +46,8 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Core
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Utils
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Budget
+
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Meal
@@ -48,6 +56,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Account
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Address
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Employee
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Payment
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity/Reservation
