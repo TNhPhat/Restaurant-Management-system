@@ -61,7 +61,7 @@ std::vector<std::shared_ptr<Table>> ITableRepository::GetTablesByMaxCapacity(int
 
     for (const auto& table : m_Tables)
     {
-        if (table && table->getCapacity() <= capacity)
+        if (table && table->GetMaxCapacity() <= capacity)
         {
             sorted.push_back(table);
         }

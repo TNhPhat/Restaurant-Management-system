@@ -4,10 +4,10 @@
 
 class FileReservationRepository : public IReservationRepository {
 public:
-    FileReservationRepository(std::string &filePath);
+    FileReservationRepository(std::string ilePath);
 
     void SaveReservations(std::string filePath) const override;
 
 private:
-    std::unique_ptr<JsonHandle> m_FileHandler;
+    std::unique_ptr<JsonHandle> m_FileHandle;
 };

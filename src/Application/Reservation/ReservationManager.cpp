@@ -7,7 +7,7 @@ void ReservationManager::AddAReservationByID(int reservationID)
 {
     if (m_ReservationRepository.GetReservationByID(reservationID) != nullptr)
     {
-        LOG_WARN("Reservation with ID {} already exists. Skipping.", reservationID);
+        LOG_WARNING("Reservation with ID {} already exists. Skipping.", reservationID);
         return;
     }
 

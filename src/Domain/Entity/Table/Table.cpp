@@ -1,5 +1,7 @@
 #include "Table.hpp"
 
+Table::Table() : m_MaxCapacity(4), m_LocationIdentifier(0) {}
+
 Table::Table(int TableID, int MaxCapacity, int LocationIdentifier)
     : m_TableID(TableID), m_MaxCapacity(MaxCapacity), m_LocationIdentifier(LocationIdentifier) {
     SetTableStatus(TableStatus::Free);

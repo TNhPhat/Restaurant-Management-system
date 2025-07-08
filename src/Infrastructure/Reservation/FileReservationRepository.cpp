@@ -1,6 +1,6 @@
 #include "FileReservationRepository.hpp"
 
-FileReservationRepository::FileReservationRepository(const std::string& filePath) {
+FileReservationRepository::FileReservationRepository(std::string filePath) {
     this->m_FileHandle = std::make_unique<JsonHandle>();
     this->m_FileHandle->LoadFile(filePath);
     auto data = this->m_FileHandle->GetDaTa();
@@ -12,10 +12,10 @@ FileReservationRepository::FileReservationRepository(const std::string& filePath
 
     for (const auto& resData : data) {
         int id = resData["ID"].get<int>();
-        DateTime timeOfReservation = DateTime::FromStringDateTime(resData["TimeOfReservation"].get<std::string>());
+        DateTime timeOfReservation = DateTime::FromDateTimeString(resData["TimeOfReservation"].get<std::string>());
         int peopleCount = resData["PeopleCount"].get<int>();
         ReservationStatus status = static_cast<ReservationStatus>(resData["Status"].get<int>());
-        DateTime checkinTime = DateTime::FromStringDateTime(resData["CheckinTime"].get<std::string>());
+        DateTime checkinTime = DateTime::FromDateTimeString(resData["CheckinTime"].get<std::string>());
 
         auto reservation = std::make_shared<Reservation>(timeOfReservation, peopleCount, checkinTime);
         reservation->setID(id);
@@ -25,7 +25,7 @@ FileReservationRepository::FileReservationRepository(const std::string& filePath
     }
 }
 
-void FileReservationRepository::SaveReservations(const std::string& filePath) const {
+void FileReservationRepository::SaveReservations(std::string filePath) const {
     json data = json::array();
 
     for (const auto& r : this->GetReservations()) {
