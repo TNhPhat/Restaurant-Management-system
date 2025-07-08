@@ -22,11 +22,21 @@ file(GLOB_RECURSE SRC_FILES
         src/Domain/ValueObject/MealIngredients.cpp
         src/Domain/Entity/Meal/Meal.cpp
         src/Domain/Entity/Menu/Menu.cpp
+        src/Domain/Entity/Reservation/Reservation.cpp
+        src/Domain/Entity/Table/Table.cpp
         src/Domain/Entity/Restaurant/Restaurant.cpp
         src/Application/Meal/MealManager.cpp
         src/Application/Menu/MenuManager.cpp
+        src/Application/Reservation/ReservationManager.cpp
+        src/Application/Table/TableManager.cpp
         src/Application/Restaurant/RestaurantManager.cpp
 
+        src/Infrastructure/Reservation/IReservationRepository.cpp
+        src/Infrastructure/Reservation/FileReservationRepository.cpp
+
+        src/Infrastructure/Table/ITableRepository.cpp
+        src/Infrastructure/Table/FileTableRepository.cpp
+        
         src/Infrastructure/Meal/IMealRepository.cpp
         src/Infrastructure/Meal/FileMealRepository.cpp
 
@@ -74,6 +84,8 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Meal
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Menu
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Restaurant
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Table
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Reservation
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Budget

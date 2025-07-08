@@ -1,6 +1,6 @@
 #include "IReservationRepository.hpp"
 
-std::shared_ptr<Reservation> IReservationRepository::SaveReservation(const std::shared_ptr<Reservation> &reservation)
+std::shared_ptr<Reservation> IReservationRepository::SaveReservation(std::shared_ptr<Reservation> reservation)
 {
     if (reservation == nullptr)
     {

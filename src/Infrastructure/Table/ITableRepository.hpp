@@ -9,7 +9,7 @@ class ITableRepository {
 public:
     virtual ~ITableRepository() = default;
 
-    virtual void SaveTables(const std::string &filePath) const = 0;
+    virtual void SaveTables(std::string filePath) const = 0;
 
     std::shared_ptr<Table> SaveTable(const std::shared_ptr<Table> &table);
 

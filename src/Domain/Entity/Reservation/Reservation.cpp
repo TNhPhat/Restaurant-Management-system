@@ -1,5 +1,7 @@
 #include "Reservation.hpp"
 
+Reservation::Reservation() : m_TimeOfReservation(DateTime::Now()), m_PeopleCount(0), m_CheckinTime(DateTime::Now()) {}
+
 Reservation::Reservation(DateTime TimeOfReservation, int PeopleCount, DateTime CheckinTime)
 {
     this->m_TimeOfReservation = TimeOfReservation;

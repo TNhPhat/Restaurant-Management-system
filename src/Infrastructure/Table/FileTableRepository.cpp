@@ -1,6 +1,6 @@
 #include "FileTableRepository.hpp"
 
-FileTableRepository::FileTableRepository(const std::string& filePath) {
+FileTableRepository::FileTableRepository(std::string filePath) {
     this->m_FileHandler = std::make_unique<JsonHandle>();
     this->m_FileHandler->LoadFile(filePath);
     auto data = this->m_FileHandler->GetDaTa();
@@ -23,12 +23,12 @@ FileTableRepository::FileTableRepository(const std::string& filePath) {
     }
 }
 
-void FileTableRepository::SaveTables(const std::string& filePath) const {
+void FileTableRepository::SaveTables(std::string filePath) const {
     json data = json::array();
 
     for (const auto& t : this->GetTables()) {
         json tJson;
-        tJson["ID"] = t->GetID();
+        tJson["ID"] = t->GetTableID();
         tJson["MaxCapacity"] = t->GetMaxCapacity();
         tJson["LocationIdentifier"] = t->GetLocationIdentifier();
         tJson["Status"] = static_cast<int>(t->GetTableStatus());

@@ -7,18 +7,18 @@
 
 class IReservationRepository {
 public:
-    ~IReservationRepository() = default;
+    virtual ~IReservationRepository() = default;
 
-    virtual void SaveReservations(const std::string &filePath) const = 0;
+    virtual void SaveReservations(std::string filePath) const = 0;
 
-    std::shared_ptr<Reservation> SaveReservation(const std::shared_ptr<Reservation> &reservation);
+    std::shared_ptr<Reservation> SaveReservation(std::shared_ptr<Reservation> reservation);
 
     void RemoveReservation(const std::shared_ptr<Reservation> &reservation);
 
     void RemoveReservation(int reservationID);
 
     std::vector<std::shared_ptr<Reservation>> GetReservations() const;
-    std::vector<std::shared_ptr<Reservation>> GetReservationsSortedByTimeOfReservation() const;
+    std::vector<std::shared_ptr<Reservation>> GetReservationsByTimeOfReservation() const;
     std::shared_ptr<Reservation> GetReservationByID(int reservationID) const;
 
 private:

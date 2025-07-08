@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Infrastructure/Table/TableRepository.hpp"
+#include "../../Infrastructure/Table/FileTableRepository.hpp"
 
 class TableManager
 {
@@ -11,4 +11,4 @@ public:
     ~TableManager() = default;
     
     void AddATableByID(int tableID);
-}
+};
