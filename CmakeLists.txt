@@ -45,6 +45,13 @@ file(GLOB_RECURSE SRC_FILES
 
         src/Infrastructure/Restaurant/IRestaurantRepository.cpp
         src/Infrastructure/Restaurant/FileRestaurantRepository.cpp
+
+        src/Domain/Entity/Customer/Customer.cpp
+        src/Application/Customer/CustomerManager.cpp
+        src/Infrastructure/Customer/CustomerRepository.cpp
+        src/Domain/Service/Customer/CustomerService.cpp
+        src/Domain/Interface/Person.cpp
+
 )
 
 # ========== Executable ==========

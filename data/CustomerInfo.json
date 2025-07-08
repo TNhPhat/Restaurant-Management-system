@@ -1,0 +1,212 @@
+[
+  {
+    "Email": "minhnguyen@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 120,
+    "Name": "Nguyen Minh",
+    "Phone": "0901234567"
+  },
+  {
+    "Email": "hoanganh@yahoo.com",
+    "Gender": "Female",
+    "MemberPoints": 250,
+    "Name": "Hoang Anh",
+    "Phone": "0902345678"
+  },
+  {
+    "Email": "tuanle@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 60,
+    "Name": "Le Tuan",
+    "Phone": "0903456789"
+  },
+  {
+    "Email": "thutran@hotmail.com",
+    "Gender": "Female",
+    "MemberPoints": 310,
+    "Name": "Tran Thu",
+    "Phone": "0904567890"
+  },
+  {
+    "Email": "phongvo@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 180,
+    "Name": "Vo Phong",
+    "Phone": "0905678901"
+  },
+  {
+    "Email": "quynhhoa@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 90,
+    "Name": "Quynh Hoa",
+    "Phone": "0906789012"
+  },
+  {
+    "Email": "phamhieu@outlook.com",
+    "Gender": "Male",
+    "MemberPoints": 130,
+    "Name": "Pham Hieu",
+    "Phone": "0907890123"
+  },
+  {
+    "Email": "huyendo@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 210,
+    "Name": "Do Huyen",
+    "Phone": "0908901234"
+  },
+  {
+    "Email": "manhnguyen@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 75,
+    "Name": "Nguyen Manh",
+    "Phone": "0909012345"
+  },
+  {
+    "Email": "yentran@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 145,
+    "Name": "Tran Yen",
+    "Phone": "0910123456"
+  },
+  {
+    "Email": "namnguyen@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 220,
+    "Name": "Nguyen Nam",
+    "Phone": "0911234567"
+  },
+  {
+    "Email": "anhthu@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 95,
+    "Name": "Anh Thu",
+    "Phone": "0912345678"
+  },
+  {
+    "Email": "truongle@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 110,
+    "Name": "Le Truong",
+    "Phone": "0913456789"
+  },
+  {
+    "Email": "myhoang@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 275,
+    "Name": "Hoang My",
+    "Phone": "0914567890"
+  },
+  {
+    "Email": "vinhpham@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 125,
+    "Name": "Pham Vinh",
+    "Phone": "0915678901"
+  },
+  {
+    "Email": "khanhnguyen@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 150,
+    "Name": "Nguyen Khanh",
+    "Phone": "0916789012"
+  },
+  {
+    "Email": "baotran@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 160,
+    "Name": "Tran Bao",
+    "Phone": "0917890123"
+  },
+  {
+    "Email": "nhungvo@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 240,
+    "Name": "Vo Nhung",
+    "Phone": "0918901234"
+  },
+  {
+    "Email": "duypham@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 85,
+    "Name": "Pham Duy",
+    "Phone": "0919012345"
+  },
+  {
+    "Email": "ngoctran@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 195,
+    "Name": "Tran Ngoc",
+    "Phone": "0920123456"
+  },
+  {
+    "Email": "kietnguyen@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 270,
+    "Name": "Nguyen Kiet",
+    "Phone": "0921234567"
+  },
+  {
+    "Email": "hado@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 100,
+    "Name": "Do Ha",
+    "Phone": "0922345678"
+  },
+  {
+    "Email": "trungle@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 90,
+    "Name": "Le Trung",
+    "Phone": "0923456789"
+  },
+  {
+    "Email": "hanguyen@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 155,
+    "Name": "Nguyen Ha",
+    "Phone": "0924567890"
+  },
+  {
+    "Email": "thinhle@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 105,
+    "Name": "Le Thinh",
+    "Phone": "0925678901"
+  },
+  {
+    "Email": "thuyhoang@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 190,
+    "Name": "Hoang Thuy",
+    "Phone": "0926789012"
+  },
+  {
+    "Email": "dangvinh@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 140,
+    "Name": "Dang Vinh",
+    "Phone": "0927890123"
+  },
+  {
+    "Email": "thuyle@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 235,
+    "Name": "Le Thuy",
+    "Phone": "0928901234"
+  },
+  {
+    "Email": "khoapham@gmail.com",
+    "Gender": "Male",
+    "MemberPoints": 175,
+    "Name": "Pham Khoa",
+    "Phone": "0929012345"
+  },
+  {
+    "Email": "minhchau@gmail.com",
+    "Gender": "Female",
+    "MemberPoints": 205,
+    "Name": "Chau Minh",
+    "Phone": "0930123456"
+  }
+]
