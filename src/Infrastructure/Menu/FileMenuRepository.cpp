@@ -170,7 +170,7 @@ FileMenuRepository::FileMenuRepository(std::string filePath,
     }
 }
 
-void FileMenuRepository::SaveMenu(std::string filePath) const {
+void FileMenuRepository::SaveMenus(std::string filePath) const {
     json data = json::array();
     for (const auto &menu: this->IMenuRepository::GetMenus()) {
         json menuJson;
