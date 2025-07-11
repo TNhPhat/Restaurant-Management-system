@@ -2,8 +2,8 @@
 #include "IDManager.hpp"
 #include "FileHandle/FileHandle.hpp"
 
-MealItem::MealItem(const int ID, const MenuItem &Item, int Quantity, const std::string &Note) : m_MealItemID(ID),
-                                                                                                m_MenuItem(Item), m_Quantity(Quantity), m_Note(Note)
+MealItem::MealItem(const int ID, MenuItem &Item, int Quantity, const std::string &Note) : m_MealItemID(ID),
+                                                                                          m_MenuItem(Item), m_Quantity(Quantity), m_Note(Note)
 {
     if (ID <= 0)
     {
@@ -13,15 +13,16 @@ MealItem::MealItem(const int ID, const MenuItem &Item, int Quantity, const std::
     {
         throw std::invalid_argument("Quantity must be greater than zero");
     }
+    Item.IncreaseCount();
 }
 
-MealItem::MealItem(const MenuItem &Item, const int Quantity) : MealItem(IDManager::GetInstance().GetNextID("MealItem"),
-                                                                        Item, Quantity, "")
+MealItem::MealItem(MenuItem &Item, const int Quantity) : MealItem(IDManager::GetInstance().GetNextID("MealItem"),
+                                                                  Item, Quantity, "")
 {
 }
 
-MealItem::MealItem(const MenuItem &Item, const int Quantity, const std::string &Note) : MealItem(
-                                                                                            IDManager::GetInstance().GetNextID("MealItem"), Item, Quantity, Note)
+MealItem::MealItem(MenuItem &Item, const int Quantity, const std::string &Note) : MealItem(
+                                                                                      IDManager::GetInstance().GetNextID("MealItem"), Item, Quantity, Note)
 {
 }
 

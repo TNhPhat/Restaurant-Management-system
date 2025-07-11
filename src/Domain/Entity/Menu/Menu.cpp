@@ -77,7 +77,7 @@ MenuItem::MenuItem(const std::string &Title, const std::string &Description, con
 
 MenuItem::MenuItem(const int ID, const std::string &Title, const std::string &Description,
                    const double Price) : m_MenuItemID(ID), m_Price(Price),
-                                         m_Title(Title), m_Description(Description)
+                                         m_Title(Title), m_Description(Description), m_MealCount(0)
 {
     if (ID <= 0)
     {
@@ -116,6 +116,11 @@ int MenuItem::GetID() const
 std::vector<MealIngredient> MenuItem::GetIngredients() const
 {
     return std::vector<MealIngredient>(this->m_Ingredients.begin(), this->m_Ingredients.end());
+}
+
+int MenuItem::GetMealCount() const
+{
+    return this->m_MealCount;
 }
 
 std::vector<std::shared_ptr<MenuAddon>> MenuItem::GetAvailableAddons() const
@@ -197,6 +202,11 @@ void MenuItem::RemoveAddon(const std::shared_ptr<MenuAddon> &Addon)
 const std::map<std::string, int> &MenuItem::GetIngredientsMap() const
 {
     return this->m_Ingredients;
+}
+
+void MenuItem::IncreaseCount()
+{
+    this->m_MealCount++;
 }
 
 MenuSection::MenuSection(const std::string &Title, const std::string &Description) : MenuSection(

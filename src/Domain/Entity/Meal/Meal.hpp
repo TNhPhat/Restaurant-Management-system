@@ -7,17 +7,17 @@ class MealItem
 {
 private:
     const int m_MealItemID;
-    const MenuItem &m_MenuItem;
+    MenuItem &m_MenuItem;
     int m_Quantity;
     std::vector<std::shared_ptr<MealAddon>> m_Addons;
     std::string m_Note;
 
 public:
-    MealItem(const MenuItem &Item, int Quantity);
+    MealItem(MenuItem &Item, int Quantity);
 
-    MealItem(const MenuItem &Item, int Quantity, const std::string &Note);
+    MealItem(MenuItem &Item, int Quantity, const std::string &Note);
 
-    MealItem(int ID, const MenuItem &Item, int Quantity, const std::string &Note);
+    MealItem(int ID, MenuItem &Item, int Quantity, const std::string &Note);
 
     MealItem(const MealItem &Origin);
 
