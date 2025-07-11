@@ -1,11 +1,12 @@
 #include <iostream>
-#include "BudgetTest.hpp"
+#include "OrderTest.hpp"
+#include "IDManager.hpp"
 
 int main()
 {
-    JsonHandle* IDManagerJson = new JsonHandle();
-    IDManager::Init("Data/IDRegistry.json", IDManagerJson);
+    IDManager::Init("Data/IDRegistry.json");
 
-    BudgetTest();
+    //BudgetTest();
+    OrderTest();
     return 0;
 }

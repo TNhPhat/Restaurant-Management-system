@@ -3,18 +3,19 @@
 
 std::unique_ptr<IDManager> IDManager::s_Instance = nullptr;
 
-IDManager::IDManager(const std::string& FilePath, JsonHandle* FileHandler)
-    : m_FilePath(FilePath), m_FileHandler(FileHandler) {
+IDManager::IDManager(const std::string& FilePath)
+    : m_FilePath(FilePath) {
+    this->m_FileHandler = std::make_unique<JsonHandle>();
     m_FileHandler->LoadFile(FilePath);
     LoadID();
 }
 
-void IDManager::Init(const std::string &FilePath, JsonHandle *FileHandler) {
+void IDManager::Init(const std::string &FilePath) {
     if (s_Instance) {
         LOG_ERROR("IDManager already initialized!");
         return;
     }
-    s_Instance = std::unique_ptr<IDManager>(new IDManager(FilePath, FileHandler));
+    s_Instance = std::unique_ptr<IDManager>(new IDManager(FilePath));
 }
 
 void IDManager::LoadID() {
