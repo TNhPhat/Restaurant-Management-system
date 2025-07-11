@@ -13,8 +13,13 @@ private:
     OrderStatus m_Status;
     std::vector<std::shared_ptr<Meal>> m_Meals;
 public: 
-    Order(const int &OrderID, const int &TableID, const DateTime &Date);
+    Order(const int &OrderID, const int &TableID, const int &CustomerID, const DateTime &Date);
     ~Order() = default;
+
+    int GetID() const;
+    int GetTableID() const; 
+    int GetCustomerID() const;
+    OrderStatus GetStatus() const;
     DateTime GetDate() const; 
     double GetTotalPrice() const; 
 

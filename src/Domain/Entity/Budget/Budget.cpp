@@ -42,3 +42,7 @@ double Budget::GetTotalIncome() const {
 double Budget::GetTotalExpenses() const {
     return m_TotalExpenses;
 }
+
+std::vector<std::shared_ptr<Bill>> Budget::GetAllBills() const {
+    return m_Bills;
+}

@@ -15,8 +15,7 @@ void BudgetTest() {
     auto service = std::make_unique<BudgetService>();
     
     // Initialize singleton
-    BudgetManager::Init(budget, repo, service);
-    BudgetManager& manager = BudgetManager::GetInstance();
+    BudgetManager manager(budget, repo, service);
 
     // Add income and expense
     manager.AddIncome(DateTime::Now(), "Selling Special Dish", 1500.0);
