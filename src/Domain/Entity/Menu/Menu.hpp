@@ -48,6 +48,7 @@ private:
     std::string m_Description;
     std::map<std::string, int> m_Ingredients;
     std::vector<std::shared_ptr<MenuAddon>> m_AvailableAddons;
+    int m_MealCount;
 
 public:
     MenuItem(const std::string &Title, const std::string &Description, double Price);
@@ -70,6 +71,10 @@ public:
 
     bool ContainsAddon(const int AddonID) const;
 
+    int GetMealCount() const;
+
+    const std::map<std::string, int> &GetIngredientsMap() const;
+
     void SetTitle(const std::string &Title);
 
     void SetDescription(const std::string &Description);
@@ -84,7 +89,7 @@ public:
 
     void RemoveAddon(const std::shared_ptr<MenuAddon> &Addon);
 
-    const std::map<std::string, int> &GetIngredientsMap() const;
+    void IncreaseCount();
 };
 
 class MenuSection

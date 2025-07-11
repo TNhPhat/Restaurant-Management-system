@@ -53,7 +53,7 @@ class IMenuRepository {
 public:
     virtual ~IMenuRepository() = default;
 
-    virtual void SaveMenu(std::string filePath) const = 0;
+    virtual void SaveMenus(std::string filePath) const = 0;
 
     std::vector<std::shared_ptr<Menu> > GetMenus() const;
 

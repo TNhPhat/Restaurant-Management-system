@@ -12,4 +12,8 @@ public:
     ~RestaurantManager() = default;
 
     Restaurant &GetRestaurant() const;
+
+    std::string GetRestaurantName() const;
+
+    std::string GetRestaurantAddress() const;
 };
