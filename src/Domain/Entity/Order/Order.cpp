@@ -2,7 +2,7 @@
 #include "Order.hpp"
 
 Order::Order(const int& OrderID, const int &TableID, const std::string &CustomerPhone, const DateTime& Date)
-    : m_Phone(CustomerPhone), m_OrderID(OrderID), m_Date(Date), m_Status(OrderStatus::None) {}
+    : m_Phone(CustomerPhone), m_OrderID(OrderID), m_Date(Date), m_TableID(TableID), m_Status(OrderStatus::None) {}
 
 int Order::GetTableID() const {
     return m_TableID;

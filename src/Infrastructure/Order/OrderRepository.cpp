@@ -1,11 +1,13 @@
+#include <memory>
 #include "OrderRepository.hpp"
 #include "Logger.hpp"
 #include "DateTime.hpp"
 
-OrderRepository::OrderRepository(const std::string& FilePath, JsonHandle* FileHandler, const IMealRepository& MealRepo)
-    : m_FilePath(FilePath), m_FileHandler(FileHandler), m_MealRepo(MealRepo)
+OrderRepository::OrderRepository(const std::string& FilePath, const IMealRepository& MealRepo)
+    : m_FilePath(FilePath), m_MealRepo(MealRepo)
 {
-    m_FileHandler->LoadFile(FilePath);
+    this->m_FileHandler = std::make_unique<JsonHandle>();
+    this->m_FileHandler->LoadFile(FilePath);
 }
 
 std::vector<std::shared_ptr<Order>> OrderRepository::LoadAllOrders() {
