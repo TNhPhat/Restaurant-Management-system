@@ -2,8 +2,9 @@
 #include"../../Domain/Service/Customer/CustomerService.hpp"
 class CustomerManager{
 public:
-    static CustomerManager& GetInstance();
-
+    CustomerManager();
+    ~CustomerManager() = default;
+    
     void AddCustomerInfo(std::shared_ptr<Customer> CustomerInfo);
     void RemoveCustomerByPhone(const std::string& Phone);
     std::vector<std::shared_ptr<Customer>> GetAllCustomerInfo();
@@ -12,6 +13,6 @@ public:
     void SaveCustomerInfo();
 
 private:
-    CustomerManager();
+   
     std::unique_ptr<CustomerInfoService> m_Info;
 };
