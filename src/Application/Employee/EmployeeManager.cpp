@@ -5,10 +5,6 @@ EmployeeManager::EmployeeManager(){
     this->m_Attendance = std::make_unique<AttendanceService>();
 }
 
-EmployeeManager& EmployeeManager::GetInstance(){
-    static EmployeeManager Instance;
-    return Instance;
-}
 
 bool EmployeeManager::CheckIDExist(const int& ID){
     if(this->m_Info->SearchEmployeebyID(ID) != nullptr)
@@ -19,6 +15,10 @@ bool EmployeeManager::CheckIDExist(const int& ID){
 
 void EmployeeManager::AddEmployee(std::shared_ptr<Employee> Employee){
     this->m_Info->AddEmployee(Employee);
+}
+
+std::vector<std::shared_ptr<Employee>> GetAllEmployeeInfo(){
+    return this->m_Info->GetAllEmployeeInfo();
 }
 
 void EmployeeManager::SaveEmployeeInfo(){

@@ -3,11 +3,6 @@ CustomerManager::CustomerManager(){
     this->m_Info = std::make_unique<CustomerInfoService>();
 }
 
-CustomerManager& CustomerManager::GetInstance(){
-    static CustomerManager Instance;
-    return Instance;
-}
-
 std::vector<std::shared_ptr<Customer>> CustomerManager::GetAllCustomerInfo(){
     return this->m_Info->GetAllCustomerInfo();
 }

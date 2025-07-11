@@ -54,6 +54,10 @@ void EmployeeInfoService::AddEmployee(std::shared_ptr<Employee> Employee){
     this->m_EmployeeList.push_back(Employee);
 }
 
+std::vector<std::shared_ptr<Employee>> GetAllEmployeeInfo(){
+    return this->m_EmployeeList;    
+}
+
 void EmployeeInfoService::SaveEmployeeInfo(){
     this->m_repo->SaveEmployeeInfo(this->m_EmployeeList);
 }   
