@@ -13,7 +13,8 @@ private:
 public:
     BudgetRepository(const std::string& FilePath, JsonHandle* FileHandler);
 
-    void SaveBill(const std::shared_ptr<Bill>& Bill);
     std::vector<std::shared_ptr<Bill>> LoadAllBills();
+    void SaveAllBills(const std::vector<std::shared_ptr<Bill>>& Bill);
+    void SaveBill(const std::shared_ptr<Bill>& Bill);
     bool RemoveBillByID(const int &BillID);
 };

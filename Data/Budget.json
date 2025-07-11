@@ -1,361 +1,361 @@
 {
-    "bills": [
+    "Bills": [
         {
-            "date": "01/01/2025 09:00:00",
-            "id": 1,
-            "message": "Initial Capital Investment",
-            "total": 10000.0,
-            "type": "income"
+            "Date": "01/01/2025 09:00:00",
+            "ID": 1,
+            "Message": "Initial Capital Investment",
+            "Total": 10000.0,
+            "Type": "Income"
         },
         {
-            "date": "02/01/2025 10:30:00",
-            "id": 2,
-            "message": "Ingredient Purchase",
-            "total": 1200.5,
-            "type": "expense"
+            "Date": "2/1/2025 10:30:00",
+            "ID": 2,
+            "Message": "Ingredient Purchase",
+            "Total": 1200.5,
+            "Type": "Expense"
         },
         {
-            "date": "03/01/2025 12:00:00",
-            "id": 3,
-            "message": "Kitchen Equipment",
-            "total": 2100.0,
-            "type": "expense"
+            "Date": "3/1/2025 12:00:00",
+            "ID": 3,
+            "Message": "Kitchen Equipment",
+            "Total": 2100.0,
+            "Type": "Expense"
         },
         {
-            "date": "05/01/2025 15:00:00",
-            "id": 4,
-            "message": "Opening Day Sales",
-            "total": 1350.75,
-            "type": "income"
+            "Date": "5/1/2025 15:00:00",
+            "ID": 4,
+            "Message": "Opening Day Sales",
+            "Total": 1350.75,
+            "Type": "Income"
         },
         {
-            "date": "06/01/2025 08:45:00",
-            "id": 5,
-            "message": "Utility Bill - January",
-            "total": 320.4,
-            "type": "expense"
+            "Date": "6/1/2025 08:45:00",
+            "ID": 5,
+            "Message": "Utility Bill - January",
+            "Total": 320.4,
+            "Type": "Expense"
         },
         {
-            "date": "07/01/2025 18:30:00",
-            "id": 6,
-            "message": "Customer Payment",
-            "total": 850.25,
-            "type": "income"
+            "Date": "7/1/2025 18:30:00",
+            "ID": 6,
+            "Message": "Customer Payment",
+            "Total": 850.25,
+            "Type": "Income"
         },
         {
-            "date": "08/01/2025 14:20:00",
-            "id": 7,
-            "message": "Dining Set Purchase",
-            "total": 640.9,
-            "type": "expense"
+            "Date": "8/1/2025 14:20:00",
+            "ID": 7,
+            "Message": "Dining Set Purchase",
+            "Total": 640.9,
+            "Type": "Expense"
         },
         {
-            "date": "09/01/2025 17:00:00",
-            "id": 8,
-            "message": "Catering Revenue",
-            "total": 2300.0,
-            "type": "income"
+            "Date": "9/1/2025 17:00:00",
+            "ID": 8,
+            "Message": "Catering Revenue",
+            "Total": 2300.0,
+            "Type": "Income"
         },
         {
-            "date": "10/01/2025 16:00:00",
-            "id": 9,
-            "message": "Marketing Campaign",
-            "total": 500.0,
-            "type": "expense"
+            "Date": "10/1/2025 16:00:00",
+            "ID": 9,
+            "Message": "Marketing Campaign",
+            "Total": 500.0,
+            "Type": "Expense"
         },
         {
-            "date": "12/01/2025 09:00:00",
-            "id": 11,
-            "message": "Gas Refill",
-            "total": 140.8,
-            "type": "expense"
+            "Date": "12/1/2025 09:00:00",
+            "ID": 11,
+            "Message": "Gas Refill",
+            "Total": 140.8,
+            "Type": "Expense"
         },
         {
-            "date": "13/01/2025 14:00:00",
-            "id": 12,
-            "message": "Food Delivery",
-            "total": 920.45,
-            "type": "income"
+            "Date": "13/1/2025 14:00:00",
+            "ID": 12,
+            "Message": "Food Delivery",
+            "Total": 920.45,
+            "Type": "Income"
         },
         {
-            "date": "14/01/2025 13:30:00",
-            "id": 13,
-            "message": "Chef's Salary",
-            "total": 1800.0,
-            "type": "expense"
+            "Date": "14/1/2025 13:30:00",
+            "ID": 13,
+            "Message": "Chef's Salary",
+            "Total": 1800.0,
+            "Type": "Expense"
         },
         {
-            "date": "15/01/2025 18:00:00",
-            "id": 14,
-            "message": "Dining Room Sales",
-            "total": 2450.35,
-            "type": "income"
+            "Date": "15/1/2025 18:00:00",
+            "ID": 14,
+            "Message": "Dining Room Sales",
+            "Total": 2450.35,
+            "Type": "Income"
         },
         {
-            "date": "16/01/2025 12:45:00",
-            "id": 15,
-            "message": "Cleaning Supplies",
-            "total": 115.2,
-            "type": "expense"
+            "Date": "16/1/2025 12:45:00",
+            "ID": 15,
+            "Message": "Cleaning Supplies",
+            "Total": 115.2,
+            "Type": "Expense"
         },
         {
-            "date": "17/01/2025 17:45:00",
-            "id": 16,
-            "message": "Customer Order",
-            "total": 780.1,
-            "type": "income"
+            "Date": "17/1/2025 17:45:00",
+            "ID": 16,
+            "Message": "Customer Order",
+            "Total": 780.1,
+            "Type": "Income"
         },
         {
-            "date": "18/01/2025 10:00:00",
-            "id": 17,
-            "message": "Waitstaff Salary",
-            "total": 2100.0,
-            "type": "expense"
+            "Date": "18/1/2025 10:00:00",
+            "ID": 17,
+            "Message": "Waitstaff Salary",
+            "Total": 2100.0,
+            "Type": "Expense"
         },
         {
-            "date": "19/01/2025 11:20:00",
-            "id": 18,
-            "message": "Takeaway Orders",
-            "total": 1520.6,
-            "type": "income"
+            "Date": "19/1/2025 11:20:00",
+            "ID": 18,
+            "Message": "Takeaway Orders",
+            "Total": 1520.6,
+            "Type": "Income"
         },
         {
-            "date": "20/01/2025 09:15:00",
-            "id": 19,
-            "message": "Coffee Supplies",
-            "total": 380.7,
-            "type": "expense"
+            "Date": "20/1/2025 09:15:00",
+            "ID": 19,
+            "Message": "Coffee Supplies",
+            "Total": 380.7,
+            "Type": "Expense"
         },
         {
-            "date": "21/01/2025 16:30:00",
-            "id": 20,
-            "message": "Food Delivery",
-            "total": 1380.9,
-            "type": "income"
+            "Date": "21/1/2025 16:30:00",
+            "ID": 20,
+            "Message": "Food Delivery",
+            "Total": 1380.9,
+            "Type": "Income"
         },
         {
-            "date": "22/01/2025 08:50:00",
-            "id": 21,
-            "message": "Equipment Maintenance",
-            "total": 250.0,
-            "type": "expense"
+            "Date": "22/1/2025 08:50:00",
+            "ID": 21,
+            "Message": "Equipment Maintenance",
+            "Total": 250.0,
+            "Type": "Expense"
         },
         {
-            "date": "23/01/2025 15:10:00",
-            "id": 22,
-            "message": "Bulk Meal Orders",
-            "total": 1850.4,
-            "type": "income"
+            "Date": "23/1/2025 15:10:00",
+            "ID": 22,
+            "Message": "Bulk Meal Orders",
+            "Total": 1850.4,
+            "Type": "Income"
         },
         {
-            "date": "24/01/2025 14:15:00",
-            "id": 23,
-            "message": "Utility Bill - February",
-            "total": 295.1,
-            "type": "expense"
+            "Date": "24/1/2025 14:15:00",
+            "ID": 23,
+            "Message": "Utility Bill - February",
+            "Total": 295.1,
+            "Type": "Expense"
         },
         {
-            "date": "25/01/2025 13:30:00",
-            "id": 24,
-            "message": "Corporate Catering",
-            "total": 2120.0,
-            "type": "income"
+            "Date": "25/1/2025 13:30:00",
+            "ID": 24,
+            "Message": "Corporate Catering",
+            "Total": 2120.0,
+            "Type": "Income"
         },
         {
-            "date": "26/01/2025 11:45:00",
-            "id": 25,
-            "message": "Tableware Purchase",
-            "total": 440.6,
-            "type": "expense"
+            "Date": "26/1/2025 11:45:00",
+            "ID": 25,
+            "Message": "Tableware Purchase",
+            "Total": 440.6,
+            "Type": "Expense"
         },
         {
-            "date": "27/01/2025 17:00:00",
-            "id": 26,
-            "message": "Online Orders",
-            "total": 960.0,
-            "type": "income"
+            "Date": "27/1/2025 17:00:00",
+            "ID": 26,
+            "Message": "Online Orders",
+            "Total": 960.0,
+            "Type": "Income"
         },
         {
-            "date": "28/01/2025 10:30:00",
-            "id": 27,
-            "message": "Pantry Restock",
-            "total": 365.8,
-            "type": "expense"
+            "Date": "28/1/2025 10:30:00",
+            "ID": 27,
+            "Message": "Pantry Restock",
+            "Total": 365.8,
+            "Type": "Expense"
         },
         {
-            "date": "29/01/2025 18:20:00",
-            "id": 28,
-            "message": "Special Event Income",
-            "total": 3000.0,
-            "type": "income"
+            "Date": "29/1/2025 18:20:00",
+            "ID": 28,
+            "Message": "Special Event Income",
+            "Total": 3000.0,
+            "Type": "Income"
         },
         {
-            "date": "30/01/2025 09:40:00",
-            "id": 29,
-            "message": "Staff Training Expense",
-            "total": 620.3,
-            "type": "expense"
+            "Date": "30/1/2025 09:40:00",
+            "ID": 29,
+            "Message": "Staff Training Expense",
+            "Total": 620.3,
+            "Type": "Expense"
         },
         {
-            "date": "01/02/2025 16:10:00",
-            "id": 30,
-            "message": "Large Order",
-            "total": 2100.0,
-            "type": "income"
+            "Date": "1/2/2025 16:10:00",
+            "ID": 30,
+            "Message": "Large Order",
+            "Total": 2100.0,
+            "Type": "Income"
         },
         {
-            "date": "02/02/2025 12:00:00",
-            "id": 31,
-            "message": "Dishwasher Repair",
-            "total": 520.0,
-            "type": "expense"
+            "Date": "2/2/2025 12:00:00",
+            "ID": 31,
+            "Message": "Dishwasher Repair",
+            "Total": 520.0,
+            "Type": "Expense"
         },
         {
-            "date": "03/02/2025 15:45:00",
-            "id": 32,
-            "message": "Weekend Sales",
-            "total": 1870.75,
-            "type": "income"
+            "Date": "3/2/2025 15:45:00",
+            "ID": 32,
+            "Message": "Weekend Sales",
+            "Total": 1870.75,
+            "Type": "Income"
         },
         {
-            "date": "04/02/2025 11:30:00",
-            "id": 33,
-            "message": "Baking Supplies",
-            "total": 160.8,
-            "type": "expense"
+            "Date": "4/2/2025 11:30:00",
+            "ID": 33,
+            "Message": "Baking Supplies",
+            "Total": 160.8,
+            "Type": "Expense"
         },
         {
-            "date": "05/02/2025 14:00:00",
-            "id": 34,
-            "message": "Birthday Event Revenue",
-            "total": 2650.5,
-            "type": "income"
+            "Date": "5/2/2025 14:00:00",
+            "ID": 34,
+            "Message": "Birthday Event Revenue",
+            "Total": 2650.5,
+            "Type": "Income"
         },
         {
-            "date": "06/02/2025 08:00:00",
-            "id": 35,
-            "message": "Waste Disposal",
-            "total": 110.9,
-            "type": "expense"
+            "Date": "6/2/2025 08:00:00",
+            "ID": 35,
+            "Message": "Waste Disposal",
+            "Total": 110.9,
+            "Type": "Expense"
         },
         {
-            "date": "07/02/2025 13:20:00",
-            "id": 36,
-            "message": "Weekend Buffet Sales",
-            "total": 1590.25,
-            "type": "income"
+            "Date": "7/2/2025 13:20:00",
+            "ID": 36,
+            "Message": "Weekend Buffet Sales",
+            "Total": 1590.25,
+            "Type": "Income"
         },
         {
-            "date": "08/02/2025 09:00:00",
-            "id": 37,
-            "message": "Kitchen Deep Cleaning",
-            "total": 300.0,
-            "type": "expense"
+            "Date": "8/2/2025 09:00:00",
+            "ID": 37,
+            "Message": "Kitchen Deep Cleaning",
+            "Total": 300.0,
+            "Type": "Expense"
         },
         {
-            "date": "09/02/2025 18:45:00",
-            "id": 38,
-            "message": "Restaurant Merchandise",
-            "total": 780.6,
-            "type": "income"
+            "Date": "9/2/2025 18:45:00",
+            "ID": 38,
+            "Message": "Restaurant Merchandise",
+            "Total": 780.6,
+            "Type": "Income"
         },
         {
-            "date": "10/02/2025 12:15:00",
-            "id": 39,
-            "message": "Window Repair",
-            "total": 430.5,
-            "type": "expense"
+            "Date": "10/2/2025 12:15:00",
+            "ID": 39,
+            "Message": "Window Repair",
+            "Total": 430.5,
+            "Type": "Expense"
         },
         {
-            "date": "11/02/2025 17:30:00",
-            "id": 40,
-            "message": "Afternoon Tea Revenue",
-            "total": 1120.0,
-            "type": "income"
+            "Date": "11/2/2025 17:30:00",
+            "ID": 40,
+            "Message": "Afternoon Tea Revenue",
+            "Total": 1120.0,
+            "Type": "Income"
         },
         {
-            "date": "12/02/2025 10:00:00",
-            "id": 41,
-            "message": "Cleaning Supplies",
-            "total": 90.2,
-            "type": "expense"
+            "Date": "12/2/2025 10:00:00",
+            "ID": 41,
+            "Message": "Cleaning Supplies",
+            "Total": 90.2,
+            "Type": "Expense"
         },
         {
-            "date": "13/02/2025 13:15:00",
-            "id": 42,
-            "message": "Evening Meal Service",
-            "total": 1430.35,
-            "type": "income"
+            "Date": "13/2/2025 13:15:00",
+            "ID": 42,
+            "Message": "Evening Meal Service",
+            "Total": 1430.35,
+            "Type": "Income"
         },
         {
-            "date": "14/02/2025 14:10:00",
-            "id": 43,
-            "message": "Chef Bonus",
-            "total": 700.0,
-            "type": "expense"
+            "Date": "14/2/2025 14:10:00",
+            "ID": 43,
+            "Message": "Chef Bonus",
+            "Total": 700.0,
+            "Type": "Expense"
         },
         {
-            "date": "15/02/2025 16:00:00",
-            "id": 44,
-            "message": "Daily Orders",
-            "total": 1220.9,
-            "type": "income"
+            "Date": "15/2/2025 16:00:00",
+            "ID": 44,
+            "Message": "Daily Orders",
+            "Total": 1220.9,
+            "Type": "Income"
         },
         {
-            "date": "16/02/2025 11:30:00",
-            "id": 45,
-            "message": "Staff Meals",
-            "total": 360.7,
-            "type": "expense"
+            "Date": "16/2/2025 11:30:00",
+            "ID": 45,
+            "Message": "Staff Meals",
+            "Total": 360.7,
+            "Type": "Expense"
         },
         {
-            "date": "17/02/2025 18:00:00",
-            "id": 46,
-            "message": "Online Order Revenue",
-            "total": 1450.0,
-            "type": "income"
+            "Date": "17/2/2025 18:00:00",
+            "ID": 46,
+            "Message": "Online Order Revenue",
+            "Total": 1450.0,
+            "Type": "Income"
         },
         {
-            "date": "18/02/2025 12:45:00",
-            "id": 47,
-            "message": "Grease Trap Cleaning",
-            "total": 390.3,
-            "type": "expense"
+            "Date": "18/2/2025 12:45:00",
+            "ID": 47,
+            "Message": "Grease Trap Cleaning",
+            "Total": 390.3,
+            "Type": "Expense"
         },
         {
-            "date": "19/02/2025 09:10:00",
-            "id": 48,
-            "message": "Corporate Lunch Event",
-            "total": 2780.5,
-            "type": "income"
+            "Date": "19/2/2025 09:10:00",
+            "ID": 48,
+            "Message": "Corporate Lunch Event",
+            "Total": 2780.5,
+            "Type": "Income"
         },
         {
-            "date": "20/02/2025 10:30:00",
-            "id": 49,
-            "message": "Trash Bin Replacement",
-            "total": 120.0,
-            "type": "expense"
+            "Date": "20/2/2025 10:30:00",
+            "ID": 49,
+            "Message": "Trash Bin Replacement",
+            "Total": 120.0,
+            "Type": "Expense"
         },
         {
-            "date": "21/02/2025 15:00:00",
-            "id": 50,
-            "message": "Sales Bonus Income",
-            "total": 1620.0,
-            "type": "income"
+            "Date": "21/2/2025 15:00:00",
+            "ID": 50,
+            "Message": "Sales Bonus Income",
+            "Total": 1620.0,
+            "Type": "Income"
         },
         {
-            "date": "7/7/2025 13:10:21",
-            "id": 51,
-            "message": "Selling Special Dish",
-            "total": 1500.0,
-            "type": "Income"
+            "Date": "7/7/2025 13:10:21",
+            "ID": 51,
+            "Message": "Selling Special Dish",
+            "Total": 1500.0,
+            "Type": "Income"
         },
         {
-            "date": "7/7/2025 13:10:21",
-            "id": 52,
-            "message": "Buy kitchen equipment",
-            "total": 700.0,
-            "type": "Expense"
+            "Date": "7/7/2025 13:10:21",
+            "ID": 52,
+            "Message": "Buy kitchen equipment",
+            "Total": 700.0,
+            "Type": "Expense"
         }
     ]
 }

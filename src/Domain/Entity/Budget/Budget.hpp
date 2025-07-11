@@ -12,9 +12,12 @@ private:
 
 public:
     void LoadBills(const std::vector<std::shared_ptr<Bill>> &Bills);
+
     void AddIncome(const std::shared_ptr<Bill> &NewBill);
     void AddExpense(const std::shared_ptr<Bill> &NewBill);
     bool RemoveBillByID(const int &BillID); 
+
     double GetTotalIncome() const;
     double GetTotalExpenses() const;
+    std::vector<std::shared_ptr<Bill>> GetAllBills() const;
 };

@@ -12,13 +12,10 @@ private:
     std::shared_ptr<Budget> m_Budget;
     std::unique_ptr<BudgetRepository> m_Repository;
     std::unique_ptr<BudgetService> m_Service;
-
-    BudgetManager(std::shared_ptr<Budget> &Budget, std::unique_ptr<BudgetRepository> &Repository, std::unique_ptr<BudgetService> &Service);
-
+ 
 public:
-    static void Init(std::shared_ptr<Budget> &Budget, std::unique_ptr<BudgetRepository> &Repository, std::unique_ptr<BudgetService> &Service);
-    static BudgetManager& GetInstance();
-
+    BudgetManager(std::shared_ptr<Budget> &Budget, std::unique_ptr<BudgetRepository> &Repository, std::unique_ptr<BudgetService> &Service);
+    ~BudgetManager();
     void AddIncome(const DateTime& Date, const std::string& Message, const double& Total);
     void AddExpense(const DateTime& Date, const std::string& Message, const double& Total);
 
