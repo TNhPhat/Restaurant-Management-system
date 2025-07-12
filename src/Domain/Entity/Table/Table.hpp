@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <string>
 #include "FileHandle.hpp"
 #include "TableStatus.hpp"
 #include "Reservation.hpp"
@@ -30,6 +31,6 @@ public:
     void SetLocationIdentifier(int LocationIdentifier);
 
     bool AddReservation(const std::shared_ptr<const Reservation> NewReservation);
-    bool RemoveReservation(int ReservationID);
+    bool RemoveReservation(std::string PhoneNumber);
     const std::vector<std::shared_ptr<const Reservation>> &GetReservations() const;
 };

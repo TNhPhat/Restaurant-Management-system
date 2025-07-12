@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
+#include<string>
 
 class ReservationManager
 {
@@ -10,5 +11,5 @@ public:
 
     ~ReservationManager() = default;
 
-    void AddAReservationByID(int reservationID);
+    void AddAReservationByPhoneNumber(std::string PhoneNumber);
 };

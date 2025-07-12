@@ -43,7 +43,7 @@ void Table::SetLocationIdentifier(int LocationIdentifier) {
 bool Table::AddReservation(std::shared_ptr<const Reservation> NewReservation) {
     auto it = std::find_if(m_Reservations.begin(), m_Reservations.end(),
         [&NewReservation](const std::shared_ptr<const Reservation> &r) {
-            return r->getID() == NewReservation->getID();
+            return r->getPhoneNumber() == NewReservation->getPhoneNumber();
         });
 
     if (it != m_Reservations.end()) {
@@ -54,11 +54,11 @@ bool Table::AddReservation(std::shared_ptr<const Reservation> NewReservation) {
     return true;
 }
 
-bool Table::RemoveReservation(int ReservationID) {
+bool Table::RemoveReservation(std::string PhoneNumber) {
     auto originalSize = m_Reservations.size();
     auto it = std::remove_if(m_Reservations.begin(), m_Reservations.end(),
-        [ReservationID](const std::shared_ptr<const Reservation> &r) {
-            return r->getID() == ReservationID;
+        [PhoneNumber](const std::shared_ptr<const Reservation> &r) {
+            return r->getPhoneNumber() == PhoneNumber;
         });
         
     m_Reservations.erase(it, m_Reservations.end());

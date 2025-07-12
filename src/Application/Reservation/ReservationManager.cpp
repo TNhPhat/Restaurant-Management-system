@@ -3,16 +3,16 @@
 ReservationManager::ReservationManager(FileReservationRepository &ReservationRepository): 
     m_ReservationRepository(ReservationRepository) {}
 
-void ReservationManager::AddAReservationByID(int reservationID)
+void ReservationManager::AddAReservationByPhoneNumber(std::string PhoneNumber)
 {
-    if (m_ReservationRepository.GetReservationByID(reservationID) != nullptr)
+    if (m_ReservationRepository.GetReservationByPhoneNumber(PhoneNumber) != nullptr)
     {
-        LOG_WARNING("Reservation with ID {} already exists. Skipping.", reservationID);
+        LOG_WARNING("Reservation with phone number {} already exists. Skipping.", PhoneNumber);
         return;
     }
 
     auto newReservation = std::make_shared<Reservation>();
-    newReservation->setID(reservationID);
+    newReservation->setPhoneNumber(PhoneNumber);
 
     // newReservation->setTimeOfReservation(DateTime::Now());
     newReservation->setPeopleCount(1);
@@ -21,5 +21,5 @@ void ReservationManager::AddAReservationByID(int reservationID)
 
     m_ReservationRepository.SaveReservation(newReservation);
 
-    LOG_INFO("New reservation with ID {} added.", reservationID);
+    LOG_INFO("New reservation with phone number {} added.", PhoneNumber);
 }
