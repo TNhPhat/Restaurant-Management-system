@@ -15,11 +15,11 @@ public:
 
     void RemoveReservation(const std::shared_ptr<Reservation> &reservation);
 
-    void RemoveReservation(int reservationID);
+    void RemoveReservation(std::string PhoneNumber);
 
     std::vector<std::shared_ptr<Reservation>> GetReservations() const;
     std::vector<std::shared_ptr<Reservation>> GetReservationsByTimeOfReservation() const;
-    std::shared_ptr<Reservation> GetReservationByID(int reservationID) const;
+    std::shared_ptr<Reservation> GetReservationByPhoneNumber(std::string PhoneNumber) const;
 
 private:
     std::vector<std::shared_ptr<Reservation> > m_Reservations;

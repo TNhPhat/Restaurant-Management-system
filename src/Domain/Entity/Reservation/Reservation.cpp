@@ -1,9 +1,10 @@
 #include "Reservation.hpp"
 
-Reservation::Reservation() : m_TimeOfReservation(DateTime::Now()), m_PeopleCount(0), m_CheckinTime(DateTime::Now()) {}
+Reservation::Reservation() : m_PhoneNumber("0"), m_TimeOfReservation(DateTime::Now()), m_PeopleCount(0), m_CheckinTime(DateTime::Now()) {}
 
-Reservation::Reservation(DateTime TimeOfReservation, int PeopleCount, DateTime CheckinTime)
+Reservation::Reservation(std::string PhoneNumber, DateTime TimeOfReservation, int PeopleCount, DateTime CheckinTime)
 {
+    this->m_PhoneNumber = PhoneNumber;
     this->m_TimeOfReservation = TimeOfReservation;
     this->m_PeopleCount = PeopleCount;
     this->m_Status = ReservationStatus::Requested;
@@ -11,9 +12,9 @@ Reservation::Reservation(DateTime TimeOfReservation, int PeopleCount, DateTime C
 }
 
 // Setters
-void Reservation::setID(int id)
+void Reservation::setPhoneNumber(std::string PhoneNumber)
 {
-    this->m_ReservationID = id;
+    this->m_PhoneNumber = PhoneNumber;
 }
 
 void Reservation::setTimeOfReservation(DateTime TimeOfReservation)
@@ -37,9 +38,9 @@ void Reservation::setCheckinTime(DateTime CheckinTime)
 }
 
 // Getters
-int Reservation::getID() const
+std::string Reservation::getPhoneNumber() const
 {
-    return this->m_ReservationID;
+    return this->m_PhoneNumber;
 }
 
 DateTime Reservation::getTimeOfReservation() const

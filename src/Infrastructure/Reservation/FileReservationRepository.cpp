@@ -11,14 +11,14 @@ FileReservationRepository::FileReservationRepository(std::string filePath) {
     }
 
     for (const auto& resData : data) {
-        int id = resData["ID"].get<int>();
+        std::string PhoneNumber = resData["PhoneNumber"].get<std::string>();
         DateTime timeOfReservation = DateTime::FromDateTimeString(resData["TimeOfReservation"].get<std::string>());
         int peopleCount = resData["PeopleCount"].get<int>();
         ReservationStatus status = static_cast<ReservationStatus>(resData["Status"].get<int>());
         DateTime checkinTime = DateTime::FromDateTimeString(resData["CheckinTime"].get<std::string>());
 
-        auto reservation = std::make_shared<Reservation>(timeOfReservation, peopleCount, checkinTime);
-        reservation->setID(id);
+        auto reservation = std::make_shared<Reservation>(PhoneNumber, timeOfReservation, peopleCount, checkinTime);
+        reservation->setPhoneNumber(PhoneNumber);
         reservation->setReservationStatus(status);
 
         this->IReservationRepository::SaveReservation(reservation);
@@ -30,7 +30,7 @@ void FileReservationRepository::SaveReservations(std::string filePath) const {
 
     for (const auto& r : this->GetReservations()) {
         json rJson;
-        rJson["ID"] = r->getID();
+        rJson["PhoneNumber"] = r->getPhoneNumber();
         rJson["TimeOfReservation"] = r->getTimeOfReservation().ToStringDateTime();
         rJson["PeopleCount"] = r->getPeopleCount();
         rJson["Status"] = static_cast<int>(r->getStatus());

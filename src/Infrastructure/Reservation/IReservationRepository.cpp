@@ -8,11 +8,11 @@ std::shared_ptr<Reservation> IReservationRepository::SaveReservation(std::shared
         return nullptr;
     }
 
-    const auto existing = this->GetReservationByID(reservation->getID());
+    const auto existing = this->GetReservationByPhoneNumber(reservation->getPhoneNumber());
     if (existing == nullptr)
     {
         this->m_Reservations.push_back(reservation);
-        LOG_INFO("Reservation with ID {} saved successfully.", reservation->getID());
+        LOG_INFO("Reservation with phone number {} saved successfully.", reservation->getPhoneNumber());
         return reservation;
     }
 
@@ -21,7 +21,7 @@ std::shared_ptr<Reservation> IReservationRepository::SaveReservation(std::shared
     existing->setReservationStatus(reservation->getStatus());
     existing->setCheckinTime(reservation->getCheckinTime());
 
-    LOG_INFO("Reservation with ID {} updated successfully.", reservation->getID());
+    LOG_INFO("Reservation with phone number {} updated successfully.", reservation->getPhoneNumber());
     return existing;
 }
 
@@ -33,22 +33,22 @@ void IReservationRepository::RemoveReservation(const std::shared_ptr<Reservation
         return;
     }
 
-    this->RemoveReservation(reservation->getID());
-    LOG_INFO("Reservation with ID {} removed successfully.", reservation->getID());
+    this->RemoveReservation(reservation->getPhoneNumber());
+    LOG_INFO("Reservation with phone number {} removed successfully.", reservation->getPhoneNumber());
 }
 
-void IReservationRepository::RemoveReservation(int reservationID)
+void IReservationRepository::RemoveReservation(std::string PhoneNumber)
 {
     for (const auto &r : this->m_Reservations)
     {
-        if (r->getID() == reservationID)
+        if (r->getPhoneNumber() == PhoneNumber)
         {
-            LOG_INFO("Removing Reservation with ID {}.", reservationID);
+            LOG_INFO("Removing Reservation with phone number {}.", PhoneNumber);
             std::erase(this->m_Reservations, r);
             return;
         }
     }
-    LOG_ERROR("Reservation with ID {} not found.", reservationID);
+    LOG_ERROR("Reservation with phone number {} not found.", PhoneNumber);
 }
 
 std::vector<std::shared_ptr<Reservation>> IReservationRepository::GetReservations() const
@@ -76,11 +76,11 @@ std::vector<std::shared_ptr<Reservation>> IReservationRepository::GetReservation
     return sorted;
 }
 
-std::shared_ptr<Reservation> IReservationRepository::GetReservationByID(int reservationID) const
+std::shared_ptr<Reservation> IReservationRepository::GetReservationByPhoneNumber(std::string PhoneNumber) const
 {
     for (const auto &r : this->m_Reservations)
     {
-        if (r->getID() == reservationID)
+        if (r->getPhoneNumber() == PhoneNumber)
         {
             return r;
         }
