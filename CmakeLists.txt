@@ -52,6 +52,10 @@ file(GLOB_RECURSE SRC_FILES
         src/Domain/Service/Customer/CustomerService.cpp
         src/Domain/Interface/Person.cpp
 
+        # UI
+        src/UI/Components/Button
+        src/UI/Components/Form
+        src/UI/Components/Textbox
 )
 
 # ========== Executable ==========
