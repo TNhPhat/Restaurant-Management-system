@@ -5,17 +5,61 @@ project(RestaurantManagementSystem LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Add ImGUI
+include(FetchContent)
+
+FetchContent_Declare(imgui_source
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG v1.92.1
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL
+        SYSTEM
+)
+
+FetchContent_MakeAvailable(imgui_source)
+
+add_library(imgui
+        ${imgui_source_SOURCE_DIR}/imgui.cpp
+        ${imgui_source_SOURCE_DIR}/imgui_draw.cpp
+        ${imgui_source_SOURCE_DIR}/imgui_widgets.cpp
+        ${imgui_source_SOURCE_DIR}/imgui_tables.cpp
+        ${imgui_source_SOURCE_DIR}/imgui_demo.cpp
+        ${imgui_source_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
+        ${imgui_source_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+)
+
+
+# ========== Find OpenGL ==========
+find_package(OpenGL REQUIRED)
+# ========== Find GLFW ==========
+FetchContent_Declare(GLFW
+        GIT_REPOSITORY https://github.com/glfw/glfw.git
+        GIT_TAG 3.4
+        GIT_SHALLOW ON
+        EXCLUDE_FROM_ALL
+        SYSTEM
+)
+
+FetchContent_MakeAvailable(GLFW)
+
+target_link_libraries(imgui PUBLIC glfw)
+
+target_include_directories(imgui PUBLIC
+        ${imgui_source_SOURCE_DIR}
+)
+
+#target_link_libraries(imgui PUBLIC GLFW)
 # ========== Source Files ==========
 file(GLOB_RECURSE SRC_FILES
         src/main.cpp
         src/Infrastructure/FileHandle/FileHandle.cpp
         src/Infrastructure/Logging/Logger.cpp
         src/Core/Utils/IDManager.cpp
-        
+
         src/Domain/ValueObject/DateTime.cpp
-        src/Domain/Entity/Budget/*.cpp 
-        src/Domain/Service/Budget/*.cpp 
-        src/Infrastructure/Budget/*.cpp 
+        src/Domain/Entity/Budget/*.cpp
+        src/Domain/Service/Budget/*.cpp
+        src/Infrastructure/Budget/*.cpp
         src/Application/Budget/*.cpp
         src/Test/*.cpp
         src/Domain/ValueObject/MealAddon.cpp
@@ -36,7 +80,7 @@ file(GLOB_RECURSE SRC_FILES
 
         src/Infrastructure/Table/ITableRepository.cpp
         src/Infrastructure/Table/FileTableRepository.cpp
-        
+
         src/Infrastructure/Meal/IMealRepository.cpp
         src/Infrastructure/Meal/FileMealRepository.cpp
 
@@ -52,6 +96,10 @@ file(GLOB_RECURSE SRC_FILES
         src/Domain/Service/Customer/CustomerService.cpp
         src/Domain/Interface/Person.cpp
 
+        # UI
+        src/UI/Components/Button
+        src/UI/Components/Form
+        src/UI/Components/Textbox
 )
 
 # ========== Executable ==========
@@ -104,6 +152,11 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/external
 )
 
+target_link_libraries(RESTAURANT PUBLIC
+        imgui
+        glfw
+        OpenGL::GL
+)
 # ========== Output Directory ==========
 set_target_properties(RESTAURANT PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}
