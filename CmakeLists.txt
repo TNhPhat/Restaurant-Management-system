@@ -97,9 +97,8 @@ file(GLOB_RECURSE SRC_FILES
         src/Domain/Interface/Person.cpp
 
         # UI
-        src/UI/Components/Button
-        src/UI/Components/Form
-        src/UI/Components/Textbox
+        src/UI/Components/Screen.cpp
+        src/UI/UICore/Core.cpp
 )
 
 # ========== Executable ==========
