@@ -98,6 +98,7 @@ file(GLOB_RECURSE SRC_FILES
 
         # UI
         src/UI/Components/Screen.cpp
+        src/UI/Components/TestScreen.cpp
         src/UI/UICore/Core.cpp
 )
 

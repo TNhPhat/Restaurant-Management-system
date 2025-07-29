@@ -5,6 +5,7 @@
 #include "Constants.hpp"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
+#include "UI/Components/TestScreen.hpp"
 
 
 static void glfw_error_callback(int error, const char *description) {
@@ -29,6 +30,7 @@ void Core::Init() {
         throw std::runtime_error("Failed to create GLFW window");
     }
 
+
     glfwMakeContextCurrent(this->m_Window);
     glfwSwapInterval(1);
 
@@ -47,8 +49,7 @@ void Core::Init() {
     ImGui_ImplGlfw_InitForOpenGL(this->m_Window, true);
     ImGui_ImplOpenGL3_Init(Constants::GLSL_VERSION.c_str());
 
-    PushScreen<DemoScreen>(*m_IO);
-    this->m_ScreenStack.top()->Init();
+    PushScreen<DemoScreen>(*this);
 }
 
 void Core::Start() {
@@ -68,8 +69,8 @@ void Core::Start() {
 
 void Core::Shutdown() {
     while (this->m_ScreenStack.empty() == false) {
-        this->m_ScreenStack.top()->OnExit();
-        this->m_ScreenStack.pop();
+        this->m_ScreenStack.back()->OnExit();
+        this->m_ScreenStack.pop_back();
     }
     if (this->m_Window != nullptr) {
         return;
@@ -90,8 +91,9 @@ void Core::Shutdown() {
 
 void Core::TryPopScreen() {
     if (this->m_ShouldPop && this->m_ScreenStack.size() > 1) {
-        PopScreen();
         this->m_ShouldPop = false;
+        this->m_ScreenStack.back()->OnExit();
+        this->m_ScreenStack.pop_back();
     }
 }
 
@@ -116,16 +118,16 @@ GLFWwindow *Core::GetWindow() const {
 }
 
 Screen &Core::GetCurrentScreen() const {
-    return *m_ScreenStack.top();
+    return *m_ScreenStack.back();
 }
 
 void Core::PushScreen(std::unique_ptr<Screen> &&screen) {
-    this->m_ScreenStack.push(std::move(screen));
+    this->m_ScreenStack.emplace_back(std::move(screen));
+    this->m_ScreenStack.back()->Init();
 }
 
 void Core::PopScreen() {
-    this->m_ScreenStack.top()->OnExit();
-    this->m_ScreenStack.pop();
+    this->m_ShouldPop = true;
 }
 
 void Core::Update() {
