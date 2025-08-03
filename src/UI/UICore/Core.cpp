@@ -5,7 +5,9 @@
 #include "Constants.hpp"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
-#include "UI/Components/TestScreen.hpp"
+#include "UI/Components/ReservationScreen.hpp"
+#include "../../Application/Reservation/ReservationManager.hpp"
+#include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
 
 
 static void glfw_error_callback(int error, const char *description) {
@@ -49,7 +51,9 @@ void Core::Init() {
     ImGui_ImplGlfw_InitForOpenGL(this->m_Window, true);
     ImGui_ImplOpenGL3_Init(Constants::GLSL_VERSION.c_str());
 
-    PushScreen<DemoScreen>(*this);
+    static FileReservationRepository reservationRepo("Reservation.json");
+    static ReservationManager reservationManager(reservationRepo);
+    PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
 }
 
 void Core::Start() {

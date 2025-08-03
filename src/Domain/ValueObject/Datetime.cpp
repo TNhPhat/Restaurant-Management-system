@@ -11,7 +11,7 @@ DateTime DateTime::Now() {
                     tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
-DateTime::DateTime() : m_Day(1), m_Month(1), m_Year(1), m_Hour(0), m_Minute(0) {}
+DateTime::DateTime() : m_Day(0), m_Month(0), m_Year(0), m_Hour(0), m_Minute(0), m_Second(0) {}
 
 DateTime::DateTime(int Day, int Month, int Year, int Hour = 0, int Minute = 0, int Second = 0)
 {
@@ -153,14 +153,21 @@ std::string DateTime::ToStringDateTime() const
 
 DateTime DateTime::FromDateTimeString(const std::string &str)
 {
-    int month, day, year, hour, minute, second;
-    char sep1, sep2, space, sep3, sep4;
+    int month, day, year, hour, minute, second = 0;  // default second to 0
+    char sep1, sep2, sep3, sep4;
 
     std::istringstream iss(str);
-    iss >> day >> sep1 >> month >> sep2 >> year >> hour >> sep3 >> minute >> sep4 >> second;
+    iss >> day >> sep1 >> month >> sep2 >> year >> hour >> sep3 >> minute;
 
-    if (!iss || sep1 != '/' || sep2 != '/' || sep3 != ':' || sep4 != ':') {
+    if (!iss || sep1 != '/' || sep2 != '/' || sep3 != ':') {
         throw std::invalid_argument("Invalid datetime format: " + str);
+    }
+
+    // Try to read seconds if they exist
+    if (iss >> sep4 >> second) {
+        if (sep4 != ':') {
+            second = 0;  // Invalid separator, ignore seconds
+        }
     }
 
     return DateTime(day, month, year, hour, minute, second);

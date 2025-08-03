@@ -12,8 +12,8 @@ void DemoScreen::Render(float DT) {
     if (show_demo_window) {
         ImGui::ShowDemoWindow(&show_demo_window);
     }
-    ImGui::Text("This is a demo screen.");
-    ImGui::Checkbox("Show Demo Window", &show_demo_window);
+    ImGui::Text("This is a demo asfajgasjfgsklagaskjldgbablgaldfgabjlgjlker.");
+    ImGui::Checkbox("Show znsdnskdgjdgbdj Window", &show_demo_window);
     ImGui::Checkbox("Other Window", &show_another_window);
     ImGui::SliderFloat("Demo Slider", &f, 0.0f, 1.0f);
     if (ImGui::Button("Button"))
@@ -25,7 +25,7 @@ void DemoScreen::Render(float DT) {
     if (show_another_window) {
         ImGui::Begin("Another Window", &show_another_window);
         ImGui::Text("Hello from another window!");
-        if (ImGui::Button("Close Me")) {
+        if (ImGui::Button("NONO Me")) {
             show_another_window = false;
         }
         ImGui::End();
@@ -37,3 +37,5 @@ void DemoScreen::OnExit() {
 
 void DemoScreen::Init() {
 }
+
+// AAA
