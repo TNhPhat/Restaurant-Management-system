@@ -1,15 +1,19 @@
 #include <algorithm>
 #include "Order.hpp"
 
-Order::Order(const int& OrderID, const int &TableID, const int &CustomerID, const DateTime& Date)
-    : m_CustomerID(CustomerID), m_OrderID(OrderID), m_Date(Date), m_Status(OrderStatus::None) {}
+Order::Order(const int& OrderID, const int &TableID, const std::string &CustomerPhone, const DateTime& Date)
+    : m_Phone(CustomerPhone), m_OrderID(OrderID), m_Date(Date), m_TableID(TableID), m_Status(OrderStatus::None) {}
 
 int Order::GetTableID() const {
     return m_TableID;
 }
 
-int Order::GetCustomerID() const {
-    return m_CustomerID;
+int Order::GetID() const {
+    return m_OrderID;
+}
+
+std::string Order::GetCustomerPhone() const {
+    return m_Phone;
 }
 
 OrderStatus Order::GetStatus() const {

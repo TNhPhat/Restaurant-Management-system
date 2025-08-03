@@ -62,6 +62,12 @@ file(GLOB_RECURSE SRC_FILES
         src/Infrastructure/Budget/*.cpp
         src/Application/Budget/*.cpp
         src/Test/*.cpp
+
+        src/Application/Order/*.cpp
+        src/Domain/Entity/Order/*.cpp 
+        src/Domain/Service/Order/*.cpp 
+        src/Infrastructure/Order/*.cpp 
+
         src/Domain/ValueObject/MealAddon.cpp
         src/Domain/ValueObject/MealIngredients.cpp
         src/Domain/Entity/Meal/Meal.cpp
@@ -111,6 +117,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Utils
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Order
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity
@@ -132,6 +139,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Observers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure
@@ -143,6 +151,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Order
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/UserInterface
 

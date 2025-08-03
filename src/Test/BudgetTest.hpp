@@ -10,11 +10,9 @@ void BudgetTest() {
     // Setup dependencies
     auto budget = std::make_shared<Budget>();
     
-    JsonHandle* JsonHandler = new JsonHandle();
-    auto repo = std::make_unique<BudgetRepository>("Data/Budget.json", JsonHandler);
+    auto repo = std::make_unique<BudgetRepository>("Data/Budget.json");
     auto service = std::make_unique<BudgetService>();
     
-    // Initialize singleton
     BudgetManager manager(budget, repo, service);
 
     // Add income and expense

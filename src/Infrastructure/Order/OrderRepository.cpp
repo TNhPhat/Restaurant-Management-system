@@ -1,11 +1,13 @@
+#include <memory>
 #include "OrderRepository.hpp"
 #include "Logger.hpp"
 #include "DateTime.hpp"
 
-OrderRepository::OrderRepository(const std::string& FilePath, JsonHandle* FileHandler, const IMealRepository& MealRepo)
-    : m_FilePath(FilePath), m_FileHandler(FileHandler), m_MealRepo(MealRepo)
+OrderRepository::OrderRepository(const std::string& FilePath, const IMealRepository& MealRepo)
+    : m_FilePath(FilePath), m_MealRepo(MealRepo)
 {
-    m_FileHandler->LoadFile(FilePath);
+    this->m_FileHandler = std::make_unique<JsonHandle>();
+    this->m_FileHandler->LoadFile(FilePath);
 }
 
 std::vector<std::shared_ptr<Order>> OrderRepository::LoadAllOrders() {
@@ -22,14 +24,14 @@ std::vector<std::shared_ptr<Order>> OrderRepository::LoadAllOrders() {
     for (const auto& OrderJson : Data["Orders"]) {
         int ID = OrderJson.value("ID", 0);
         int TableID = OrderJson.value("TableID", -1);
-        int CustomerID = OrderJson.value("CustomerID", -1);
+        std::string CustomerPhone = OrderJson.value("CustomerPhone", "");
         std::string DateStr = OrderJson.value("Date", "");
         std::string StatusStr = OrderJson.value("Status", "None");
 
         DateTime Date = DateTime::FromDateTimeString(DateStr);
         OrderStatus Status = StringToOrderStatus(StatusStr);
 
-        auto OrderObj = std::make_shared<Order>(ID, TableID, CustomerID, Date);
+        auto OrderObj = std::make_shared<Order>(ID, TableID, CustomerPhone, Date);
         OrderObj->SetOrderStatus(Status);
 
         if (OrderJson.contains("MealIDs") && OrderJson["MealIDs"].is_array()) {
@@ -56,7 +58,7 @@ void OrderRepository::SaveAllOrders(const std::vector<std::shared_ptr<Order>>& O
         json OrderData;
         OrderData["ID"] = Order->GetID(); // You may need to add this getter
         OrderData["TableID"] = Order->GetTableID();
-        OrderData["CustomerID"] = Order->GetCustomerID();
+        OrderData["CustomerID"] = Order->GetCustomerPhone();
         OrderData["Date"] = Order->GetDate().ToStringDateTime(); // format: dd/MM/yyyy HH:mm:ss
         OrderData["Status"] = OrderStatusToString(Order->GetStatus());
 

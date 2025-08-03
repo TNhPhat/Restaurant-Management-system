@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 enum class OrderStatus {
     Received,
     Preparing,

@@ -2,8 +2,6 @@
 #include "Bill.hpp"
 #include "Logger.hpp"
 
-std::unique_ptr<BudgetManager> BudgetManager::s_Instance = nullptr;
-
 BudgetManager::BudgetManager(std::shared_ptr<Budget> &Budget, std::unique_ptr<BudgetRepository> &Repository, std::unique_ptr<BudgetService> &Service)
     : m_Repository(std::move(Repository)), m_Budget(Budget), m_Service(std::move(Service)) {
     m_Budget->LoadBills(m_Repository->LoadAllBills());

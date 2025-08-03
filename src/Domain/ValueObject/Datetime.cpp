@@ -11,7 +11,7 @@ DateTime DateTime::Now() {
                     tm.tm_hour, tm.tm_min, tm.tm_sec);
 }
 
-DateTime::DateTime() : m_Day(1), m_Month(1), m_Year(1), m_Hour(0), m_Minute(0) {}
+DateTime::DateTime() : m_Day(1), m_Month(1), m_Year(1), m_Hour(0), m_Minute(0), m_Second(0) {}
 
 DateTime::DateTime(int Day, int Month, int Year, int Hour = 0, int Minute = 0, int Second = 0)
 {
