@@ -15,6 +15,10 @@ file(GLOB_RECURSE SRC_FILES
         src/Domain/ValueObject/DateTime.cpp
         src/Domain/Entity/Budget/*.cpp 
         src/Domain/Service/Budget/*.cpp 
+        src/Domain/Service/Budget/FilterService/*.cpp 
+        src/Domain/Service/Budget/SortService/*.cpp 
+        src/Domain/Service/Budget/StatisticService/*.cpp 
+        src/Domain/Service/Budget/TaxService/*.cpp 
         src/Infrastructure/Budget/*.cpp 
         src/Application/Budget/*.cpp
         src/Test/*.cpp
@@ -75,6 +79,10 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Observers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/FilterService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/SortService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/TaxService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/StatisticService
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
 
