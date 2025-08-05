@@ -1,12 +1,13 @@
 #pragma once
-#include "imgui.h"
+
+class Core;
 
 class Screen {
 protected:
-    ImGuiIO &m_IO;
+    Core &m_Core;
 
 public:
-    Screen(ImGuiIO &io);
+    Screen(Core &core);
 
     virtual ~Screen() = default;
 
@@ -25,7 +26,7 @@ private:
     float f = 0.0f;
 
 public:
-    DemoScreen(ImGuiIO &io);
+    DemoScreen(Core &core);
 
     void Render(float DT) override;
 

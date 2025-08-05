@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <stack>
+#include <vector>
 
 #include "imgui.h"
 #include "GLFW/glfw3.h"
@@ -20,7 +20,7 @@ private:
 
     static ImGuiWindowFlags GetWindowFlags();
 
-    std::stack<std::unique_ptr<Screen> > m_ScreenStack;
+    std::vector<std::unique_ptr<Screen> > m_ScreenStack;
 
 public:
     ~Core() = default;
@@ -33,7 +33,6 @@ public:
 
     void TryPopScreen();
 
-protected:
     ImGuiIO &GetIO() const;
 
     ImGuiContext &GetContext() const;
