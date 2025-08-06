@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(RestaurantManagementSystem LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add ImGUI
@@ -76,44 +76,38 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Domain/ValueObject/MealIngredients.cpp
         src/Domain/Entity/Meal/Meal.cpp
         src/Domain/Entity/Menu/Menu.cpp
-        # src/Domain/ValueObject/MealAddon.cpp
-        # src/Domain/ValueObject/MealIngredients.cpp
-        # src/Domain/Entity/Meal/Meal.cpp
-        # src/Domain/Entity/Menu/Menu.cpp
         src/Domain/Entity/Reservation/Reservation.cpp
-        # src/Domain/Entity/Table/Table.cpp
-        # src/Domain/Entity/Restaurant/Restaurant.cpp
-        # src/Application/Meal/MealManager.cpp
-        # src/Application/Menu/MenuManager.cpp
+        src/Domain/Entity/Table/Table.cpp
+        src/Domain/Entity/Restaurant/Restaurant.cpp
+        src/Application/Meal/MealManager.cpp
+        src/Application/Menu/MenuManager.cpp
         src/Application/Reservation/ReservationManager.cpp
-        # src/Application/Table/TableManager.cpp
-        # src/Application/Restaurant/RestaurantManager.cpp
+        src/Application/Table/TableManager.cpp
+        src/Application/Restaurant/RestaurantManager.cpp
 
         src/Infrastructure/Reservation/IReservationRepository.cpp
         src/Infrastructure/Reservation/FileReservationRepository.cpp
 
-        # src/Infrastructure/Table/ITableRepository.cpp
-        # src/Infrastructure/Table/FileTableRepository.cpp
+        src/Infrastructure/Table/ITableRepository.cpp
+        src/Infrastructure/Table/FileTableRepository.cpp
 
-        # src/Infrastructure/Meal/IMealRepository.cpp
-        # src/Infrastructure/Meal/FileMealRepository.cpp
+        src/Infrastructure/Meal/IMealRepository.cpp
+        src/Infrastructure/Meal/FileMealRepository.cpp
 
-        # src/Infrastructure/Menu/IMenuRepository.cpp
-        # src/Infrastructure/Menu/FileMenuRepository.cpp
+        src/Infrastructure/Menu/IMenuRepository.cpp
+        src/Infrastructure/Menu/FileMenuRepository.cpp
 
-        # src/Infrastructure/Restaurant/IRestaurantRepository.cpp
-        # src/Infrastructure/Restaurant/FileRestaurantRepository.cpp
+        src/Infrastructure/Restaurant/IRestaurantRepository.cpp
+        src/Infrastructure/Restaurant/FileRestaurantRepository.cpp
 
-        # src/Domain/Entity/Customer/Customer.cpp
-        # src/Application/Customer/CustomerManager.cpp
-        # src/Infrastructure/Customer/CustomerRepository.cpp
-        # src/Domain/Service/Customer/CustomerService.cpp
-        # src/Domain/Interface/Person.cpp
+        src/Domain/Entity/Customer/Customer.cpp
+        src/Application/Customer/CustomerManager.cpp
+        src/Infrastructure/Customer/CustomerRepository.cpp
+        src/Domain/Service/Customer/CustomerService.cpp
+        src/Domain/Interface/Person.cpp
 
         # UI
-        src/UI/Components/Screen.cpp
-        src/UI/Components/TestScreen.cpp
-        src/UI/Components/ReservationScreen.cpp
+        src/UI/Components/*.cpp
         src/UI/UICore/Core.cpp
 )
 
