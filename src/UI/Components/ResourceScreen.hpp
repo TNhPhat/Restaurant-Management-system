@@ -1,17 +1,14 @@
 #pragma once
-
 #include "Screen.hpp"
-#include "../../Application/Storage/StorageManager.hpp"
-#include "../../Domain/Entity/Storage/Storage.hpp"
+#include "Storage/Storage.hpp"
+#include "Storage/Resource.hpp"
 
-
-#include "imgui.h"
-
-class StorageScreen : public Screen {
+class ResourceScreen : public Screen {
 private:
-    std::vector<std::shared_ptr<Storage>> &m_Storages;
+    Storage * m_Storage;
+    std::vector<std::shared_ptr<Resource>> &m_Resources;
 public:
-    StorageScreen(Core& core);
+    ResourceScreen(Core &core, Storage * storage);
     void Init() override;
     void OnExit() override;
     void Render(float dt) override;

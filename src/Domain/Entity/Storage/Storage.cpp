@@ -10,7 +10,7 @@ Storage::~Storage()
 const int Storage::GetID() const{
     return this->m_StorageID;
 }
-const std::vector<std::shared_ptr<Resource>> Storage::GetResources() const{
+std::vector<std::shared_ptr<Resource>> &Storage::GetResources(){
     return m_Resources;
 }
 Resource *Storage::SearchByID(const int ID)
@@ -35,6 +35,8 @@ bool Storage::AddResource(int ID, std::string Name, int Quantity, float Price)
     newResource->SetQuantity(Quantity);
     newResource->SetPrice(Price);
     this->m_Resources.push_back(newResource);
+
+    return true;
 }
 
 bool Storage::Use(int ID, int q)

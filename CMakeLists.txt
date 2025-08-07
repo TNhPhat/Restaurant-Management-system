@@ -56,7 +56,7 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Infrastructure/Logging/Logger.cpp
         src/Core/Utils/IDManager.cpp
 
-        src/Domain/ValueObject/DateTime.cpp
+        src/Domain/ValueObject/*.cpp
         src/Domain/Entity/Budget/*.cpp 
         src/Domain/Service/Budget/*.cpp 
         src/Domain/Service/Budget/FilterService/*.cpp 
@@ -106,13 +106,17 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Domain/Service/Customer/CustomerService.cpp
         src/Domain/Interface/Person.cpp
 
+        src/Application/Storage/*.cpp
+        src/Domain/Entity/*.cpp
+
         # UI
         src/UI/Components/*.cpp
         src/UI/UICore/Core.cpp
 )
 
 # ========== Executable ==========
-add_executable(RESTAURANT ${SRC_FILES})
+add_executable(RESTAURANT ${SRC_FILES}
+        src/UI/Components/ResourceScreen.cpp)
 
 # ========== Include Dirs ==========
 target_include_directories(RESTAURANT PRIVATE

@@ -11,11 +11,12 @@ public:
     Storage(const int ID);
     ~Storage();
     const int GetID() const;
-    const std::vector<std::shared_ptr<Resource>> GetResources() const;
+    std::vector<std::shared_ptr<Resource>> &GetResources() ;
     Resource *SearchByID(const int ID);
     bool AddResource(int ID, std::string Name, int Quantity, float Price);
     bool Use(int ID, int q);
     bool Add(int ID, int q);
+
 };
 
 

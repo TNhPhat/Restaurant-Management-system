@@ -17,6 +17,7 @@ public:
     bool LoadStorageFromFile();
     void SaveStorageToFile();
     bool IsLoaded() const;
+    std::vector<std::shared_ptr<Storage>> &GetStorages();
     static StorageManager &GetInstance();
 };
 
