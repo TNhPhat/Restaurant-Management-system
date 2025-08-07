@@ -9,6 +9,7 @@
 #include "../../Application/Reservation/ReservationManager.hpp"
 #include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
 
+#include "../Components/StorageScreen.hpp"
 
 static void glfw_error_callback(int error, const char *description) {
     throw std::runtime_error("GLFW Error " + std::to_string(error) + ": " + description);
@@ -54,6 +55,8 @@ void Core::Init() {
     static FileReservationRepository reservationRepo("Reservation.json");
     static ReservationManager reservationManager(reservationRepo);
     PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
+    // PushScreen(std::make_unique<StorageScreen>(*this));
+    
 }
 
 void Core::Start() {
