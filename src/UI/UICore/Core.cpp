@@ -55,7 +55,7 @@ void Core::Init() {
     static FileReservationRepository reservationRepo("Reservation.json");
     static ReservationManager reservationManager(reservationRepo);
     PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
-    // PushScreen(std::make_unique<StorageScreen>(*this));
+    PushScreen(std::make_unique<StorageScreen>(*this));
     
 }
 

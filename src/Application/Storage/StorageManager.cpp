@@ -1,4 +1,4 @@
-#include <StorageManager.hpp>
+#include "StorageManager.hpp"
 
 StorageManager::StorageManager() : m_FilePath(""), m_IsLoaded(false)
 {
@@ -54,11 +54,13 @@ bool StorageManager::LoadStorageFromFile()
 
         // Log something
         this->m_IsLoaded = true;
+        return true;
     }
     catch (const std::exception &e)
     {
         // LOG_ERROR("Error loading meals from file {}: {}", this->m_FilePath, e.what());
         this->m_IsLoaded = false;
+        return false;
     }
 }
 void StorageManager::SaveStorageToFile()
@@ -79,7 +81,7 @@ void StorageManager::SaveStorageToFile()
                 resourceJson["ResourceID"] = resource->GetID();
                 resourceJson["ResourceName"] = resource->GetName();
                 resourceJson["ResourceQuantity"] = resource->GetQuantity();
-                resourceJson["ResourcePrie"] = resource->GetPrice();
+                resourceJson["ResourcePrice"] = resource->GetPrice();
                 resourcesArray.push_back(resourceJson);
             }
 
@@ -107,6 +109,11 @@ bool StorageManager::IsLoaded() const
 {
     return this->m_IsLoaded;
 }
+
+std::vector<std::shared_ptr<Storage>>& StorageManager::GetStorages() {
+    return m_Storages;
+}
+
 
 StorageManager &StorageManager::GetInstance()
 {
