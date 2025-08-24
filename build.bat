@@ -12,11 +12,11 @@ mkdir build
 cd build
 
 echo Configuring with CMake (MinGW Makefiles)...
-cmake .. -G "MinGW Makefiles"
+cmake .. -G "Ninja"
 if errorlevel 1 goto :error
 
 echo Building project...
-mingw32-make
+ninja
 if errorlevel 1 goto :error
 
 cd ..

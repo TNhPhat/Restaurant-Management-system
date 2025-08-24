@@ -57,20 +57,20 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Core/Utils/IDManager.cpp
 
         src/Domain/ValueObject/*.cpp
-        src/Domain/Entity/Budget/*.cpp 
-        src/Domain/Service/Budget/*.cpp 
-        src/Domain/Service/Budget/FilterService/*.cpp 
-        src/Domain/Service/Budget/SortService/*.cpp 
-        src/Domain/Service/Budget/StatisticService/*.cpp 
-        src/Domain/Service/Budget/TaxService/*.cpp 
-        src/Infrastructure/Budget/*.cpp 
+        src/Domain/Entity/Budget/*.cpp
+        src/Domain/Service/Budget/*.cpp
+        src/Domain/Service/Budget/FilterService/*.cpp
+        src/Domain/Service/Budget/SortService/*.cpp
+        src/Domain/Service/Budget/StatisticService/*.cpp
+        src/Domain/Service/Budget/TaxService/*.cpp
+        src/Infrastructure/Budget/*.cpp
         src/Application/Budget/*.cpp
         src/Test/*.cpp
 
         src/Application/Order/*.cpp
-        src/Domain/Entity/Order/*.cpp 
-        src/Domain/Service/Order/*.cpp 
-        src/Infrastructure/Order/*.cpp 
+        src/Domain/Entity/Order/*.cpp
+        src/Domain/Service/Order/*.cpp
+        src/Infrastructure/Order/*.cpp
 
         src/Domain/ValueObject/MealAddon.cpp
         src/Domain/ValueObject/MealIngredients.cpp
@@ -115,8 +115,7 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
 )
 
 # ========== Executable ==========
-add_executable(RESTAURANT ${SRC_FILES}
-        src/UI/Components/ResourceScreen.cpp)
+add_executable(RESTAURANT ${SRC_FILES})
 
 # ========== Include Dirs ==========
 target_include_directories(RESTAURANT PRIVATE

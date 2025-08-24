@@ -200,3 +200,72 @@ time_t DateTime::ToTimeT() const {
     return std::mktime(&timeinfo);     
 }
 
+
+std::vector<int> DateTime::GetValidMonths() {
+    std::vector<int> months;
+    for (int i = 1; i <= 12; ++i) {
+        months.push_back(i);
+    }
+    return months;
+}
+
+std::vector<int> DateTime::GetValidDays(int month, int year) {
+    std::vector<int> days;
+    int maxDays = GetDaysInMonth(month, year);
+    for (int i = 1; i <= maxDays; ++i) {
+        days.push_back(i);
+    }
+    return days;
+}
+
+std::vector<int> DateTime::GetValidHours() {
+    std::vector<int> hours;
+    for (int i = 0; i < 24; ++i) {
+        hours.push_back(i);
+    }
+    return hours;
+}
+
+std::vector<int> DateTime::GetValidMinutes(int interval) {
+    std::vector<int> minutes;
+    for (int i = 0; i < 60; i += interval) {
+        minutes.push_back(i);
+    }
+    return minutes;
+}
+
+std::string DateTime::MonthToString(int month) {
+    static const std::array<const char*, 12> monthNames = {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+    
+    if (month >= 1 && month <= 12) {
+        return monthNames[month - 1];
+    }
+    return "Invalid";
+}
+
+bool DateTime::IsValidDate(int day, int month, int year) {
+    if (month < 1 || month > 12) return false;
+    if (day < 1 || day > GetDaysInMonth(month, year)) return false;
+    return true;
+}
+
+int DateTime::GetDaysInMonth(int month, int year) {
+    static const std::array<int, 12> daysInMonth = {
+        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+    };
+    
+    if (month < 1 || month > 12) return 0;
+    
+    if (month == 2 && IsLeapYear(year)) {
+        return 29;
+    }
+    
+    return daysInMonth[month - 1];
+}
+
+bool DateTime::IsLeapYear(int year) {
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
