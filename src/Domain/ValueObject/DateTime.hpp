@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class DateTime
 {
@@ -39,4 +40,14 @@ public:
     static DateTime FromDateTimeString(const std::string& str);
     static DateTime FromDateString(const std::string& str);
 
+    static std::vector<int> GetValidMonths();
+    static std::vector<int> GetValidDays(int month, int year);
+    static std::vector<int> GetValidHours();
+    static std::vector<int> GetValidMinutes(int interval = 5);
+
+    static std::string MonthToString(int month);
+
+    static bool IsValidDate(int day, int month, int year);
+    static int GetDaysInMonth(int month, int year);
+    static bool IsLeapYear(int year);
 };
