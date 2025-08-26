@@ -1,0 +1,77 @@
+{
+    "Orders": [
+        {
+            "CustomerPhone": "46346353",
+            "Date": "26/8/2025 09:15:30",
+            "ID": 1,
+            "MealIDs": [
+                1,
+                2
+            ],
+            "Status": "Preparing",
+            "TableID": 3
+        },
+        {
+            "CustomerPhone": "35653456",
+            "Date": "26/8/2025 10:30:45",
+            "ID": 2,
+            "MealIDs": [
+                3,
+                4,
+                5
+            ],
+            "Status": "Received",
+            "TableID": 5
+        },
+        {
+            "CustomerPhone": "563465",
+            "Date": "26/8/2025 11:22:18",
+            "ID": 3,
+            "MealIDs": [
+                1
+            ],
+            "Status": "Preparing",
+            "TableID": 2
+        },
+        {
+            "CustomerPhone": "3563456",
+            "Date": "26/8/2025 12:05:42",
+            "ID": 4,
+            "MealIDs": [
+                2
+            ],
+            "Status": "Received",
+            "TableID": 5
+        },
+        {
+            "CustomerPhone": "3563465",
+            "Date": "26/8/2025 13:18:25",
+            "ID": 5,
+            "MealIDs": [],
+            "Status": "None",
+            "TableID": 1
+        },
+        {
+            "CustomerPhone": "3465356",
+            "Date": "26/8/2025 14:45:10",
+            "ID": 6,
+            "MealIDs": [
+                1,
+                3
+            ],
+            "Status": "Received",
+            "TableID": 4
+        },
+        {
+            "CustomerPhone": "3564365",
+            "Date": "26/6/2025 15:30:55",
+            "ID": 7,
+            "MealIDs": [
+                4,
+                5
+            ],
+            "Status": "Received",
+            "TableID": 6
+        }
+    ]
+}

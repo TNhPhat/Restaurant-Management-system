@@ -69,6 +69,7 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Domain/Entity/Reservation/Reservation.cpp
         src/Domain/Entity/Table/Table.cpp
         src/Domain/Entity/Restaurant/Restaurant.cpp
+        src/Domain/Entity/Order/Order.cpp
         src/Application/Meal/MealManager.cpp
         src/Application/Menu/MenuManager.cpp
         src/Application/Reservation/ReservationManager.cpp
@@ -90,6 +91,11 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Infrastructure/Restaurant/IRestaurantRepository.cpp
         src/Infrastructure/Restaurant/FileRestaurantRepository.cpp
 
+        # ADD THESE MISSING ORDER FILES:
+        src/Application/Order/OrderManager.cpp
+        src/Infrastructure/Order/OrderRepository.cpp
+        src/Domain/Service/Order/OrderService.cpp
+
         src/Domain/Entity/Customer/Customer.cpp
         src/Application/Customer/CustomerManager.cpp
         src/Infrastructure/Customer/CustomerRepository.cpp
@@ -100,6 +106,7 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/UI/Components/Screen.cpp
         src/UI/Components/TestScreen.cpp
         src/UI/Components/ReservationScreen.cpp
+        src/UI/Components/OrderScreen.cpp
         src/UI/UICore/Core.cpp
 )
 
@@ -113,6 +120,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Utils
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Application/Order
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Entity
@@ -134,6 +142,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Observers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure
@@ -142,6 +151,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Restaurant
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Table
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Reservation
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Budget

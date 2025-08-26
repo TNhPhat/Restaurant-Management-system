@@ -8,22 +8,25 @@ class Order {
 private:
     const int m_OrderID;
     int m_TableID;
-    int m_CustomerID;
+    std::string m_Phone;
     DateTime m_Date;
     OrderStatus m_Status;
     std::vector<std::shared_ptr<Meal>> m_Meals;
 public: 
-    Order(const int &OrderID, const int &TableID, const int &CustomerID, const DateTime &Date);
+    Order(const int &OrderID, const int &TableID, const std::string &CustomerPhone, const DateTime &Date);
     ~Order() = default;
 
     int GetID() const;
     int GetTableID() const; 
-    int GetCustomerID() const;
+    std::string GetCustomerPhone() const;
     OrderStatus GetStatus() const;
     DateTime GetDate() const; 
     double GetTotalPrice() const; 
 
     void SetOrderStatus(const OrderStatus &NewOrderStatus);
+    void SetTableID(const int &newID);
+    void SetDate(const DateTime &newDate);
+    void SetCustomerPhone(const std::string &newPhone);
     std::vector<std::shared_ptr<Meal>> GetMeals();
     bool AddMeal(const std::shared_ptr<Meal>& NewMeal);
     bool RemoveMeal(const int &MealID);
