@@ -26,6 +26,7 @@ add_library(imgui
         ${imgui_source_SOURCE_DIR}/imgui_demo.cpp
         ${imgui_source_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
         ${imgui_source_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+        ${imgui_source_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
 )
 
 
@@ -57,20 +58,20 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Core/Utils/IDManager.cpp
 
         src/Domain/ValueObject/*.cpp
-        src/Domain/Entity/Budget/*.cpp 
-        src/Domain/Service/Budget/*.cpp 
-        src/Domain/Service/Budget/FilterService/*.cpp 
-        src/Domain/Service/Budget/SortService/*.cpp 
-        src/Domain/Service/Budget/StatisticService/*.cpp 
-        src/Domain/Service/Budget/TaxService/*.cpp 
-        src/Infrastructure/Budget/*.cpp 
+        src/Domain/Entity/Budget/*.cpp
+        src/Domain/Service/Budget/*.cpp
+        src/Domain/Service/Budget/FilterService/*.cpp
+        src/Domain/Service/Budget/SortService/*.cpp
+        src/Domain/Service/Budget/StatisticService/*.cpp
+        src/Domain/Service/Budget/TaxService/*.cpp
+        src/Infrastructure/Budget/*.cpp
         src/Application/Budget/*.cpp
         src/Test/*.cpp
 
         src/Application/Order/*.cpp
-        src/Domain/Entity/Order/*.cpp 
-        src/Domain/Service/Order/*.cpp 
-        src/Infrastructure/Order/*.cpp 
+        src/Domain/Entity/Order/*.cpp
+        src/Domain/Service/Order/*.cpp
+        src/Infrastructure/Order/*.cpp
 
         src/Domain/ValueObject/MealAddon.cpp
         src/Domain/ValueObject/MealIngredients.cpp

@@ -15,5 +15,6 @@ namespace Constants {
 
     constexpr auto CLEAR_COLOR = ImColor(32, 32, 32, 255);
 
+    constexpr int BUTTON_HEIGHT = 40;
     //
 };

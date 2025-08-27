@@ -1,9 +1,7 @@
 #include "FileMealRepository.hpp"
 
 FileMealRepository::FileMealRepository(const std::string &filePath,
-                                       const IMenuItemRepository &menuItemRepository,
-                                       const IMenuAddonRepository &
-                                       menuAddonRepository) {
+                                       const IMenuRepository &menuRepository) {
     this->m_FileHandler = std::make_unique<JsonHandle>();
     this->m_FileHandler->LoadFile(filePath);
 
@@ -23,7 +21,7 @@ FileMealRepository::FileMealRepository(const std::string &filePath,
             const int quantity = itemData["Quantity"];
             const std::string &note = itemData["Notes"];
 
-            auto menuItem = menuItemRepository.GetMenuItemByID(menuItemID);
+            auto menuItem = menuRepository.GetMenuItemByID(menuItemID);
             if (menuItem == nullptr) {
                 LOG_ERROR("MenuItem with ID {} not found for MealItem with ID {}.", menuItemID, mealItemID);
                 continue;
@@ -35,7 +33,7 @@ FileMealRepository::FileMealRepository(const std::string &filePath,
                 int addonID = addonData["AddonID"];
                 unsigned int addonQuantity = addonData["Quantity"];
 
-                auto menuAddon = menuAddonRepository.GetMenuAddonByID(addonID);
+                auto menuAddon = menuRepository.GetMenuAddonByID(addonID);
                 if (menuAddon == nullptr) {
                     LOG_ERROR("MenuAddon with ID {} not found for MealItem with ID {}.", addonID, mealItemID);
                     continue;
@@ -46,14 +44,14 @@ FileMealRepository::FileMealRepository(const std::string &filePath,
 
             meal->AddItem(mealItem);
         }
-        this->IMealRepository::SaveMeal(meal);
+        this->SaveMeal(meal);
     }
 }
 
 void FileMealRepository::SaveMeals(std::string filePath) const {
     json data = json::array();
 
-    for (const auto &meal: this->IMealRepository::GetMeals()) {
+    for (const auto &meal: this->GetMeals()) {
         json mealJson;
         mealJson["MealID"] = meal->GetID();
         // mealJson["MealDate"] = meal->GetMealDate();

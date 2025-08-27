@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "Constants.hpp"
+#include "IDManager.hpp"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "UI/Components/ReservationScreen.hpp"
@@ -53,6 +54,9 @@ void Core::Init() {
     ImGui_ImplGlfw_InitForOpenGL(this->m_Window, true);
     ImGui_ImplOpenGL3_Init(Constants::GLSL_VERSION.c_str());
 
+    IDManager::Init("Data/IDRegistry.json");
+    StorageManager::GetInstance().SetFilePath("Data/Storages.json");
+    StorageManager::GetInstance().LoadStorageFromFile();
     // static FileReservationRepository reservationRepo("Reservation.json");
     // static ReservationManager reservationManager(reservationRepo);
     // PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
@@ -99,11 +103,6 @@ void Core::Shutdown() {
 
 void Core::TryPopScreen() {
     if (this->m_ShouldPop && this->m_ScreenStack.size() > 1) {
-        this->m_ShouldPop = false;
-        this->m_ScreenStack.back()->OnExit();
-        this->m_ScreenStack.pop_back();
-    }
-    if (this->m_ShouldPop) {
         this->m_ShouldPop = false;
         this->m_ScreenStack.back()->OnExit();
         this->m_ScreenStack.pop_back();

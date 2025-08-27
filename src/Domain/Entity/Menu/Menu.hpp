@@ -7,8 +7,7 @@
 
 #include "MealIngredients.hpp"
 
-class MenuAddon
-{
+class MenuAddon {
 private:
     const int m_AddonID;
     std::string m_Name;
@@ -39,15 +38,14 @@ public:
     void RemoveIngredient(const std::string &IngredientName);
 };
 
-class MenuItem
-{
+class MenuItem {
 private:
     const int m_MenuItemID;
     double m_Price;
     std::string m_Title;
     std::string m_Description;
     std::map<std::string, int> m_Ingredients;
-    std::vector<std::shared_ptr<MenuAddon>> m_AvailableAddons;
+    std::vector<std::shared_ptr<MenuAddon> > m_AvailableAddons;
     int m_MealCount;
 
 public:
@@ -67,7 +65,7 @@ public:
 
     std::vector<MealIngredient> GetIngredients() const;
 
-    std::vector<std::shared_ptr<MenuAddon>> GetAvailableAddons() const;
+    std::vector<std::shared_ptr<MenuAddon> > GetAvailableAddons() const;
 
     bool ContainsAddon(const int AddonID) const;
 
@@ -92,13 +90,12 @@ public:
     void IncreaseCount();
 };
 
-class MenuSection
-{
+class MenuSection {
 private:
     const int m_MenuSectionID;
     std::string m_Title;
     std::string m_Description;
-    std::vector<std::shared_ptr<MenuItem>> m_MenuItems;
+    std::vector<std::shared_ptr<MenuItem> > m_MenuItems;
 
 public:
     MenuSection(const std::string &Title, const std::string &Description);
@@ -113,7 +110,7 @@ public:
 
     std::string GetDescription() const;
 
-    std::vector<std::shared_ptr<MenuItem>> GetMenuItems() const;
+    std::vector<std::shared_ptr<MenuItem> > GetMenuItems() const;
 
     bool ContainsItem(const int ItemID) const;
 
@@ -123,25 +120,27 @@ public:
 
     std::shared_ptr<MenuItem> AddMenuItem(const std::shared_ptr<MenuItem> &Item);
 
-    template <typename... Args>
-    std::shared_ptr<MenuItem> AddMenuItem(Args &&...args);
+    template<typename... Args>
+    std::shared_ptr<MenuItem> AddMenuItem(Args &&... args);
 
     void RemoveItem(const int ItemID);
+
+    std::shared_ptr<MenuItem> GetItemByID(int ItemID);
+
+    std::shared_ptr<MenuItem> GetItemByTitle(const std::string &Title);
 };
 
-template <typename... Args>
-std::shared_ptr<MenuItem> MenuSection::AddMenuItem(Args &&...args)
-{
+template<typename... Args>
+std::shared_ptr<MenuItem> MenuSection::AddMenuItem(Args &&... args) {
     return AddMenuItem(std::make_shared<MenuItem>(std::forward<Args>(args)...));
 }
 
-class Menu
-{
+class Menu {
 private:
     const int m_MenuID;
     std::string m_Name;
     std::string m_Description;
-    std::vector<std::shared_ptr<MenuSection>> m_Sections;
+    std::vector<std::shared_ptr<MenuSection> > m_Sections;
 
 public:
     Menu(const std::string &Name, const std::string &Description);
@@ -152,8 +151,8 @@ public:
 
     std::shared_ptr<MenuSection> AddSection(const std::shared_ptr<MenuSection> &Section);
 
-    template <typename... Args>
-    std::shared_ptr<MenuSection> AddSection(Args &&...args);
+    template<typename... Args>
+    std::shared_ptr<MenuSection> AddSection(Args &&... args);
 
     int GetID() const;
 
@@ -165,15 +164,16 @@ public:
 
     std::shared_ptr<MenuSection> GetSectionByID(int SectionID) const;
 
-    std::vector<std::shared_ptr<MenuSection>> GetSections() const;
+    std::vector<std::shared_ptr<MenuSection> > GetSections() const;
 
     void SetName(const std::string &Name);
 
     void SetDescription(const std::string &Description);
+
+    void RemoveSection(const int SectionID);
 };
 
-template <typename... Args>
-std::shared_ptr<MenuSection> Menu::AddSection(Args &&...args)
-{
+template<typename... Args>
+std::shared_ptr<MenuSection> Menu::AddSection(Args &&... args) {
     return AddSection(std::make_shared<MenuSection>(std::forward<Args>(args)...));
 }
