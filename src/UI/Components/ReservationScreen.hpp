@@ -18,7 +18,7 @@ private:
     std::string m_NewPhoneInputStr;
     
     std::unordered_map<std::string, int> m_EditedPeopleCount;
-    std::unordered_map<std::string, std::vector<char>> m_EditedCheckinBuffers;
+    std::unordered_map<std::string, DateTime> m_EditedDateTime;
     std::unordered_map<std::string, ReservationStatus> m_EditedStatus;
 
 public:

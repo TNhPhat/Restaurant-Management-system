@@ -50,14 +50,13 @@ void ReservationScreen::DrawNewReservationInput() {
 
 // Draw table showing all reservations and allow edit/delete
 void ReservationScreen::DrawReservationTable() {
-    // Use GetReservations() instead of GetAllReservations()
     const auto reservations = m_FileRepo.GetReservations();
 
     if (ImGui::BeginTable("Reservations", 6, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
         ImGui::TableSetupColumn("Phone");
         ImGui::TableSetupColumn("People");
         ImGui::TableSetupColumn("Time");
-        ImGui::TableSetupColumn("Check-in");
+        ImGui::TableSetupColumn("Check-in", ImGuiTableColumnFlags_WidthStretch, 2.0f);
         ImGui::TableSetupColumn("Status");
         ImGui::TableSetupColumn("Actions");
         ImGui::TableHeadersRow();
@@ -66,36 +65,138 @@ void ReservationScreen::DrawReservationTable() {
             const std::string& phone = r->getPhoneNumber();
             ImGui::TableNextRow();
 
-            // Phone (non-editable)
+            // --- Phone (non-editable) ---
             ImGui::TableSetColumnIndex(0);
             ImGui::Text("%s", phone.c_str());
 
-            // PeopleCount
+            // --- PeopleCount ---
             ImGui::TableSetColumnIndex(1);
             int& people = m_EditedPeopleCount[phone];
             if (people == 0) people = r->getPeopleCount(); // default
             ImGui::InputInt(("##people" + phone).c_str(), &people);
 
-            // TimeOfReservation (read-only)
+            // --- Reservation Time (read-only) ---
             ImGui::TableSetColumnIndex(2);
             ImGui::Text("%s", r->getTimeOfReservation().ToStringDateTime().c_str());
 
-            // Check-in time (editable string)
+            // --- Check-in Time (dropdowns) ---
             ImGui::TableSetColumnIndex(3);
-            
-            // Initialize buffer if it doesn't exist
-            if (m_EditedCheckinBuffers.find(phone) == m_EditedCheckinBuffers.end()) {
-                m_EditedCheckinBuffers[phone].resize(256);
-                std::string checkinStr = r->getCheckinTime().ToStringDateTime();
-                std::strncpy(m_EditedCheckinBuffers[phone].data(), checkinStr.c_str(), 
-                           std::min(checkinStr.length(), m_EditedCheckinBuffers[phone].size() - 1));
-            }
-            
-            ImGui::InputText(("##checkin" + phone).c_str(), 
-                           m_EditedCheckinBuffers[phone].data(), 
-                           m_EditedCheckinBuffers[phone].size());
 
-            // Status combo
+            // Initialize editor state
+            if (m_EditedDateTime.find(phone) == m_EditedDateTime.end()) {
+                DateTime init = r->getCheckinTime().GetYear() > 0
+                    ? r->getCheckinTime()
+                    : DateTime::Now();
+                m_EditedDateTime[phone] = init;
+            }
+            DateTime& dt = m_EditedDateTime[phone];
+
+            // Valid values
+            auto days    = DateTime::GetValidDays(dt.GetMonth(), dt.GetYear());
+            auto months  = DateTime::GetValidMonths();
+            auto hours   = DateTime::GetValidHours();
+            auto minutes = DateTime::GetValidMinutes(5);
+
+            int currentYear = DateTime::Now().GetYear();
+            std::vector<int> years = { currentYear, currentYear + 1 };
+
+            // --- Day combo ---
+            {
+                std::string id = "##day_" + phone;
+                ImGui::SetNextItemWidth(50);
+                if (ImGui::BeginCombo(id.c_str(), std::to_string(dt.GetDay()).c_str())) {
+                    for (int d : days) {
+                        bool selected = (d == dt.GetDay());
+                        if (ImGui::Selectable(std::to_string(d).c_str(), selected)) {
+                            dt.SetDay(d);
+                        }
+                        if (selected) ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndCombo();
+                }
+            }
+            ImGui::SameLine();
+
+            // --- Month combo ---
+            {
+                std::string id = "##month_" + phone;
+                ImGui::SetNextItemWidth(100);
+                if (ImGui::BeginCombo(id.c_str(), DateTime::MonthToString(dt.GetMonth()).c_str())) {
+                    for (int m : months) {
+                        bool selected = (m == dt.GetMonth());
+                        if (ImGui::Selectable(DateTime::MonthToString(m).c_str(), selected)) {
+                            dt.SetMonth(m);
+                            // clamp day if needed
+                            if (!DateTime::IsValidDate(dt.GetDay(), m, dt.GetYear())) {
+                                dt.SetDay(std::min(dt.GetDay(), DateTime::GetDaysInMonth(m, dt.GetYear())));
+                            }
+                        }
+                        if (selected) ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndCombo();
+                }
+            }
+            ImGui::SameLine();
+
+            // --- Year combo ---
+            {
+                std::string id = "##year_" + phone;
+                ImGui::SetNextItemWidth(70);
+                if (ImGui::BeginCombo(id.c_str(), std::to_string(dt.GetYear()).c_str())) {
+                    for (int y : years) {
+                        bool selected = (y == dt.GetYear());
+                        if (ImGui::Selectable(std::to_string(y).c_str(), selected)) {
+                            dt.SetYear(y);
+                            // clamp day if needed
+                            if (!DateTime::IsValidDate(dt.GetDay(), dt.GetMonth(), y)) {
+                                dt.SetDay(std::min(dt.GetDay(), DateTime::GetDaysInMonth(dt.GetMonth(), y)));
+                            }
+                        }
+                        if (selected) ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndCombo();
+                }
+            }
+            ImGui::SameLine();
+
+            // --- Hour combo ---
+            {
+                std::string hourLabel = (dt.GetHour() < 10 ? "0" : "") + std::to_string(dt.GetHour());
+                std::string id = "##hour_" + phone;
+                ImGui::SetNextItemWidth(50);
+                if (ImGui::BeginCombo(id.c_str(), hourLabel.c_str())) {
+                    for (int h : hours) {
+                        std::string label = (h < 10 ? "0" : "") + std::to_string(h);
+                        bool selected = (h == dt.GetHour());
+                        if (ImGui::Selectable(label.c_str(), selected)) {
+                            dt.SetHour(h);
+                        }
+                        if (selected) ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndCombo();
+                }
+            }
+            ImGui::SameLine();
+
+            // --- Minute combo ---
+            {
+                std::string minuteLabel = (dt.GetMinute() < 10 ? "0" : "") + std::to_string(dt.GetMinute());
+                std::string id = "##minute_" + phone;
+                ImGui::SetNextItemWidth(50);
+                if (ImGui::BeginCombo(id.c_str(), minuteLabel.c_str())) {
+                    for (int m : minutes) {
+                        std::string label = (m < 10 ? "0" : "") + std::to_string(m);
+                        bool selected = (m == dt.GetMinute());
+                        if (ImGui::Selectable(label.c_str(), selected)) {
+                            dt.SetMinute(m);
+                        }
+                        if (selected) ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndCombo();
+                }
+            }
+
+            // --- Status combo ---
             ImGui::TableSetColumnIndex(4);
             ReservationStatus& status = m_EditedStatus[phone];
             if (status == ReservationStatus::Requested && r->getStatus() != ReservationStatus::Requested)
@@ -106,24 +207,24 @@ void ReservationScreen::DrawReservationTable() {
             };
 
             int statusIndex = static_cast<int>(status);
-            if (ImGui::Combo(("##status" + phone).c_str(), &statusIndex, statusLabels.data(), static_cast<int>(statusLabels.size()))) {
+            if (ImGui::Combo(("##status" + phone).c_str(), &statusIndex,
+                             statusLabels.data(), static_cast<int>(statusLabels.size()))) {
                 status = static_cast<ReservationStatus>(statusIndex);
             }
 
-            // Actions
+            // --- Actions ---
             ImGui::TableSetColumnIndex(5);
             if (ImGui::Button(("Update##" + phone).c_str())) {
                 r->setPeopleCount(people);
-                std::string checkinStr(m_EditedCheckinBuffers[phone].data());
-                r->setCheckinTime(DateTime::FromDateTimeString(checkinStr));
+                r->setCheckinTime(dt);
                 r->setReservationStatus(status);
             }
             ImGui::SameLine();
             if (ImGui::Button(("Delete##" + phone).c_str())) {
-                // Use the repository's RemoveReservation method
                 m_FileRepo.RemoveReservation(phone);
             }
         }
+
         ImGui::EndTable();
     }
 }
