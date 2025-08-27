@@ -1,4 +1,4 @@
-#include"EmployeeManager.hpp"
+#include "EmployeeManager.hpp"
 
 EmployeeManager::EmployeeManager(){
     this->m_Info = std::make_unique<EmployeeInfoService>();
@@ -17,7 +17,7 @@ void EmployeeManager::AddEmployee(std::shared_ptr<Employee> Employee){
     this->m_Info->AddEmployee(Employee);
 }
 
-std::vector<std::shared_ptr<Employee>> GetAllEmployeeInfo(){
+std::vector<std::shared_ptr<Employee>> EmployeeManager::GetAllEmployeeInfo(){
     return this->m_Info->GetAllEmployeeInfo();
 }
 

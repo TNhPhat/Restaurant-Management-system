@@ -54,7 +54,7 @@ void EmployeeInfoService::AddEmployee(std::shared_ptr<Employee> Employee){
     this->m_EmployeeList.push_back(Employee);
 }
 
-std::vector<std::shared_ptr<Employee>> GetAllEmployeeInfo(){
+std::vector<std::shared_ptr<Employee>> EmployeeInfoService::GetAllEmployeeInfo(){
     return this->m_EmployeeList;    
 }
 

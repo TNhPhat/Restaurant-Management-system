@@ -23,9 +23,13 @@ public:
     void CheckOut(const int& ID, const DateTime& Time);
     float CalcTotalWorkedHoursByID(const int& ID,const DateTime& Start,const DateTime& End);
     void SaveAttendanceRecord();
+    static EmployeeManager &GetInstance() {
+        static EmployeeManager instance;
+        return instance;
+    }
 
 private:
-    
+
     std::unique_ptr<AttendanceService> m_Attendance;
     std::unique_ptr<EmployeeInfoService> m_Info;
 };
