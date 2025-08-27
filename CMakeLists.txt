@@ -105,6 +105,10 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Application/Customer/CustomerManager.cpp
         src/Infrastructure/Customer/CustomerRepository.cpp
         src/Domain/Service/Customer/CustomerService.cpp
+        src/Domain/Entity/Employee/Employee.cpp
+        src/Application/Employee/EmployeeManager.cpp
+        src/Infrastructure/Employee/EmployeeRepository.cpp
+        src/Domain/Service/Employee/EmployeeService.cpp
         src/Domain/Interface/Person.cpp
 
         src/Application/Storage/*.cpp

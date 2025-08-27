@@ -1,15 +1,16 @@
 #pragma once
 #include <vector>
 #include <memory>
+
+#include "DateTime.hpp"
 #include "MealAddon.hpp"
 
-class MealItem
-{
+class MealItem {
 private:
     const int m_MealItemID;
     MenuItem &m_MenuItem;
     int m_Quantity;
-    std::vector<std::shared_ptr<MealAddon>> m_Addons;
+    std::vector<std::shared_ptr<MealAddon> > m_Addons;
     std::string m_Note;
 
 public:
@@ -29,7 +30,7 @@ public:
 
     int GetQuantity() const;
 
-    std::vector<std::shared_ptr<MealAddon>> GetAddons() const;
+    std::vector<std::shared_ptr<MealAddon> > GetAddons() const;
 
     std::vector<MealIngredient> GetResources() const;
 
@@ -50,39 +51,42 @@ public:
     void RemoveAddon(int AddonID, unsigned int Quantity = 1);
 };
 
-class Meal
-{
+class Meal {
 private:
     const int m_MealID;
-    std::vector<std::shared_ptr<MealItem>> m_MealItems;
+    DateTime m_MealDate;
+    std::vector<std::shared_ptr<MealItem> > m_MealItems;
 
 public:
-    Meal();
+    Meal(DateTime date);
 
-    Meal(int ID);
+    Meal(int ID, DateTime date);
 
     ~Meal() = default;
 
     void AddItem(const std::shared_ptr<MealItem> &Item);
 
-    template <typename... Args>
-    void AddItem(Args &&...args);
+    template<typename... Args>
+    void AddItem(Args &&... args);
 
     int GetID() const;
 
     double GetPrice() const;
 
-    std::vector<std::shared_ptr<MealItem>> GetMealItems() const;
+    std::vector<std::shared_ptr<MealItem> > GetMealItems() const;
 
     std::vector<MealIngredient> GetResources() const;
 
     bool ContainsItem(const int ItemID) const;
 
     void RemoveItem(const int ItemID);
+
+    void UpdateMealDate(const DateTime &date);
+
+    DateTime GetDate() const;
 };
 
-template <typename... Args>
-void Meal::AddItem(Args &&...args)
-{
+template<typename... Args>
+void Meal::AddItem(Args &&... args) {
     AddItem(std::make_shared<MealItem>(std::forward<Args>(args)...));
 }

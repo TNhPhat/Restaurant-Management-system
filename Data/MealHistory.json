@@ -1,7 +1,7 @@
 [
   {
     "MealID": 1,
-    "MealDate": "2025-06-29T18:30:00Z",
+    "MealDate": "29/06/2025 18:30:00",
     "Items": [
       {
         "MealItemID": 1,
@@ -35,7 +35,7 @@
   },
   {
     "MealID": 2,
-    "MealDate": "2025-06-29T19:15:00Z",
+    "MealDate": "29/06/2025 19:15:00",
     "Items": [
       {
         "MealItemID": 3,
@@ -64,7 +64,7 @@
   },
   {
     "MealID": 3,
-    "MealDate": "2025-06-30T12:45:00Z",
+    "MealDate": "30/06/2025 12:45:00",
     "Items": [
       {
         "MealItemID": 5,
@@ -84,7 +84,7 @@
   },
   {
     "MealID": 4,
-    "MealDate": "2025-06-30T13:20:00Z",
+    "MealDate": "30/06/2025 13:20:00",
     "Items": [
       {
         "MealItemID": 7,
@@ -102,7 +102,7 @@
   },
   {
     "MealID": 5,
-    "MealDate": "2025-06-30T14:00:00Z",
+    "MealDate": "30/06/2025 14:00:00",
     "Items": [
       {
         "MealItemID": 8,

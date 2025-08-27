@@ -11,28 +11,32 @@
 
 class ReservationScreen : public Screen {
 private:
-    ReservationManager& m_Manager;
-    FileReservationRepository& m_FileRepo;
-    
+    std::shared_ptr<ReservationManager> m_Manager;
+
     std::vector<char> m_NewPhoneInput;
     std::string m_NewPhoneInputStr;
-    
+
     std::unordered_map<std::string, int> m_EditedPeopleCount;
     std::unordered_map<std::string, DateTime> m_EditedDateTime;
     std::unordered_map<std::string, ReservationStatus> m_EditedStatus;
 
 public:
-    ReservationScreen(Core& core, ReservationManager& manager, FileReservationRepository& repo);
-    
+    ReservationScreen(Core &core, std::shared_ptr<ReservationManager> manager);
+
     void Init() override;
+
     void OnExit() override;
+
     void Render(float dt) override;
 
 private:
     void DrawNewReservationInput();
+
     void DrawReservationTable();
+
     void DrawSaveButton();
+
     void DrawBackButton();
-    
-    const char* StatusToString(ReservationStatus status);
+
+    const char *StatusToString(ReservationStatus status);
 };

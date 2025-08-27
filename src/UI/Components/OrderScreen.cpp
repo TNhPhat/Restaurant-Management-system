@@ -4,14 +4,14 @@
 #include <array>
 #include <algorithm>
 
+#include "FileMenuRepository.hpp"
 
-OrderScreen::OrderScreen(Core &core, const std::shared_ptr<OrderManager> &manager,
-                         const std::shared_ptr<IMealRepository> &mealRepo): Screen(core),
-                                                                            m_Manager(manager),
-                                                                            m_MealRepo(mealRepo) {
+OrderScreen::OrderScreen(Core &core, std::shared_ptr<OrderManager> manager, std::shared_ptr<IMenuRepository> menuRepo,
+                         std::shared_ptr<IMealRepository> mealRepo): Screen(core), m_Manager(manager),
+                                                                     m_MenuRepo(menuRepo),
+                                                                     m_MealRepo(mealRepo) {
     m_NewTableIDInput.resize(256);
     m_NewCustomerPhoneInput.resize(256);
-    IDManager::Init("Data/IDRegistry.json");
 }
 
 void OrderScreen::Init() {
@@ -134,12 +134,13 @@ void OrderScreen::DrawOrderTable() {
     const auto orders = m_Manager->GetAllOrders();
 
     if (ImGui::BeginTable("Orders", 7, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-        ImGui::TableSetupColumn("Order ID", ImGuiTableColumnFlags_WidthFixed, 60.0f);
+        ImGui::TableSetupColumn("Order ID", ImGuiTableColumnFlags_WidthFixed, 80.0f);
         ImGui::TableSetupColumn("Table ID", ImGuiTableColumnFlags_WidthFixed, 80.0f);
-        ImGui::TableSetupColumn("Customer Phone");
-        ImGui::TableSetupColumn("Time");
-        ImGui::TableSetupColumn("Status");
-        ImGui::TableSetupColumn("Total Price");
+        ImGui::TableSetupColumn("Customer Phone", ImGuiTableColumnFlags_WidthFixed,
+                                ImGui::CalcTextSize("Customer Phone").x + 80);
+        ImGui::TableSetupColumn("Time", ImGuiTableColumnFlags_WidthFixed, 210.0f);
+        ImGui::TableSetupColumn("Status", ImGuiTableColumnFlags_WidthFixed, 200.0f);
+        ImGui::TableSetupColumn("Total Price", ImGuiTableColumnFlags_WidthFixed, 100.0f);
         ImGui::TableSetupColumn("Actions");
         ImGui::TableHeadersRow();
 
@@ -166,7 +167,7 @@ void OrderScreen::DrawOrderTable() {
             char phoneBuffer[256];
             strncpy(phoneBuffer, customerPhone.c_str(), sizeof(phoneBuffer) - 1);
             phoneBuffer[sizeof(phoneBuffer) - 1] = '\0';
-
+            ImGui::SetNextItemWidth(-1);
             if (ImGui::InputText(("##phone" + std::to_string(orderID)).c_str(), phoneBuffer, sizeof(phoneBuffer))) {
                 customerPhone = std::string(phoneBuffer);
             }
