@@ -4,6 +4,8 @@
 #include "../../Application/Order/OrderManager.hpp"
 #include "../../Infrastructure/Order/OrderRepository.hpp"
 #include "../../Domain/Entity/Order/OrderStatus.hpp"
+#include "../../Infrastructure/FileHandle/FileHandle.hpp"
+#include "../../Core/Utils/IDManager.hpp"
 #include "../../Infrastructure/Meal/FileMealRepository.hpp"
 
 #include <string>
@@ -30,7 +32,10 @@ private:
     
     // Meal selection for new orders
     std::vector<int> m_SelectedMealIDs;
+    std::unordered_map<int, int> m_SelectedMealQuantities; // NEW: Track quantities for each meal
     bool m_ShowMealSelectionPopup = false;
+    std::vector<bool> m_MealSelectionState;
+    std::unordered_map<int, int> m_MealQuantities; // NEW: Track quantities in selection popup
     
     // Meal detail popup
     int m_ShowMealDetailsForOrder = -1;

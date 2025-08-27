@@ -9,7 +9,8 @@ OrderScreen::OrderScreen(Core& core, OrderManager& manager, OrderRepository& rep
     // Initialize buffers with reasonable sizes
     m_NewTableIDInput.resize(256);
     m_NewCustomerPhoneInput.resize(256);
-}
+    JsonHandle* jsonHandler = new JsonHandle();
+    IDManager::Init("Data/IDRegistry.json", jsonHandler);}
 
 void OrderScreen::Init() {
     // Optional: load UI state if needed
@@ -65,27 +66,47 @@ void OrderScreen::DrawNewOrderInput() {
     // Select Meals button
     if (ImGui::Button("Select Meals")) {
         m_ShowMealSelectionPopup = true;
-        m_SelectedMealIDs.clear();
+        // Initialize meal selection state when opening popup
+        auto allMeals = m_MealRepo.GetMeals();
+        m_MealSelectionState.resize(allMeals.size(), false);
+        std::fill(m_MealSelectionState.begin(), m_MealSelectionState.end(), false);
     }
     
     ImGui::SameLine();
-    ImGui::Text("Selected: %zu meals", m_SelectedMealIDs.size());
+    // Show selected meals summary with quantities
+    if (m_SelectedMealQuantities.empty()) {
+        ImGui::Text("Selected: 0 meals");
+    } else {
+        int totalMeals = 0;
+        for (const auto& [mealID, quantity] : m_SelectedMealQuantities) {
+            totalMeals += quantity;
+        }
+        ImGui::Text("Selected: %d meals (%zu unique)", totalMeals, m_SelectedMealQuantities.size());
+    }
     
     // Create Order button
     if (ImGui::Button("Create Order")) {
+        // Debug output
+        printf("Debug: Attempting to create order - TableID='%s', Phone='%s', Selected meals=%zu\n", 
+               m_NewTableIDStr.c_str(), m_NewCustomerPhoneStr.c_str(), m_SelectedMealIDs.size());
+        
         if (!m_NewTableIDStr.empty() && !m_NewCustomerPhoneStr.empty() && !m_SelectedMealIDs.empty()) {
-            try {
-                int tableID = std::stoi(m_NewTableIDStr);
-                std::vector<std::shared_ptr<Meal>> selectedMeals;
-                
-                for (int mealID : m_SelectedMealIDs) {
-                    auto meal = m_MealRepo.GetMealByID(mealID);
-                    if (meal) {
-                        selectedMeals.push_back(meal);
-                    }
+            int tableID = std::stoi(m_NewTableIDStr);
+            std::vector<std::shared_ptr<Meal>> selectedMeals;
+            
+            for (int mealID : m_SelectedMealIDs) {
+                auto meal = m_MealRepo.GetMealByID(mealID);
+                if (meal) {
+                    selectedMeals.push_back(meal);
+                    printf("Debug: Added meal ID %d to order\n", mealID);
+                } else {
+                    printf("Debug: Meal ID %d not found!\n", mealID);
                 }
-                
+            }
+            
+            if (!selectedMeals.empty()) {
                 m_Manager.CreateOrder(tableID, m_NewCustomerPhoneStr, DateTime::Now(), selectedMeals);
+                printf("Debug: Order created successfully!\n");
                 
                 // Clear inputs
                 m_NewTableIDStr.clear();
@@ -93,9 +114,15 @@ void OrderScreen::DrawNewOrderInput() {
                 std::fill(m_NewTableIDInput.begin(), m_NewTableIDInput.end(), '\0');
                 std::fill(m_NewCustomerPhoneInput.begin(), m_NewCustomerPhoneInput.end(), '\0');
                 m_SelectedMealIDs.clear();
-            } catch (const std::exception& e) {
-                // Handle conversion error - could show error popup
+                m_SelectedMealQuantities.clear();
+            } else {
+                printf("Debug: No valid meals found for selected IDs!\n");
             }
+        } else {
+            printf("Debug: Missing required fields - TableID empty: %s, Phone empty: %s, No meals: %s\n",
+                   m_NewTableIDStr.empty() ? "YES" : "NO",
+                   m_NewCustomerPhoneStr.empty() ? "YES" : "NO", 
+                   m_SelectedMealIDs.empty() ? "YES" : "NO");
         }
     }
 }
@@ -105,10 +132,10 @@ void OrderScreen::DrawOrderTable() {
     const auto orders = m_Manager.GetAllOrders();
 
     if (ImGui::BeginTable("Orders", 7, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-        ImGui::TableSetupColumn("Order ID", ImGuiTableColumnFlags_WidthFixed, 60.0f);  // Smaller column
-        ImGui::TableSetupColumn("Table ID", ImGuiTableColumnFlags_WidthFixed, 60.0f);  // Smaller column
+        ImGui::TableSetupColumn("Order ID", ImGuiTableColumnFlags_WidthFixed, 60.0f);
+        ImGui::TableSetupColumn("Table ID", ImGuiTableColumnFlags_WidthFixed, 80.0f);
         ImGui::TableSetupColumn("Customer Phone");
-        ImGui::TableSetupColumn("Time");  // Changed from "Date/Time"
+        ImGui::TableSetupColumn("Time");
         ImGui::TableSetupColumn("Status");
         ImGui::TableSetupColumn("Total Price");
         ImGui::TableSetupColumn("Actions");
@@ -125,8 +152,8 @@ void OrderScreen::DrawOrderTable() {
             // --- Table ID ---
             ImGui::TableSetColumnIndex(1);
             int& tableID = m_EditedTableID[orderID];
-            if (tableID == 0) tableID = order->GetTableID(); // default
-            ImGui::SetNextItemWidth(-1);  // Use full column width
+            if (tableID == 0) tableID = order->GetTableID();
+            ImGui::SetNextItemWidth(-1);
             ImGui::InputInt(("##table" + std::to_string(orderID)).c_str(), &tableID);
 
             // --- Customer Phone ---
@@ -145,17 +172,14 @@ void OrderScreen::DrawOrderTable() {
             // --- Time (Hours and Minutes only) ---
             ImGui::TableSetColumnIndex(3);
             
-            // Initialize editor state
             if (m_EditedDateTime.find(orderID) == m_EditedDateTime.end()) {
                 m_EditedDateTime[orderID] = order->GetDate();
             }
             DateTime& dt = m_EditedDateTime[orderID];
 
-            // Valid values for time only
             auto hours   = DateTime::GetValidHours();
             auto minutes = DateTime::GetValidMinutes(5);
 
-            // Hour control
             std::string hourLabel = (dt.GetHour() < 10 ? "0" : "") + std::to_string(dt.GetHour());
             ImGui::SetNextItemWidth(50);
             if (ImGui::BeginCombo(("##hour_" + std::to_string(orderID)).c_str(), hourLabel.c_str())) {
@@ -173,7 +197,6 @@ void OrderScreen::DrawOrderTable() {
             ImGui::Text(":");
             ImGui::SameLine();
 
-            // Minute control
             std::string minuteLabel = (dt.GetMinute() < 10 ? "0" : "") + std::to_string(dt.GetMinute());
             ImGui::SetNextItemWidth(50);
             if (ImGui::BeginCombo(("##minute_" + std::to_string(orderID)).c_str(), minuteLabel.c_str())) {
@@ -192,7 +215,7 @@ void OrderScreen::DrawOrderTable() {
             ImGui::TableSetColumnIndex(4);
             OrderStatus& status = m_EditedStatus[orderID];
             if (status == OrderStatus::None && order->GetStatus() != OrderStatus::None)
-                status = order->GetStatus(); // preserve
+                status = order->GetStatus();
 
             static const std::array<const char*, 5> statusLabels = {
                 "None", "Received", "Preparing", "Complete", "Canceled"
@@ -211,7 +234,6 @@ void OrderScreen::DrawOrderTable() {
             // --- Actions ---
             ImGui::TableSetColumnIndex(6);
             if (ImGui::Button(("Update##" + std::to_string(orderID)).c_str())) {
-                // Update order properties
                 order->SetOrderStatus(status);
                 order->SetTableID(tableID);
                 order->SetDate(dt);
@@ -237,6 +259,12 @@ void OrderScreen::DrawOrderTable() {
 }
 
 void OrderScreen::DrawMealSelectionPopup() {
+    // Always try to open the popup when the flag is set
+    if (m_ShowMealSelectionPopup) {
+        ImGui::OpenPopup("Select Meals");
+    }
+    
+    // Handle the modal popup
     if (ImGui::BeginPopupModal("Select Meals", &m_ShowMealSelectionPopup, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("Select meals for the new order:");
         ImGui::Separator();
@@ -244,68 +272,103 @@ void OrderScreen::DrawMealSelectionPopup() {
         // Get all available meals
         auto allMeals = m_MealRepo.GetMeals();
         
-        static std::vector<bool> selected;
-        if (selected.size() != allMeals.size()) {
-            selected.resize(allMeals.size(), false);
+        // Debug output
+        printf("Debug: Found %zu meals in repository\n", allMeals.size());
+        
+        // Ensure selection state vector is properly sized
+        if (m_MealSelectionState.size() != allMeals.size()) {
+            m_MealSelectionState.resize(allMeals.size(), false);
         }
         
-        if (ImGui::BeginTable("MealSelection", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
-            ImGui::TableSetupColumn("Select");
-            ImGui::TableSetupColumn("ID");
-            ImGui::TableSetupColumn("Price");
-            ImGui::TableSetupColumn("Items Count");
-            ImGui::TableHeadersRow();
-            
-            for (size_t i = 0; i < allMeals.size(); ++i) {
-                const auto& meal = allMeals[i];
-                ImGui::TableNextRow();
+        if (allMeals.empty()) {
+            ImGui::Text("No meals available in the system.");
+        } else {
+            if (ImGui::BeginTable("MealSelection", 5, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+                ImGui::TableSetupColumn("Select");
+                ImGui::TableSetupColumn("ID");
+                ImGui::TableSetupColumn("Price");
+                ImGui::TableSetupColumn("Items Count");
+                ImGui::TableSetupColumn("Quantity");
+                ImGui::TableHeadersRow();
                 
-                ImGui::TableSetColumnIndex(0);
-                bool isSelected = selected[i];
-                if (ImGui::Checkbox(("##select" + std::to_string(i)).c_str(), &isSelected)) {
-                    selected[i] = isSelected;
+                for (size_t i = 0; i < allMeals.size(); ++i) {
+                    const auto& meal = allMeals[i];
+                    int mealID = meal->GetID();
+                    ImGui::TableNextRow();
+                    
+                    ImGui::TableSetColumnIndex(0);
+                    bool isSelected = m_MealSelectionState[i];
+                    if (ImGui::Checkbox(("##select" + std::to_string(i)).c_str(), &isSelected)) {
+                        m_MealSelectionState[i] = isSelected;
+                        // Initialize quantity to 1 when first selected
+                        if (isSelected && m_MealQuantities.find(mealID) == m_MealQuantities.end()) {
+                            m_MealQuantities[mealID] = 1;
+                        }
+                        printf("Debug: Meal %d selection changed to %s\n", mealID, isSelected ? "true" : "false");
+                    }
+                    
+                    ImGui::TableSetColumnIndex(1);
+                    ImGui::Text("%d", mealID);
+                    
+                    ImGui::TableSetColumnIndex(2);
+                    ImGui::Text("$%.2f", meal->GetPrice());
+                    
+                    ImGui::TableSetColumnIndex(3);
+                    ImGui::Text("%zu", meal->GetMealItems().size());
+                    
+                    ImGui::TableSetColumnIndex(4);
+                    // Quantity input - only enabled if meal is selected
+                    if (m_MealQuantities.find(mealID) == m_MealQuantities.end()) {
+                        m_MealQuantities[mealID] = 1; // Initialize to 1
+                    }
+                    
+                    int& quantity = m_MealQuantities[mealID];
+                    ImGui::BeginDisabled(!isSelected);
+                    ImGui::SetNextItemWidth(60);
+                    ImGui::InputInt(("##qty" + std::to_string(i)).c_str(), &quantity, 1, 1);
+                    if (quantity < 1) quantity = 1; // Ensure minimum quantity of 1
+                    ImGui::EndDisabled();
                 }
                 
-                ImGui::TableSetColumnIndex(1);
-                ImGui::Text("%d", meal->GetID());
-                
-                ImGui::TableSetColumnIndex(2);
-                ImGui::Text("$%.2f", meal->GetPrice());
-                
-                ImGui::TableSetColumnIndex(3);
-                ImGui::Text("%zu", meal->GetMealItems().size());
+                ImGui::EndTable();
             }
-            
-            ImGui::EndTable();
         }
         
         ImGui::Separator();
         
         if (ImGui::Button("Confirm Selection")) {
             m_SelectedMealIDs.clear();
-            for (size_t i = 0; i < selected.size(); ++i) {
-                if (selected[i] && i < allMeals.size()) {
-                    m_SelectedMealIDs.push_back(allMeals[i]->GetID());
+            m_SelectedMealQuantities.clear();
+            for (size_t i = 0; i < m_MealSelectionState.size() && i < allMeals.size(); ++i) {
+                if (m_MealSelectionState[i]) {
+                    int mealID = allMeals[i]->GetID();
+                    int quantity = m_MealQuantities[mealID];
+                    
+                    // Add multiple copies of the meal based on quantity
+                    for (int q = 0; q < quantity; ++q) {
+                        m_SelectedMealIDs.push_back(mealID);
+                    }
+                    m_SelectedMealQuantities[mealID] = quantity;
+                    printf("Debug: Selected meal ID %d with quantity %d\n", mealID, quantity);
                 }
             }
-            std::fill(selected.begin(), selected.end(), false);
+            printf("Debug: Total meal instances selected: %zu\n", m_SelectedMealIDs.size());
             m_ShowMealSelectionPopup = false;
         }
         
         ImGui::SameLine();
         if (ImGui::Button("Cancel")) {
-            std::fill(selected.begin(), selected.end(), false);
+            // Clear all selection data
+            std::fill(m_MealSelectionState.begin(), m_MealSelectionState.end(), false);
+            m_MealQuantities.clear();
             m_ShowMealSelectionPopup = false;
         }
         
         ImGui::EndPopup();
-    } else if (m_ShowMealSelectionPopup) {
-        ImGui::OpenPopup("Select Meals");
     }
 }
 
 void OrderScreen::DrawMealDetailsPopup() {
-    // Open popup when first triggered
     if (m_ShowMealDetailsForOrder != -1) {
         std::string popupName = "Order Meals Details##" + std::to_string(m_ShowMealDetailsForOrder);
         ImGui::OpenPopup(popupName.c_str());
@@ -318,7 +381,6 @@ void OrderScreen::DrawMealDetailsPopup() {
         auto orders = m_Manager.GetAllOrders();
         std::shared_ptr<Order> targetOrder = nullptr;
         
-        // Find the target order
         for (const auto& order : orders) {
             if (order->GetID() == m_ShowMealDetailsForOrder) {
                 targetOrder = order;
@@ -409,14 +471,12 @@ void OrderScreen::DrawMealDetailsPopup() {
         ImGui::EndPopup();
     }
     
-    // Close popup if requested or if popup was closed by user
     if (shouldClose || !ImGui::IsPopupOpen(popupName.c_str())) {
         m_ShowMealDetailsForOrder = -1;
     }
 }
 
 void OrderScreen::DrawMealEditPopup() {
-    // Open popup when first triggered
     if (m_ShowMealEditPopup && m_EditingOrderID != -1) {
         std::string popupName = "Edit Order Meals##" + std::to_string(m_EditingOrderID);
         ImGui::OpenPopup(popupName.c_str());
@@ -429,7 +489,6 @@ void OrderScreen::DrawMealEditPopup() {
         auto orders = m_Manager.GetAllOrders();
         std::shared_ptr<Order> targetOrder = nullptr;
         
-        // Find the target order
         for (const auto& order : orders) {
             if (order->GetID() == m_EditingOrderID) {
                 targetOrder = order;
@@ -441,10 +500,7 @@ void OrderScreen::DrawMealEditPopup() {
             ImGui::Text("Editing Order ID: %d", targetOrder->GetID());
             ImGui::Separator();
             
-            // Add meal button
             if (ImGui::Button("Add Meal from Menu")) {
-                // TODO: Implement meal addition functionality
-                // This could open another popup for meal selection
                 ImGui::OpenPopup("Add Meal Popup");
             }
             
@@ -462,7 +518,6 @@ void OrderScreen::DrawMealEditPopup() {
                     ImGui::TableSetupColumn("Actions");
                     ImGui::TableHeadersRow();
                     
-                    // Store meal IDs to remove (to avoid iterator invalidation)
                     std::vector<int> mealsToRemove;
                     
                     for (const auto& meal : meals) {
@@ -485,30 +540,58 @@ void OrderScreen::DrawMealEditPopup() {
                     
                     ImGui::EndTable();
                     
-                    // Remove meals after iteration
+                    // Actually remove the meals that were marked for removal
                     for (int mealID : mealsToRemove) {
-                        // Check if RemoveMeal method exists, otherwise use alternative
-                        // targetOrder->RemoveMeal(mealID);
-                        // Alternative: You might need to implement this differently
-                        // based on your Order class implementation
+                        printf("Debug: Removing meal ID %d from order %d\n", mealID, targetOrder->GetID());
+                        bool removed = targetOrder->RemoveMeal(mealID);
+                        if (removed) {
+                            printf("Debug: Successfully removed meal %d\n", mealID);
+                        } else {
+                            printf("Debug: Failed to remove meal %d (not found)\n", mealID);
+                        }
                     }
                 }
             }
             
-            // Handle Add Meal Popup
+            // Handle Add Meal Popup with actual functionality
             if (ImGui::BeginPopupModal("Add Meal Popup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-                ImGui::Text("Select meal to add:");
+                ImGui::Text("Select meal to add to order:");
+                ImGui::Separator();
                 
                 auto allMeals = m_MealRepo.GetMeals();
-                for (const auto& meal : allMeals) {
-                    if (ImGui::Button(("Add Meal " + std::to_string(meal->GetID())).c_str())) {
-                        // Add meal to order
-                        // You'll need to implement this based on your Order class
-                        // targetOrder->AddMeal(meal);
-                        ImGui::CloseCurrentPopup();
+                
+                if (ImGui::BeginTable("AddMealTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+                    ImGui::TableSetupColumn("Meal ID");
+                    ImGui::TableSetupColumn("Price");
+                    ImGui::TableSetupColumn("Items");
+                    ImGui::TableSetupColumn("Action");
+                    ImGui::TableHeadersRow();
+                    
+                    for (const auto& meal : allMeals) {
+                        ImGui::TableNextRow();
+                        
+                        ImGui::TableSetColumnIndex(0);
+                        ImGui::Text("%d", meal->GetID());
+                        
+                        ImGui::TableSetColumnIndex(1);
+                        ImGui::Text("$%.2f", meal->GetPrice());
+                        
+                        ImGui::TableSetColumnIndex(2);
+                        ImGui::Text("%zu items", meal->GetMealItems().size());
+                        
+                        ImGui::TableSetColumnIndex(3);
+                        if (ImGui::Button(("Add##meal" + std::to_string(meal->GetID())).c_str())) {
+                            printf("Debug: Adding meal ID %d to order %d\n", meal->GetID(), targetOrder->GetID());
+                            targetOrder->AddMeal(meal);
+                            printf("Debug: Meal added successfully\n");
+                            ImGui::CloseCurrentPopup();
+                        }
                     }
+                    
+                    ImGui::EndTable();
                 }
                 
+                ImGui::Separator();
                 if (ImGui::Button("Cancel")) {
                     ImGui::CloseCurrentPopup();
                 }
@@ -527,21 +610,18 @@ void OrderScreen::DrawMealEditPopup() {
         ImGui::EndPopup();
     }
     
-    // Close popup if requested or if popup was closed by user
     if (shouldClose || !ImGui::IsPopupOpen(popupName.c_str())) {
         m_EditingOrderID = -1;
         m_ShowMealEditPopup = false;
     }
 }
 
-// Save to file
 void OrderScreen::DrawSaveButton() {
     if (ImGui::Button("Save All")) {
         m_Repository.SaveAllOrders(m_Manager.GetAllOrders());
     }
 }
 
-// Back to previous screen
 void OrderScreen::DrawBackButton() {
     if (ImGui::Button("Back")) {
         m_Core.PopScreen();
