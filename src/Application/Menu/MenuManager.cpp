@@ -1,87 +1,74 @@
 #include "MenuManager.hpp"
 
-MenuAddonManager::MenuAddonManager(FileMenuAddonRepository &MenuAddonRepository): m_MenuAddonRepository(
-    MenuAddonRepository) {
+std::shared_ptr<MenuAddon> MenuManager::GetMenuAddonByID(int MenuAddonID) const {
+    return this->m_MenuRepository->GetMenuAddonByID(MenuAddonID);
 }
 
-std::shared_ptr<MenuAddon> MenuAddonManager::GetMenuAddonByID(int MenuAddonID) const {
-    return this->m_MenuAddonRepository.GetMenuAddonByID(MenuAddonID);
+std::vector<std::shared_ptr<MenuAddon> > MenuManager::GetMenuAddons() const {
+    return this->m_MenuRepository->GetMenuAddons();
 }
 
-std::shared_ptr<MenuAddon> MenuAddonManager::GetMenuAddonByName(std::string MenuAddonName) const {
-    return this->m_MenuAddonRepository.GetMenuAddonByName(MenuAddonName);
+std::shared_ptr<MenuAddon> MenuManager::SaveMenuAddon(const std::shared_ptr<MenuAddon> &MenuAddonPtr) const {
+    return this->m_MenuRepository->SaveMenuAddon(MenuAddonPtr);
 }
 
-std::vector<std::shared_ptr<MenuAddon> > MenuAddonManager::GetMenuAddons() const {
-    return this->m_MenuAddonRepository.GetMenuAddons();
+void MenuManager::RemoveMenuAddon(int MenuAddonID) {
+    return this->m_MenuRepository->RemoveMenuAddon(MenuAddonID);
 }
 
-std::shared_ptr<MenuAddon> MenuAddonManager::SaveMenuAddon(const std::shared_ptr<MenuAddon> &MenuAddonPtr) const {
-    return this->m_MenuAddonRepository.SaveMenuAddon(MenuAddonPtr);
+std::vector<std::shared_ptr<MenuSection> > MenuManager::GetSections() const {
+    return this->m_MenuRepository->GetSections();
 }
 
-void MenuAddonManager::RemoveMenuAddon(const std::shared_ptr<MenuAddon> &MenuAddon) {
-    return this->m_MenuAddonRepository.RemoveMenuAddon(MenuAddon);
+std::shared_ptr<MenuSection> MenuManager::GetSectionByID(int SectionID) const {
+    return this->m_MenuRepository->GetSectionByID(SectionID);
 }
 
-void MenuAddonManager::RemoveMenuAddon(int MenuAddonID) {
-    return this->m_MenuAddonRepository.RemoveMenuAddon(MenuAddonID);
+void MenuManager::RemoveSection(int SectionID) {
+    return this->m_MenuRepository->RemoveSection(SectionID);
 }
 
-MenuItemManager::MenuItemManager(FileMenuItemRepository &MenuItemRepository): m_MenuItemRepository(MenuItemRepository) {
+void MenuManager::SaveSection(const std::shared_ptr<MenuSection> &shared) {
+    return this->m_MenuRepository->SaveSection(shared);
 }
 
-std::shared_ptr<MenuItem> MenuItemManager::GetMenuItemByID(int MenuItemID) const {
-    return this->m_MenuItemRepository.GetMenuItemByID(MenuItemID);
+std::shared_ptr<MenuItem> MenuManager::GetMenuItemByID(int MenuItemID) const {
+    return this->m_MenuRepository->GetMenuItemByID(MenuItemID);
 }
 
-std::shared_ptr<MenuItem> MenuItemManager::GetMenuItemByName(const std::string &MenuItemName) const {
-    return this->m_MenuItemRepository.GetMenuItemByName(MenuItemName);
+
+std::vector<std::shared_ptr<MenuItem> > MenuManager::GetMenuItems() const {
+    return this->m_MenuRepository->GetMenuItems();
 }
 
-std::vector<std::shared_ptr<MenuItem> > MenuItemManager::GetMenuItems() const {
-    return this->m_MenuItemRepository.GetMenuItems();
+std::shared_ptr<MenuItem> MenuManager::SaveMenuItem(const std::shared_ptr<MenuItem> &MenuItemPtr) const {
+    return this->m_MenuRepository->SaveMenuItem(MenuItemPtr);
 }
 
-std::shared_ptr<MenuItem> MenuItemManager::SaveMenuItem(const std::shared_ptr<MenuItem> &MenuItemPtr) const {
-    return this->m_MenuItemRepository.SaveMenuItem(MenuItemPtr);
+void MenuManager::RemoveMenuItem(int MenuItemID) {
+    return this->m_MenuRepository->RemoveMenuItem(MenuItemID);
 }
 
-void MenuItemManager::RemoveMenuItem(const std::shared_ptr<MenuItem> &MenuItem) {
-    return this->m_MenuItemRepository.RemoveMenuItem(MenuItem);
+std::vector<std::shared_ptr<MenuAddon> > MenuManager::GetAvailableAddonsForItem(const int MenuItemID) const {
+    return this->m_MenuRepository->GetMenuItemByID(MenuItemID)->GetAvailableAddons();
 }
 
-void MenuItemManager::RemoveMenuItem(int MenuItemID) {
-    return this->m_MenuItemRepository.RemoveMenuItem(MenuItemID);
-}
-
-std::vector<std::shared_ptr<MenuAddon> > MenuItemManager::GetAvailableAddonsForItem(const int MenuItemID) const {
-    return this->m_MenuItemRepository.GetMenuItemByID(MenuItemID)->GetAvailableAddons();
-}
-
-MenuManager::MenuManager(FileMenuRepository &MenuRepository): m_MenuRepository(MenuRepository) {
+MenuManager::MenuManager(IMenuRepository *MenuRepository): m_MenuRepository(std::move(MenuRepository)) {
 }
 
 std::shared_ptr<Menu> MenuManager::GetMenuByID(const int MenuID) const {
-    return this->m_MenuRepository.GetMenuByID(MenuID);
+    return this->m_MenuRepository->GetMenuByID(MenuID);
 }
 
-std::shared_ptr<Menu> MenuManager::GetMenuByName(const std::string &Name) const {
-    return this->m_MenuRepository.GetMenuByName(Name);
-}
 
 std::vector<std::shared_ptr<Menu> > MenuManager::GetMenus() const {
-    return this->m_MenuRepository.GetMenus();
+    return this->m_MenuRepository->GetMenus();
 }
 
 std::shared_ptr<Menu> MenuManager::SaveMenu(const std::shared_ptr<Menu> &MenuPtr) const {
-    return this->m_MenuRepository.SaveMenu(MenuPtr);
-}
-
-void MenuManager::RemoveMenu(const std::shared_ptr<Menu> &Menu) {
-    return this->m_MenuRepository.RemoveMenu(Menu);
+    return this->m_MenuRepository->SaveMenu(MenuPtr);
 }
 
 void MenuManager::RemoveMenu(const int MenuID) {
-    return this->m_MenuRepository.RemoveMenu(MenuID);
+    return this->m_MenuRepository->RemoveMenu(MenuID);
 }

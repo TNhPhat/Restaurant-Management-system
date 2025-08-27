@@ -3,19 +3,16 @@
 #include <stdexcept>
 
 #include "Constants.hpp"
+#include "IDManager.hpp"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
-#include "UI/Components/OrderScreen.hpp"
-#include "../../Application/Order/OrderManager.hpp"
-#include "../../Infrastructure/Meal/FileMealRepository.hpp"
-#include "../../Infrastructure/Order/OrderRepository.hpp"
-#include "../../Domain/Service/Order/OrderService.hpp"
-#include "../../Infrastructure/Menu/FileMenuRepository.hpp"
-// #include "UI/Components/ReservationScreen.hpp"
-// #include "../../Application/Reservation/ReservationManager.hpp"
-// #include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
+#include "UI/Components/ReservationScreen.hpp"
+#include "../../Application/Reservation/ReservationManager.hpp"
+#include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
 
 #include "../Components/StorageScreen.hpp"
+#include "UI/Components/BudgetScreen.hpp"
+#include "UI/Components/MenuScreen.hpp"
 
 static void glfw_error_callback(int error, const char *description) {
     throw std::runtime_error("GLFW Error " + std::to_string(error) + ": " + description);
@@ -57,18 +54,14 @@ void Core::Init() {
     ImGui_ImplGlfw_InitForOpenGL(this->m_Window, true);
     ImGui_ImplOpenGL3_Init(Constants::GLSL_VERSION.c_str());
 
-    static FileMenuAddonRepository menuAddonRepo("Data/MenuAddons.json");
-    static FileMenuItemRepository menuItemRepo("Data/MenuItem.json", menuAddonRepo);
-    static FileMealRepository mealRepo("Data/MealHistory.json", menuItemRepo, menuAddonRepo);
-
-    static OrderRepository orderRepo("Data/Order.json", mealRepo);
-    static OrderService orderService;
-    auto orders = std::make_shared<std::vector<std::shared_ptr<Order>>>();
-
-    static OrderManager orderManager(orders, orderRepo, orderService);
-
-    // OrderScreen now takes reference directly
-    PushScreen(std::make_unique<OrderScreen>(*this, orderManager, orderRepo, mealRepo));
+    IDManager::Init("Data/IDRegistry.json");
+    StorageManager::GetInstance().SetFilePath("Data/Storages.json");
+    StorageManager::GetInstance().LoadStorageFromFile();
+    // static FileReservationRepository reservationRepo("Reservation.json");
+    // static ReservationManager reservationManager(reservationRepo);
+    // PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
+    // PushScreen(std::make_unique<StorageScreen>(*this));
+    PushScreen(std::make_unique<MenuScreen>(*this));
 }
 
 
@@ -114,6 +107,10 @@ void Core::TryPopScreen() {
         this->m_ShouldPop = false;
         this->m_ScreenStack.back()->OnExit();
         this->m_ScreenStack.pop_back();
+        if (this->m_ShouldChangeState) {
+            this->m_ShouldChangeState = false;
+            PushScreen(std::move(this->m_ChangedScreen));
+        }
     }
 }
 
