@@ -40,7 +40,7 @@ public:
 
     void RemoveSection(int SectionID);
 
-    ~MenuManager() = default;
+    ~MenuManager();
 
     void SaveSection(const std::shared_ptr<MenuSection> &shared);
 };

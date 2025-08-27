@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "Constants.hpp"
+#include "FileMenuRepository.hpp"
 #include "IDManager.hpp"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
@@ -13,6 +14,7 @@
 #include "../Components/StorageScreen.hpp"
 #include "UI/Components/BudgetScreen.hpp"
 #include "UI/Components/MenuScreen.hpp"
+#include "UI/Components/OrderScreen.hpp"
 
 static void glfw_error_callback(int error, const char *description) {
     throw std::runtime_error("GLFW Error " + std::to_string(error) + ": " + description);
@@ -54,14 +56,21 @@ void Core::Init() {
     ImGui_ImplGlfw_InitForOpenGL(this->m_Window, true);
     ImGui_ImplOpenGL3_Init(Constants::GLSL_VERSION.c_str());
 
-    IDManager::Init("Data/IDRegistry.json");
+    // IDManager::Init("Data/IDRegistry.json");
     StorageManager::GetInstance().SetFilePath("Data/Storages.json");
     StorageManager::GetInstance().LoadStorageFromFile();
     // static FileReservationRepository reservationRepo("Reservation.json");
     // static ReservationManager reservationManager(reservationRepo);
     // PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
     // PushScreen(std::make_unique<StorageScreen>(*this));
-    PushScreen(std::make_unique<MenuScreen>(*this));
+    // PushScreen(std::make_unique<MenuScreen>(*this));
+    FileMenuRepository menuRepo("Data/Menu.json", "Data/MenuItem.json", "Data/MenuAddons.json");;
+    std::shared_ptr mealRepo(
+        std::make_shared<FileMealRepository>("Data/MealHistory.json", menuRepo));
+    std::unique_ptr orderRepo(std::make_unique<OrderRepository>("Data/Order.json", mealRepo));
+    std::unique_ptr orderService = std::make_unique<OrderService>();
+    std::shared_ptr orderManager(std::make_shared<OrderManager>(orderRepo, orderService));
+    PushScreen(std::make_unique<OrderScreen>(*this, orderManager, mealRepo));
 }
 
 

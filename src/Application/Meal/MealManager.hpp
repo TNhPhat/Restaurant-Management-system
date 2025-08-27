@@ -3,10 +3,10 @@
 
 class MealManager {
 private:
-    FileMealRepository &m_MealRepository;
+    std::unique_ptr<FileMealRepository> m_MealRepository;
 
 public:
-    MealManager(FileMealRepository &MealRepository);
+    MealManager(std::unique_ptr<FileMealRepository> &MealRepository);
 
     std::vector<std::shared_ptr<Meal> > GetMeals() const;
 

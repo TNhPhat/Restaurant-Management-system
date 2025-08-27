@@ -28,6 +28,12 @@ void MenuManager::RemoveSection(int SectionID) {
     return this->m_MenuRepository->RemoveSection(SectionID);
 }
 
+MenuManager::~MenuManager() {
+    this->m_MenuRepository->SaveMenus("Data/Menu.json");
+    this->m_MenuRepository->SaveItems("Data/MenuItem.json");
+    this->m_MenuRepository->SaveAddons("Data/MenuAddons.json");
+}
+
 void MenuManager::SaveSection(const std::shared_ptr<MenuSection> &shared) {
     return this->m_MenuRepository->SaveSection(shared);
 }

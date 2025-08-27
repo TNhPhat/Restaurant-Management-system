@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class DateTime {
 private:
@@ -66,6 +67,17 @@ public:
     std::string ToStringDateTime() const;
 
     time_t ToTimeT() const;
+
+    static std::vector<int> GetValidMonths();
+
+    static std::vector<int> GetValidDays(int month, int year);
+
+    static std::vector<int> GetValidHours();
+
+    static std::vector<int> GetValidMinutes(int interval = 5);
+
+    static std::string MonthToString(int month);
+
 
     static DateTime FromDateTimeString(const std::string &str);
 
