@@ -1,14 +1,16 @@
 #include "EmployeesScreen.hpp"
 
+#include "Application/Employee/EmployeeManager.hpp"
 #include "UI/UICore/Core.hpp"
 
 // Constructor giờ đây lấy dữ liệu từ EmployeeManager::GetInstance()
-EmployeesScreen::EmployeesScreen(Core& core)
-    : Screen(core),
-    m_Employees(EmployeeManager::GetInstance().GetEmployees()) {}
+EmployeesScreen::EmployeesScreen(Core &core)
+    : Screen(core) {
+}
 
 void EmployeesScreen::Init() {
     // Không thay đổi
+    m_EmployeeManager = std::make_shared<EmployeeManager>();
 }
 
 void EmployeesScreen::OnExit() {
@@ -27,7 +29,9 @@ void EmployeesScreen::Render(float dt) {
 }
 
 void EmployeesScreen::DrawTable() {
-    if (ImGui::BeginTable("Employees", 6, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable)) {
+    auto m_Employees = m_EmployeeManager->GetAllEmployeeInfo();
+    if (ImGui::BeginTable("Employees", 6,
+                          ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable)) {
         // ... Nội dung của DrawTable giữ nguyên như trước ...
         ImGui::TableSetupColumn("ID");
         ImGui::TableSetupColumn("Name");
@@ -38,7 +42,7 @@ void EmployeesScreen::DrawTable() {
         ImGui::TableHeadersRow();
 
         for (int i = 0; i < m_Employees.size(); ++i) {
-            auto& employee = m_Employees[i];
+            auto &employee = m_Employees[i];
             ImGui::PushID(i);
 
             ImGui::TableNextRow();
@@ -58,7 +62,7 @@ void EmployeesScreen::DrawTable() {
 
             // Cột 2: Position
             ImGui::TableSetColumnIndex(2);
-            const char* positions[] = { "Chef", "Manager", "Receptionist", "Waiter", "Reservation" };
+            const char *positions[] = {"Chef", "Manager", "Receptionist", "Waiter", "Reservation"};
             int currentPosition = static_cast<int>(employee->GetPostion());
             if (ImGui::Combo("##Position", &currentPosition, positions, IM_ARRAYSIZE(positions))) {
                 employee->SetPosition(static_cast<EmployeePosition>(currentPosition));
@@ -92,7 +96,6 @@ void EmployeesScreen::DrawTable() {
 void EmployeesScreen::DrawSaveButton() {
     if (ImGui::Button("Save All")) {
         // Gọi hàm lưu từ EmployeeManager
-        EmployeeManager::GetInstance().SaveEmployeeInfo();
     }
 }
 
@@ -105,9 +108,10 @@ void EmployeesScreen::DrawBackButton() {
 void EmployeesScreen::DrawAddButton() {
     if (ImGui::Button("Add")) {
         // Logic thêm mới không đổi, vì m_Employees là tham chiếu trực tiếp đến dữ liệu trong Manager
-        int newId = m_Employees.empty() ? 1 : m_Employees.back()->GetEmployeeID() + 1;
-        auto newEmployee = std::make_shared<Employee>("New Employee", "email@example.com", "0123456789", Gender::Female, DateTime::Now(), 3000000, EmployeePosition::Waiter);
-        newEmployee->SetEmployeeID(newId);
-        this->m_Employees.push_back(newEmployee);
+        // int newId = m_Employees.empty() ? 1 : m_Employees.back()->GetEmployeeID() + 1;
+        // auto newEmployee = std::make_shared<Employee>("New Employee", "email@example.com", "0123456789", Gender::Female,
+        //                                               DateTime::Now(), 3000000, EmployeePosition::Waiter);
+        // newEmployee->SetEmployeeID(newId);
+        // this->m_Employees.push_back(newEmployee);
     }
 }

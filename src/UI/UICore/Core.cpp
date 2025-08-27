@@ -13,6 +13,7 @@
 
 #include "../Components/StorageScreen.hpp"
 #include "UI/Components/BudgetScreen.hpp"
+#include "UI/Components/EmployeesScreen.hpp"
 #include "UI/Components/MenuScreen.hpp"
 #include "UI/Components/OrderScreen.hpp"
 
@@ -60,7 +61,7 @@ void Core::Init() {
     // static FileReservationRepository reservationRepo("Reservation.json");
     // static ReservationManager reservationManager(reservationRepo);
     // PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
-    PushScreen(std::make_unique<StorageScreen>(*this));
+    PushScreen(std::make_unique<EmployeesScreen>(*this));
     // PushScreen(std::make_unique<MenuScreen>(*this));
     // FileMenuRepository menuRepo("Data/Menu.json", "Data/MenuItem.json", "Data/MenuAddons.json");;
     // std::shared_ptr mealRepo(
