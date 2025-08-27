@@ -24,6 +24,9 @@ public:
     double GetTotalPrice() const; 
 
     void SetOrderStatus(const OrderStatus &NewOrderStatus);
+    void SetTableID(const int &newID);
+    void SetDate(const DateTime &newDate);
+    void SetCustomerPhone(const std::string &newPhone);
     std::vector<std::shared_ptr<Meal>> GetMeals();
     bool AddMeal(const std::shared_ptr<Meal>& NewMeal);
     bool RemoveMeal(const int &MealID);

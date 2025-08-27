@@ -154,6 +154,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/TaxService
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/StatisticService
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure

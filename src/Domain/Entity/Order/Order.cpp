@@ -36,6 +36,18 @@ void Order::SetOrderStatus(const OrderStatus& NewOrderStatus) {
     m_Status = NewOrderStatus;
 }
 
+void Order::SetTableID(const int &newID) {
+    m_TableID = newID;
+}
+
+void Order::SetDate(const DateTime &newDate) {
+    m_Date = newDate;
+}
+
+void Order::SetCustomerPhone(const std::string &newPhone) {
+    m_Phone = newPhone;
+}
+
 std::vector<std::shared_ptr<Meal>> Order::GetMeals(){
     return m_Meals;
 }

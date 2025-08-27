@@ -1,12 +1,13 @@
 #pragma once
+#include <algorithm>
 
 #include <algorithm>
 enum class OrderStatus {
+    None,
     Received,
     Preparing,
     Complete,
     Canceled,
-    None,
 };
 
 inline std::string OrderStatusToString(OrderStatus status) {

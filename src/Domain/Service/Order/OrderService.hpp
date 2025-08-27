@@ -3,8 +3,8 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-#include "Order.hpp"
-#include "IDManager.hpp"
+#include "../Domain/Entity/Order/Order.hpp"
+#include "../Core/Utils/IDManager.hpp"
 
 class OrderService {
 public:

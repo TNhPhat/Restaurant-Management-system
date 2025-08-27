@@ -28,14 +28,13 @@ void Core::Init() {
 
     this->m_ScaleFactor = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor());
     this->m_Window = glfwCreateWindow(Constants::WINDOW_WIDTH * this->m_ScaleFactor,
-                                      Constants::WINDOW_HEIGHT * this->m_ScaleFactor, "Management System", nullptr,
-                                      nullptr);
+                                      Constants::WINDOW_HEIGHT * this->m_ScaleFactor,
+                                      "Management System", nullptr, nullptr);
 
     if (!this->m_Window) {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
     }
-
 
     glfwMakeContextCurrent(this->m_Window);
     glfwSwapInterval(1);
@@ -43,7 +42,7 @@ void Core::Init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     this->m_IO = &ImGui::GetIO();
-    this->m_IO->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+    this->m_IO->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     this->m_IO->DisplaySize = ImVec2(Constants::WINDOW_WIDTH * this->m_ScaleFactor,
                                      Constants::WINDOW_HEIGHT * this->m_ScaleFactor);
 
@@ -64,6 +63,7 @@ void Core::Init() {
     // PushScreen(std::make_unique<StorageScreen>(*this));
     PushScreen(std::make_unique<MenuScreen>(*this));
 }
+
 
 void Core::Start() {
     assert(this->m_Window != nullptr);
