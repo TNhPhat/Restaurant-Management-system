@@ -56,9 +56,9 @@ void OrderRepository::SaveAllOrders(const std::vector<std::shared_ptr<Order>>& O
 
     for (const auto& Order : Orders) {
         json OrderData;
-        OrderData["ID"] = Order->GetID(); // You may need to add this getter
+        OrderData["ID"] = Order->GetID();
         OrderData["TableID"] = Order->GetTableID();
-        OrderData["CustomerID"] = Order->GetCustomerPhone();
+        OrderData["CustomerPhone"] = Order->GetCustomerPhone();
         OrderData["Date"] = Order->GetDate().ToStringDateTime(); // format: dd/MM/yyyy HH:mm:ss
         OrderData["Status"] = OrderStatusToString(Order->GetStatus());
 

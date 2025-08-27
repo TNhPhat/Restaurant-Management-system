@@ -5,9 +5,15 @@
 #include "Constants.hpp"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
-#include "UI/Components/ReservationScreen.hpp"
-#include "../../Application/Reservation/ReservationManager.hpp"
-#include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
+#include "UI/Components/OrderScreen.hpp"
+#include "../../Application/Order/OrderManager.hpp"
+#include "../../Infrastructure/Meal/FileMealRepository.hpp"
+#include "../../Infrastructure/Order/OrderRepository.hpp"
+#include "../../Domain/Service/Order/OrderService.hpp"
+#include "../../Infrastructure/Menu/FileMenuRepository.hpp"
+// #include "UI/Components/ReservationScreen.hpp"
+// #include "../../Application/Reservation/ReservationManager.hpp"
+// #include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
 
 #include "../Components/StorageScreen.hpp"
 
@@ -25,14 +31,13 @@ void Core::Init() {
 
     this->m_ScaleFactor = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor());
     this->m_Window = glfwCreateWindow(Constants::WINDOW_WIDTH * this->m_ScaleFactor,
-                                      Constants::WINDOW_HEIGHT * this->m_ScaleFactor, "Management System", nullptr,
-                                      nullptr);
+                                      Constants::WINDOW_HEIGHT * this->m_ScaleFactor,
+                                      "Management System", nullptr, nullptr);
 
     if (!this->m_Window) {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
     }
-
 
     glfwMakeContextCurrent(this->m_Window);
     glfwSwapInterval(1);
@@ -40,7 +45,7 @@ void Core::Init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     this->m_IO = &ImGui::GetIO();
-    this->m_IO->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+    this->m_IO->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     this->m_IO->DisplaySize = ImVec2(Constants::WINDOW_WIDTH * this->m_ScaleFactor,
                                      Constants::WINDOW_HEIGHT * this->m_ScaleFactor);
 
@@ -52,12 +57,20 @@ void Core::Init() {
     ImGui_ImplGlfw_InitForOpenGL(this->m_Window, true);
     ImGui_ImplOpenGL3_Init(Constants::GLSL_VERSION.c_str());
 
-    static FileReservationRepository reservationRepo("Reservation.json");
-    static ReservationManager reservationManager(reservationRepo);
-    PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
-    PushScreen(std::make_unique<StorageScreen>(*this));
-    
+    static FileMenuAddonRepository menuAddonRepo("Data/MenuAddons.json");
+    static FileMenuItemRepository menuItemRepo("Data/MenuItem.json", menuAddonRepo);
+    static FileMealRepository mealRepo("Data/MealHistory.json", menuItemRepo, menuAddonRepo);
+
+    static OrderRepository orderRepo("Data/Order.json", mealRepo);
+    static OrderService orderService;
+    auto orders = std::make_shared<std::vector<std::shared_ptr<Order>>>();
+
+    static OrderManager orderManager(orders, orderRepo, orderService);
+
+    // OrderScreen now takes reference directly
+    PushScreen(std::make_unique<OrderScreen>(*this, orderManager, orderRepo, mealRepo));
 }
+
 
 void Core::Start() {
     assert(this->m_Window != nullptr);

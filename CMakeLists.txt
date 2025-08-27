@@ -100,6 +100,11 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Infrastructure/Restaurant/IRestaurantRepository.cpp
         src/Infrastructure/Restaurant/FileRestaurantRepository.cpp
 
+        # ADD THESE MISSING ORDER FILES:
+        src/Application/Order/OrderManager.cpp
+        src/Infrastructure/Order/OrderRepository.cpp
+        src/Domain/Service/Order/OrderService.cpp
+
         src/Domain/Entity/Customer/Customer.cpp
         src/Application/Customer/CustomerManager.cpp
         src/Infrastructure/Customer/CustomerRepository.cpp
@@ -150,6 +155,7 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/SortService
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/TaxService
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/StatisticService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
 
