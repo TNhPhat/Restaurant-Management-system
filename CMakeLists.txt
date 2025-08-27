@@ -66,16 +66,16 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Infrastructure/Budget/*.cpp
         src/Application/Budget/*.cpp
         src/Test/*.cpp
+        src/Domain/ValueObject/MealAddon.cpp
+        src/Domain/ValueObject/MealIngredients.cpp
+        src/Domain/Entity/Meal/Meal.cpp
+        src/Domain/Entity/Menu/Menu.cpp
 
         src/Application/Order/*.cpp
         src/Domain/Entity/Order/*.cpp
         src/Domain/Service/Order/*.cpp
         src/Infrastructure/Order/*.cpp
 
-        src/Domain/ValueObject/MealAddon.cpp
-        src/Domain/ValueObject/MealIngredients.cpp
-        src/Domain/Entity/Meal/Meal.cpp
-        src/Domain/Entity/Menu/Menu.cpp
         src/Domain/Entity/Reservation/Reservation.cpp
         src/Domain/Entity/Table/Table.cpp
         src/Domain/Entity/Restaurant/Restaurant.cpp
