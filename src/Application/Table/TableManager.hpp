@@ -4,9 +4,9 @@
 class TableManager
 {
 private:
-    FileTableRepository &m_TableRepository;
+    std::shared_ptr<FileTableRepository> m_TableRepository;
 public:
-    TableManager(FileTableRepository &TableRepository);
+    TableManager(std::shared_ptr<FileTableRepository> &TableRepository);
 
     ~TableManager() = default;
     

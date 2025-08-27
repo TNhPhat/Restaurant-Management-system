@@ -4,16 +4,18 @@
 #include <memory>
 #include <vector>
 
-class ReservationManager
-{
+class ReservationManager {
 private:
-    FileReservationRepository &m_ReservationRepository;
+    std::unique_ptr<FileReservationRepository> m_ReservationRepository;
+
 public:
-    ReservationManager(FileReservationRepository &ReservationRepository);
+    ReservationManager(std::unique_ptr<FileReservationRepository> ReservationRepository);
 
     ~ReservationManager() = default;
 
     void AddAReservationByPhoneNumber(std::string PhoneNumber);
+
     void RemoveReservationByPhoneNumber(std::string PhoneNumber);
-    std::vector<std::shared_ptr<Reservation>> GetAllReservations() const;
+
+    std::vector<std::shared_ptr<Reservation> > GetAllReservations() const;
 };
