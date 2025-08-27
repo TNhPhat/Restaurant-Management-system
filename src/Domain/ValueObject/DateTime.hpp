@@ -10,7 +10,7 @@ private:
 public:
     static DateTime Now();  
     DateTime();
-    DateTime(int Day, int Month, int Year, int Hour, int Minute, int Second);
+    DateTime(int Day, int Month, int Year, int Hour = 0, int Minute = 0, int Second = 0);
     DateTime(const DateTime& datetime);
     ~DateTime() = default;
 

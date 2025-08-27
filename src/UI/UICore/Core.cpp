@@ -15,6 +15,7 @@
 // #include "../../Application/Reservation/ReservationManager.hpp"
 // #include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
 
+#include "../Components/StorageScreen.hpp"
 
 static void glfw_error_callback(int error, const char *description) {
     throw std::runtime_error("GLFW Error " + std::to_string(error) + ": " + description);

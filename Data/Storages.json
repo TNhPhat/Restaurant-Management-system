@@ -1,51 +1,52 @@
 [
     {
-        "StorageID" : 1,
-        "Resources": 
-        [
+        "Resources": [
             {
                 "ResourceID": 1,
                 "ResourceName": "chicken",
-                "ResourceQuantity": 10,
-                "ResourcePrice": 100
+                "ResourcePrice": 100.0,
+                "ResourceQuantity": 10
             },
             {
                 "ResourceID": 2,
                 "ResourceName": "noodle",
-                "ResourceQuantity": 10,
-                "ResourcePrice": 5
+                "ResourcePrice": 5.0,
+                "ResourceQuantity": 10
             },
             {
                 "ResourceID": 3,
                 "ResourceName": "rice",
-                "ResourceQuantity": 100,
-                "ResourcePrice": 10
+                "ResourcePrice": 10.0,
+                "ResourceQuantity": 100
             }
-        ]
+        ],
+        "StorageID": 1
     },
-    
     {
-        "StorageID" : 2,
-        "Resources": 
-        [
+        "Resources": [
             {
                 "ResourceID": 1,
                 "ResourceName": "pig",
-                "ResourceQuantity": 10,
-                "ResourcePrice": 100
+                "ResourcePrice": 100.0,
+                "ResourceQuantity": 10
             },
             {
                 "ResourceID": 2,
                 "ResourceName": "noodle",
-                "ResourceQuantity": 10,
-                "ResourcePrice": 5
+                "ResourcePrice": 5.0,
+                "ResourceQuantity": 10
             },
             {
                 "ResourceID": 3,
                 "ResourceName": "rice",
-                "ResourceQuantity": 100,
-                "ResourcePrice": 10
+                "ResourcePrice": 10.0,
+                "ResourceQuantity": 100
             }
-        ]
+        ],
+        "StorageID": 2
+    },
+    {
+        "Resources": [],
+        "StorageID": 3
     }
 ]

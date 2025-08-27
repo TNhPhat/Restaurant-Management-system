@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(RestaurantManagementSystem LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add ImGUI
@@ -56,9 +56,13 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Infrastructure/Logging/Logger.cpp
         src/Core/Utils/IDManager.cpp
 
-        src/Domain/ValueObject/DateTime.cpp
+        src/Domain/ValueObject/*.cpp
         src/Domain/Entity/Budget/*.cpp
         src/Domain/Service/Budget/*.cpp
+        src/Domain/Service/Budget/FilterService/*.cpp
+        src/Domain/Service/Budget/SortService/*.cpp
+        src/Domain/Service/Budget/StatisticService/*.cpp
+        src/Domain/Service/Budget/TaxService/*.cpp
         src/Infrastructure/Budget/*.cpp
         src/Application/Budget/*.cpp
         src/Test/*.cpp
@@ -66,10 +70,15 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Domain/ValueObject/MealIngredients.cpp
         src/Domain/Entity/Meal/Meal.cpp
         src/Domain/Entity/Menu/Menu.cpp
+
+        src/Application/Order/*.cpp
+        src/Domain/Entity/Order/*.cpp
+        src/Domain/Service/Order/*.cpp
+        src/Infrastructure/Order/*.cpp
+
         src/Domain/Entity/Reservation/Reservation.cpp
         src/Domain/Entity/Table/Table.cpp
         src/Domain/Entity/Restaurant/Restaurant.cpp
-        src/Domain/Entity/Order/Order.cpp
         src/Application/Meal/MealManager.cpp
         src/Application/Menu/MenuManager.cpp
         src/Application/Reservation/ReservationManager.cpp
@@ -102,11 +111,11 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Domain/Service/Customer/CustomerService.cpp
         src/Domain/Interface/Person.cpp
 
+        src/Application/Storage/*.cpp
+        src/Domain/Entity/*.cpp
+
         # UI
-        src/UI/Components/Screen.cpp
-        src/UI/Components/TestScreen.cpp
-        src/UI/Components/ReservationScreen.cpp
-        src/UI/Components/OrderScreen.cpp
+        src/UI/Components/*.cpp
         src/UI/UICore/Core.cpp
 )
 
@@ -142,6 +151,11 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Observers
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/FilterService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/SortService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/TaxService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Budget/StatisticService
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/Service/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Domain/ValueObject
 
@@ -151,10 +165,10 @@ target_include_directories(RESTAURANT PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Restaurant
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Table
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Reservation
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Order
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/FileHandle
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Logging
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Budget
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Infrastructure/Order
 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/UserInterface
 

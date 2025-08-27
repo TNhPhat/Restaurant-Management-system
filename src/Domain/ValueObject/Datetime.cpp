@@ -13,7 +13,7 @@ DateTime DateTime::Now() {
 
 DateTime::DateTime() : m_Day(0), m_Month(0), m_Year(0), m_Hour(0), m_Minute(0), m_Second(0) {}
 
-DateTime::DateTime(int Day, int Month, int Year, int Hour = 0, int Minute = 0, int Second = 0)
+DateTime::DateTime(int Day, int Month, int Year, int Hour, int Minute, int Second)
 {
     this->m_Day = Day;
     this->m_Month = Month;

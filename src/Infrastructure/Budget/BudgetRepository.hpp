@@ -7,11 +7,11 @@
 
 class BudgetRepository {
 private:
-    JsonHandle* m_FileHandler;
+    std::unique_ptr<JsonHandle> m_FileHandler;
     std::string m_FilePath;
 
 public:
-    BudgetRepository(const std::string& FilePath, JsonHandle* FileHandler);
+    BudgetRepository(const std::string& FilePath);
 
     std::vector<std::shared_ptr<Bill>> LoadAllBills();
     void SaveAllBills(const std::vector<std::shared_ptr<Bill>>& Bill);

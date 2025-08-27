@@ -1,11 +1,13 @@
+#include <memory>
 #include "BudgetRepository.hpp"
 #include "Logger.hpp"
 #include "FileHandle.hpp"
 #include "DateTime.hpp"
 
-BudgetRepository::BudgetRepository(const std::string& FilePath, JsonHandle* FileHandler)
-    : m_FileHandler(FileHandler), m_FilePath(FilePath)
+BudgetRepository::BudgetRepository(const std::string& FilePath)
+    : m_FilePath(FilePath)
 {
+    this->m_FileHandler = std::make_unique<JsonHandle>();
     m_FileHandler->LoadFile(FilePath);
 }
 
@@ -20,7 +22,7 @@ void BudgetRepository::SaveBill(const std::shared_ptr<Bill>& Bill)
         {"Type", BillTypeToString(Bill->GetType())}
     };
 
-    if (!m_FileHandler->GetDaTa().contains("bills")) {
+    if (!m_FileHandler->GetDaTa().contains("Bills")) {
         m_FileHandler->ExecuteCommand(new SetKeyCommand({ "Bills" }, json::array()));
     }
 
@@ -35,14 +37,14 @@ std::vector<std::shared_ptr<Bill>> BudgetRepository::LoadAllBills()
     json Data = m_FileHandler->GetDaTa();
     std::vector<std::shared_ptr<Bill>> Result;
 
-    if (!Data.contains("bills")) return Result;
+    if (!Data.contains("Bills")) return Result;
 
-    for (const auto& BillJson : Data["bills"]) {
-        int ID = BillJson.value("id", 0);
-        std::string Message = BillJson.value("message", "");
-        double Total = BillJson.value("total", 0.0);
-        std::string DateStr = BillJson.value("date", "");
-        std::string TypeStr = BillJson.value("type", "income");
+    for (const auto& BillJson : Data["Bills"]) {
+        int ID = BillJson.value("ID", 0);
+        std::string Message = BillJson.value("Message", "");
+        double Total = BillJson.value("Total", 0.0);
+        std::string DateStr = BillJson.value("Date", "");
+        std::string TypeStr = BillJson.value("Type", "Income");
 
         DateTime Date = DateTime::FromDateTimeString(DateStr);
         BillType Type = StringToBillType(TypeStr);
@@ -67,7 +69,7 @@ void BudgetRepository::SaveAllBills(const std::vector<std::shared_ptr<Bill>>& Bi
         NewBillsArray.push_back(BillData);
     }
 
-    std::vector<std::string> Path = { "bills" };
+    std::vector<std::string> Path = { "Bills" };
     m_FileHandler->ExecuteCommand(new SetKeyCommand(Path, NewBillsArray));
     
     m_FileHandler->SaveFile();
@@ -76,12 +78,12 @@ void BudgetRepository::SaveAllBills(const std::vector<std::shared_ptr<Bill>>& Bi
 bool BudgetRepository::RemoveBillByID(const int &BillID) {
     json Data = m_FileHandler->GetDaTa();
 
-    if (!Data.contains("Bill")) return false;
+    if (!Data.contains("Bills")) return false;
 
-    auto& Bills = Data["Bill"];
+    auto& Bills = Data["Bills"];
     for (size_t i = 0; i < Bills.size(); ++i) {
         if (Bills[i].contains("ID") && Bills[i]["ID"] == BillID) {
-            std::vector<std::string> Path = { "Bill" };
+            std::vector<std::string> Path = { "Bills" };
             m_FileHandler->ExecuteCommand(new RemoveDataCommand(Path, i));
             m_FileHandler->SaveFile();
             return true;
