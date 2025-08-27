@@ -110,6 +110,8 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
         src/Application/Storage/*.cpp
         src/Domain/Entity/*.cpp
 
+        src/Core/Utils/*.cpp
+
         # UI
         src/UI/Components/*.cpp
         src/UI/UICore/Core.cpp

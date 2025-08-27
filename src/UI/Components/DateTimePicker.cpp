@@ -74,7 +74,22 @@ void DateTimePicker::RenderCalendar() {
     }
 
     ImGui::SameLine();
-    ImGui::Text("%9s", months[m_CalendarMonth - 1], m_CalendarYear);
+    // ImGui::Text("%9s", months[m_CalendarMonth - 1], m_CalendarYear);
+    int monthIndex = m_CalendarMonth - 1;
+    ImGui::SetNextItemWidth(ImGui::CalcTextSize("September  ").x);
+    if (ImGui::BeginCombo("##month", months[monthIndex],
+                          ImGuiComboFlags_NoArrowButton)) {
+        for (int n = 0; n < IM_ARRAYSIZE(months); n++) {
+            bool isSelected = (monthIndex == n);
+            if (ImGui::Selectable(months[n], isSelected)) {
+                m_CalendarMonth = n + 1;
+            }
+            if (isSelected) {
+                ImGui::SetItemDefaultFocus();
+            }
+        }
+        ImGui::EndCombo();
+    }
     ImGui::SameLine();
 
     if (ImGui::Button(">")) {
@@ -129,14 +144,8 @@ void DateTimePicker::RenderCalendar() {
                                m_CalendarMonth == currentMonth &&
                                m_CalendarYear == currentYear);
 
-            if (isSelected) {
-                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.7f, 0.2f, 1.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.8f, 0.3f, 1.0f));
-            }
-
-            // Make day clickable
             std::string dayStr = std::to_string(day);
-            if (ImGui::Selectable(dayStr.c_str(), isSelected)) {
+            if (ImGui::Selectable(dayStr.c_str(), isSelected, ImGuiSelectableFlags_DontClosePopups)) {
                 try {
                     // Update the DateTime with the selected day
                     m_DateTime = DateTime(day, m_CalendarMonth, m_CalendarYear,
@@ -144,10 +153,6 @@ void DateTimePicker::RenderCalendar() {
                 } catch (const std::invalid_argument &) {
                     // If invalid date, don't update
                 }
-            }
-
-            if (isSelected) {
-                ImGui::PopStyleColor(2);
             }
         }
     }
@@ -372,9 +377,8 @@ std::string DateTimePicker::GetTimeString() const {
 std::string DateTimePicker::GetDateTimeString() const {
     if (m_ShowTime) {
         return m_DateTime.ToStringDateTime();
-    } else {
-        return m_DateTime.ToStringDate();
     }
+    return m_DateTime.ToStringDate();
 }
 
 // Static utility method for simple datetime picking

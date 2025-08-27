@@ -2,6 +2,7 @@
 #include "Screen.hpp"
 #include "imgui_internal.h"
 #include "Application/Menu/MenuManager.hpp"
+#include "../../Core/Utils/CurrencyUtils.hpp"
 
 template<typename T>
 class SubMenuScreen {
@@ -15,6 +16,9 @@ protected:
     int m_SelectedID = -1;
     std::string m_ID;
     bool m_shouldRefresh = true;
+
+    // Filter components
+    ImGuiTextFilter m_filter;
 
 public:
     virtual ~SubMenuScreen() = default;

@@ -11,6 +11,7 @@
 #include "../../Infrastructure/Reservation/FileReservationRepository.hpp"
 
 #include "../Components/StorageScreen.hpp"
+#include "UI/Components/BudgetScreen.hpp"
 #include "UI/Components/MenuScreen.hpp"
 
 static void glfw_error_callback(int error, const char *description) {

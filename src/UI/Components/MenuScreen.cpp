@@ -45,6 +45,9 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
     if (ImGui::BeginChild("Choices", ImVec2(200, 0), true)) {
         ImGui::Text("Menus");
         ImGui::Separator();
+        if (ImGui::Button("Refresh", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
+            this->m_shouldRefresh = true;
+        }
         if (ImGui::Button("Add Menu", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = "";
             this->m_descriptionField = "";
@@ -169,6 +172,14 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
 }
 
 void MenuSubMenuScreen::RenderRight(MenuManager &instance) {
+    if (!ImGui::BeginChild("MenuTableChild", ImVec2(0, 0), true)) {
+        return;
+    }
+    ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x - 500 - ImGui::CalcTextSize("Filter (Ctrl+F):").x - 20);
+    ImGui::TextUnformatted("Filter (Ctrl+F):");
+    ImGui::SameLine();
+    ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+    m_filter.Draw("##Filter", 500);
     if (ImGui::BeginTable("MenuTable", 4,
                           ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable |
                           ImGuiTableFlags_Sortable | ImGuiTableFlags_SortMulti |
@@ -179,12 +190,40 @@ void MenuSubMenuScreen::RenderRight(MenuManager &instance) {
         ImGui::TableSetupColumn("Description", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableSetupColumn("Sections Count", ImGuiTableColumnFlags_WidthFixed, 150.0f);
         ImGui::TableHeadersRow();
-        if (m_shouldRefresh) {
+        ImGuiTableSortSpecs *sortSpecs = ImGui::TableGetSortSpecs();
+        if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
             m_currentMenus = instance.GetMenus();
+            if (sortSpecs) {
+                std::ranges::sort(m_currentMenus, [sortSpecs](
+                              const std::shared_ptr<Menu> &a,
+                              const std::shared_ptr<Menu> &b) {
+                                      int column = sortSpecs->Specs->ColumnIndex;
+                                      switch (column) {
+                                          case 0:
+                                              return a->GetID() < b->GetID();
+                                          case 1:
+                                              return a->GetName() < b->GetName();
+                                          case 2:
+                                              return a->GetDescription() < b->GetDescription();
+                                          case 3:
+                                              return a->GetSections().size() < b->GetSections().size();
+                                          default:
+                                              return false;
+                                      }
+                                  });
+                if (sortSpecs->Specs->SortDirection == ImGuiSortDirection_Descending) {
+                    std::ranges::reverse(m_currentMenus);
+                }
+                sortSpecs->SpecsDirty = false;
+            }
             m_shouldRefresh = false;
         }
         for (auto &menu: m_currentMenus) {
+            if (m_filter.PassFilter(menu->GetName().c_str()) == false && m_filter.PassFilter(
+                    menu->GetDescription().c_str())) {
+                continue;
+            }
             ImGui::TableNextRow();
             ImGui::PushID(menu->GetID());
             ImGui::TableSetColumnIndex(0);
@@ -233,6 +272,7 @@ void MenuSubMenuScreen::RenderRight(MenuManager &instance) {
         }
         ImGui::EndTable();
     }
+    ImGui::EndChild();
 }
 
 SectionSubMenuScreen::SectionSubMenuScreen() {
@@ -245,6 +285,9 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
                           true)) {
         ImGui::Text("Sections");
         ImGui::Separator();
+        if (ImGui::Button("Refresh", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
+            this->m_shouldRefresh = true;
+        }
         if (ImGui::Button("Add Section", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = "";
             this->m_descriptionField = "";
@@ -369,22 +412,59 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
 }
 
 void SectionSubMenuScreen::RenderRight(MenuManager &instance) {
+    if (!ImGui::BeginChild("SectionTableChild", ImVec2(0, 0), true)) {
+        return;
+    }
+    ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x - 500 - ImGui::CalcTextSize("Filter (Ctrl+F):").x - 20);
+    ImGui::TextUnformatted("Filter (Ctrl+F):");
+    ImGui::SameLine();
+    ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+    m_filter.Draw("##Filter", 500);
     if (ImGui::BeginTable("SectionTable", 4,
                           ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable |
                           ImGuiTableFlags_Sortable | ImGuiTableFlags_SortMulti |
                           ImGuiTableFlags_ScrollY)) {
         ImGui::TableSetupScrollFreeze(0, 1);
         ImGui::TableSetupColumn("ID", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_IndentDisable, 50.0f);
-        ImGui::TableSetupColumn("Title", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_IndentEnable, 150.0f);
+        ImGui::TableSetupColumn("Title", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_IndentEnable, 250.0f);
         ImGui::TableSetupColumn("Description", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableSetupColumn("Items Count", ImGuiTableColumnFlags_WidthFixed, 150.0f);
         ImGui::TableHeadersRow();
-        if (m_shouldRefresh) {
+        ImGuiTableSortSpecs *sortSpecs = ImGui::TableGetSortSpecs();
+        if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
             m_shouldRefresh = false;
             m_currentSections = instance.GetSections();
+            if (sortSpecs) {
+                std::ranges::sort(m_currentSections, [sortSpecs](
+                              const std::shared_ptr<MenuSection> &a,
+                              const std::shared_ptr<MenuSection> &b) {
+                                      int column = sortSpecs->Specs->ColumnIndex;
+                                      switch (column) {
+                                          case 0:
+                                              return a->GetID() < b->GetID();
+                                          case 1:
+                                              return a->GetTitle() < b->GetTitle();
+                                          case 2:
+                                              return a->GetDescription() < b->GetDescription();
+                                          case 3:
+                                              return a->GetMenuItems().size() < b->GetMenuItems().size();
+                                          default:
+                                              return false;
+                                      }
+                                  });
+                if (sortSpecs->Specs->SortDirection == ImGuiSortDirection_Descending) {
+                    std::ranges::reverse(m_currentSections);
+                }
+                sortSpecs->SpecsDirty = false;
+            }
         }
         for (const auto &section: m_currentSections) {
+            if (m_filter.PassFilter(section->GetTitle().c_str()) == false &&
+                m_filter.PassFilter(section->GetDescription().c_str())
+            ) {
+                continue;
+            }
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImGui::Text("%d", section->GetID());
@@ -429,6 +509,7 @@ void SectionSubMenuScreen::RenderRight(MenuManager &instance) {
         }
         ImGui::EndTable();
     }
+    ImGui::EndChild();
 }
 
 ItemSubMenuScreen::ItemSubMenuScreen() {
@@ -440,6 +521,9 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
     if (ImGui::BeginChild("Choices", ImVec2(200, 0), true)) {
         ImGui::Text("Items");
         ImGui::Separator();
+        if (ImGui::Button("Refresh", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
+            this->m_shouldRefresh = true;
+        }
         if (ImGui::Button("Add Item", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = "";
             this->m_descriptionField = "";
@@ -602,7 +686,7 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::SameLine();
             if (ImGui::Button("Add Ingredient")) {
                 if (m_SelectedID != -1) {
-                    auto ingredient = ingredients[m_SelectedID];
+                    const auto &ingredient = ingredients[m_SelectedID];
                     if (m_ingredientsField.find(ingredient->GetName()) == m_ingredientsField.end()) {
                         m_ingredientsField[ingredient->GetName()] = 1;
                     } else {
@@ -679,6 +763,14 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
 }
 
 void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
+    if (!ImGui::BeginChild("ItemTableChild", ImVec2(0, 0), true)) {
+        return;
+    }
+    ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x - 500 - ImGui::CalcTextSize("Filter (Ctrl+F):").x - 20);
+    ImGui::TextUnformatted("Filter (Ctrl+F):");
+    ImGui::SameLine();
+    ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+    m_filter.Draw("##Filter", 500);
     if (ImGui::BeginTable("ItemTable", 4,
                           ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable |
                           ImGuiTableFlags_Sortable | ImGuiTableFlags_SortMulti |
@@ -689,12 +781,40 @@ void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
         ImGui::TableSetupColumn("Description", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableSetupColumn("Price", ImGuiTableColumnFlags_WidthFixed, 100.0f);
         ImGui::TableHeadersRow();
-        if (m_shouldRefresh) {
+        ImGuiTableSortSpecs *sortSpecs = ImGui::TableGetSortSpecs();
+        if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
             m_shouldRefresh = false;
             m_currentItems = instance.GetMenuItems();
+            if (sortSpecs) {
+                std::ranges::sort(m_currentItems, [sortSpecs](
+                              const std::shared_ptr<MenuItem> &a,
+                              const std::shared_ptr<MenuItem> &b) {
+                                      int column = sortSpecs->Specs->ColumnIndex;
+                                      switch (column) {
+                                          case 0:
+                                              return a->GetID() < b->GetID();
+                                          case 1:
+                                              return a->GetTitle() < b->GetTitle();
+                                          case 2:
+                                              return a->GetDescription() < b->GetDescription();
+                                          case 3:
+                                              return a->GetPrice() < b->GetPrice();
+                                          default:
+                                              return false;
+                                      }
+                                  });
+                if (sortSpecs->Specs->SortDirection == ImGuiSortDirection_Descending) {
+                    std::ranges::reverse(m_currentItems);
+                }
+                sortSpecs->SpecsDirty = false;
+            }
         }
         for (const auto &item: m_currentItems) {
+            if (m_filter.PassFilter(item->GetTitle().c_str()) == false && m_filter.PassFilter(
+                    item->GetDescription().c_str()) == false) {
+                continue;
+            }
             ImGui::TableNextRow();
             ImGui::PushID(item->GetID());
             ImGui::TableSetColumnIndex(0);
@@ -717,7 +837,7 @@ void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
             ImGui::TableSetColumnIndex(2);
             ImGui::Text("%s", item->GetDescription().c_str());
             ImGui::TableSetColumnIndex(3);
-            ImGui::Text("%.2f", item->GetPrice());
+            ImGui::Text("%s", CurrencyUtils::FormatUSD(item->GetPrice()).c_str());
             if (open) {
                 for (const auto &addon: item->GetAvailableAddons()) {
                     ImGui::TableNextColumn();
@@ -732,7 +852,7 @@ void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
                     ImGui::TableSetColumnIndex(2);
                     ImGui::TextUnformatted("");
                     ImGui::TableSetColumnIndex(3);
-                    ImGui::Text("%.2f", addon->GetPrice());
+                    ImGui::Text("%s", CurrencyUtils::FormatUSD(addon->GetPrice()).c_str());
                     ImGui::PopID();
                 }
                 ImGui::TreePop();
@@ -741,6 +861,7 @@ void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
         }
         ImGui::EndTable();
     }
+    ImGui::EndChild();
 }
 
 AddonSubMenuScreen::AddonSubMenuScreen() {
@@ -751,6 +872,9 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
     if (ImGui::BeginChild("Choices", ImVec2(200, 0), true)) {
         ImGui::Text("Addons");
         ImGui::Separator();
+        if (ImGui::Button("Refresh", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
+            this->m_shouldRefresh = true;
+        }
         if (ImGui::Button("Add Addon", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = "";
             this->m_priceField = 0;
@@ -860,7 +984,7 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::SameLine();
             if (ImGui::Button("Add Ingredient")) {
                 if (m_SelectedID != -1) {
-                    auto ingredient = ingredients[m_SelectedID];
+                    const auto &ingredient = ingredients[m_SelectedID];
                     if (m_ingredientsField.find(ingredient->GetName()) == m_ingredientsField.end()) {
                         m_ingredientsField[ingredient->GetName()] = 1;
                     } else {
@@ -937,6 +1061,14 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
 }
 
 void AddonSubMenuScreen::RenderRight(MenuManager &instance) {
+    if (!ImGui::BeginChild("AddonTableChild", ImVec2(0, 0), true)) {
+        return;
+    }
+    ImGui::SetCursorPosX(ImGui::GetContentRegionAvail().x - 500 - ImGui::CalcTextSize("Filter (Ctrl+F):").x - 20);
+    ImGui::TextUnformatted("Filter (Ctrl+F):");
+    ImGui::SameLine();
+    ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+    m_filter.Draw("##Filter", 500);
     if (ImGui::BeginTable("AddonTable", 3,
                           ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable |
                           ImGuiTableFlags_Sortable | ImGuiTableFlags_SortMulti |
@@ -946,12 +1078,37 @@ void AddonSubMenuScreen::RenderRight(MenuManager &instance) {
         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_IndentEnable, 200.0f);
         ImGui::TableSetupColumn("Price/Quantity", ImGuiTableColumnFlags_WidthFixed, 200.0f);
         ImGui::TableHeadersRow();
-        if (m_shouldRefresh) {
+        ImGuiTableSortSpecs *sortSpecs = ImGui::TableGetSortSpecs();
+        if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
             m_shouldRefresh = false;
             m_currentAddons = instance.GetMenuAddons();
+            if (sortSpecs) {
+                std::ranges::sort(m_currentAddons, [sortSpecs](
+                              const std::shared_ptr<MenuAddon> &a,
+                              const std::shared_ptr<MenuAddon> &b) {
+                                      int column = sortSpecs->Specs->ColumnIndex;
+                                      switch (column) {
+                                          case 0:
+                                              return a->GetID() < b->GetID();
+                                          case 1:
+                                              return a->GetName() < b->GetName();
+                                          case 2:
+                                              return a->GetPrice() < b->GetPrice();
+                                          default:
+                                              return false;
+                                      }
+                                  });
+                if (sortSpecs->Specs->SortDirection == ImGuiSortDirection_Descending) {
+                    std::ranges::reverse(m_currentAddons);
+                }
+                sortSpecs->SpecsDirty = false;
+            }
         }
         for (const auto &addon: m_currentAddons) {
+            if (m_filter.PassFilter(addon->GetName().c_str()) == false) {
+                continue;
+            }
             ImGui::TableNextRow();
             ImGui::PushID(addon->GetID());
             ImGui::TableSetColumnIndex(0);
@@ -972,7 +1129,7 @@ void AddonSubMenuScreen::RenderRight(MenuManager &instance) {
                     m_CurrentChoiceID = addon->GetID();
             }
             ImGui::TableSetColumnIndex(2);
-            ImGui::Text("%.2f", addon->GetPrice());
+            ImGui::Text("%s", CurrencyUtils::FormatUSD(addon->GetPrice()).c_str());
             if (open) {
                 for (const auto &ingr: addon->GetIngredients()) {
                     ImGui::TableNextColumn();
@@ -994,4 +1151,5 @@ void AddonSubMenuScreen::RenderRight(MenuManager &instance) {
         }
         ImGui::EndTable();
     }
+    ImGui::EndChild();
 }
