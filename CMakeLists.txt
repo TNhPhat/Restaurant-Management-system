@@ -116,8 +116,7 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
 )
 
 # ========== Executable ==========
-add_executable(RESTAURANT ${SRC_FILES}
-        src/UI/Components/ResourceScreen.cpp)
+add_executable(RESTAURANT ${SRC_FILES})
 
 # ========== Include Dirs ==========
 target_include_directories(RESTAURANT PRIVATE
