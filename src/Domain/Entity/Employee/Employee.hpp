@@ -29,7 +29,7 @@ public:
     void SetDateJoined(const DateTime &DateJoined);
     void SetSalary(const int& Salary);
     std::string PositionToString() const;
-    json EmployeeToJson() const;
+    json ToJson() const override;
     int GetYearOfService() ;
     static std::string NumToString(int num);
     static EmployeePosition StringToPosition(const std::string& position);

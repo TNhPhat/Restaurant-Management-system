@@ -52,3 +52,13 @@ Gender Person::StringToGender(const std::string& gender){
     else    
         return Gender::Female;
 }
+
+json Person::ToJson() const
+{
+    json Data;
+    Data["Name"] = this->GetName();
+    Data["Phone"] = this->GetPhone();
+    Data["Email"] = this->GetEmail();
+    Data["Gender"] = this->GenderToString();
+    return Data;
+}
