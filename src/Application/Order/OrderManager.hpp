@@ -27,4 +27,6 @@ public:
     std::vector<std::shared_ptr<Order> > GetAllOrders() const;
 
     void SaveAllOrders();
+
+    std::vector<std::shared_ptr<Order> > GetOrdersInDateRange(const DateTime &startDate, const DateTime &endDate) const;
 };

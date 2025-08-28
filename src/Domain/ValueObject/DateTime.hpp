@@ -30,17 +30,17 @@ public:
 
     ~DateTime() = default;
 
-    void SetDay(int Day);
+    DateTime &SetDay(int Day);
 
-    void SetMonth(int Month);
+    DateTime &SetMonth(int Month);
 
-    void SetYear(int Year);
+    DateTime &SetYear(int Year);
 
-    void SetHour(int Hour);
+    DateTime &SetHour(int Hour);
 
-    void SetMinute(int Minute);
+    DateTime &SetMinute(int Minute);
 
-    void SetSecond(int Second);
+    DateTime &SetSecond(int Second);
 
     int GetDay() const;
 

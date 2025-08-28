@@ -15,6 +15,7 @@
 class OrderScreen : public Screen {
 private:
     std::shared_ptr<OrderManager> m_Manager;
+    std::shared_ptr<IMenuRepository> m_MenuRepo;
     std::shared_ptr<IMealRepository> m_MealRepo;
 
     // New order inputs
@@ -44,8 +45,8 @@ private:
     bool m_ShowMealEditPopup = false;
 
 public:
-    OrderScreen(Core &core, const std::shared_ptr<OrderManager> &manager,
-                const std::shared_ptr<IMealRepository> &mealRepo);
+    OrderScreen(Core &core, std::shared_ptr<OrderManager> manager, std::shared_ptr<IMenuRepository> menuRepo,
+                std::shared_ptr<IMealRepository> mealRepo);
 
     void Init() override;
 

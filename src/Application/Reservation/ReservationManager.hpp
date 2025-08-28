@@ -9,7 +9,7 @@ private:
     std::unique_ptr<FileReservationRepository> m_ReservationRepository;
 
 public:
-    ReservationManager(std::unique_ptr<FileReservationRepository> ReservationRepository);
+    ReservationManager(std::unique_ptr<FileReservationRepository> &ReservationRepository);
 
     ~ReservationManager() = default;
 
@@ -18,4 +18,10 @@ public:
     void RemoveReservationByPhoneNumber(std::string PhoneNumber);
 
     std::vector<std::shared_ptr<Reservation> > GetAllReservations() const;
+
+    void SaveReservations(std::string filePath) const;
+
+    void RemoveReservation(std::string phone);
+
+    std::vector<std::shared_ptr<Reservation> > GetReservationsInRange(DateTime from, DateTime to) const;
 };

@@ -1,8 +1,6 @@
 #pragma once
 #include"../../Domain/Entity/Employee/Employee.hpp"
 #include"../../Infrastructure/FileHandle/FileHandle.hpp"
-#include"../../Core/Utils/IDManager.hpp"
-#include"../../Infrastructure/Logging/Logger.hpp"
 #include"../../Domain/Service/Employee/EmployeeService.hpp"
 #include<vector>
 

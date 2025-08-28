@@ -4,21 +4,17 @@
 #include "UI/UICore/Core.hpp"
 
 StorageScreen::StorageScreen(Core &core)
-: Screen(core), m_Storages(StorageManager::GetInstance().GetStorages())
-{
-    StorageManager::GetInstance().SetFilePath("/home/hlt/Documents/Restaurant-Management-system/Data/Storages.json");
-    StorageManager::GetInstance().LoadStorageFromFile();
-
+    : Screen(core), m_Storages(StorageManager::GetInstance().GetStorages()) {
     m_Storages = StorageManager::GetInstance().GetStorages();
 }
 
-void StorageScreen::Init(){
-
+void StorageScreen::Init() {
 }
 void StorageScreen::OnExit(){
     StorageManager::GetInstance().SaveStorageToFile();
 }
-void StorageScreen::Render(float dt){
+
+void StorageScreen::Render(float dt) {
     ImGui::Text("Restaurant Storage Management");
     DrawSaveButton();
     ImGui::SameLine();
@@ -36,12 +32,11 @@ void StorageScreen::DrawTable() {
         ImGui::TableHeadersRow();
 
         int num = 0;
-        for (auto &storage : m_Storages) {
+        for (auto &storage: m_Storages) {
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             std::string text = "Storage " + std::to_string(num);
-            if (ImGui::Selectable(text.c_str(), true, ImGuiSelectableFlags_None))
-            {
+            if (ImGui::Selectable(text.c_str(), true, ImGuiSelectableFlags_None)) {
                 std::cout << "Click on " << num << std::endl;
                 StorageManager::GetInstance().SaveStorageToFile();
                 this->m_Core.PushScreen(std::make_unique<ResourceScreen>(m_Core, storage.get()));
@@ -57,12 +52,13 @@ void StorageScreen::DrawTable() {
         ImGui::EndTable();
     }
 }
+
 void StorageScreen::DrawSaveButton() {
     if (ImGui::Button("Save All")) {
         StorageManager::GetInstance().SaveStorageToFile();
-
     }
 }
+
 void StorageScreen::DrawBackButton() {
     if (ImGui::Button("Back")) {
         this->m_Core.PopScreen();

@@ -88,3 +88,19 @@ TaxCalculationResult BudgetManager::CalculateTaxForMonth(int year, int month) co
 double BudgetManager::GetCurrentTaxRate() const {
     return m_Service->GetCurrentTaxRate();
 }
+
+double BudgetManager::GetExpenseInMonth(int year, int month) const {
+    return m_Service->GetExpenseInMonth(m_Budget->GetAllBills(), year, month);
+}
+
+double BudgetManager::GetIncomeInMonth(int year, int month) const {
+    return m_Service->GetIncomeInMonth(m_Budget->GetAllBills(), year, month);
+}
+
+double BudgetManager::GetIncomeInYear(int get_year) {
+    return m_Service->GetIncomeInYear(m_Budget->GetAllBills(), get_year);
+}
+
+double BudgetManager::GetExpenseInYear(int get_year) {
+    return m_Service->GetExpenseInYear(m_Budget->GetAllBills(), get_year);
+}

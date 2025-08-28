@@ -4,6 +4,7 @@
 OrderManager::OrderManager(std::unique_ptr<OrderRepository> &Repository,
                            std::unique_ptr<OrderService> &Service): m_Repository(std::move(Repository)),
                                                                     m_Service(std::move(Service)) {
+    m_Orders = m_Repository->LoadAllOrders();
 }
 
 OrderManager::~OrderManager() {
@@ -44,4 +45,9 @@ std::vector<std::shared_ptr<Order> > OrderManager::GetAllOrders() const {
 
 void OrderManager::SaveAllOrders() {
     m_Repository->SaveAllOrders(m_Orders);
+}
+
+std::vector<std::shared_ptr<Order> > OrderManager::GetOrdersInDateRange(const DateTime &startDate,
+                                                                        const DateTime &endDate) const {
+    return m_Service->FilterByDateRange(m_Orders, startDate, endDate);
 }
