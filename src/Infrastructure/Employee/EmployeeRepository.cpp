@@ -54,9 +54,11 @@ EmployeeRepositoryInfo::EmployeeRepositoryInfo() {
     this->m_FileHandler = std::make_unique<JsonHandle>();
 }
 
-std::vector<std::shared_ptr<Employee> > EmployeeRepositoryInfo::GetAllEmployeeInfo() {
-    std::vector<std::shared_ptr<Employee> > EmployeeList;
-    this->m_FileHandler->LoadFile("Data\\EmployeeInfo.json");
+std::vector<std::shared_ptr<Employee>> EmployeeRepositoryInfo::GetAllEmployeeInfo(){
+    std::vector<std::shared_ptr<Employee>> EmployeeList;
+    this->m_FileHandler->LoadFile("data\\EmployeeInfo.json");
+    // this->m_FileHandler->LoadFile("/home/hlt/Documents/Restaurant-Management-system/data/EmployeeInfo.json");
+
     json Data = this->m_FileHandler->GetDaTa();
     for (auto it = Data.begin(); it != Data.end(); it++) {
         std::shared_ptr<Employee> tmp = std::make_shared<Employee>
