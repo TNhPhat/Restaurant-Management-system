@@ -4,6 +4,7 @@
 
 #include "Screen.hpp"
 
+class MenuManager;
 class BudgetManager;
 class ReservationManager;
 class IMealRepository;
@@ -22,10 +23,10 @@ public:
 
 private:
     std::shared_ptr<OrderManager> m_OrderManager;
-    std::shared_ptr<IMenuRepository> m_MenuRepo;
     std::shared_ptr<IMealRepository> m_MealRepo;
     std::shared_ptr<ReservationManager> m_ReservationManager;
     std::shared_ptr<BudgetManager> m_BudgetManager;
+    std::shared_ptr<MenuManager> m_MenuManager;
 
     // Navigation methods
     void NavigateToOrderScreen();

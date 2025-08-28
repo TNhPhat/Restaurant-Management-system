@@ -6,11 +6,9 @@
 #include "UI/UICore/Core.hpp"
 #include "misc/cpp/imgui_stdlib.h"
 
-MenuScreen::MenuScreen(Core &core): Screen(core),
-                                    s_menuManager(new FileMenuRepository(
-                                        "Data/Menu.json", "Data/MenuItem.json", "Data/MenuAddons.json")) {
+MenuScreen::MenuScreen(Core &core, std::shared_ptr<MenuManager> menuManager): Screen(core),
+                                                                              s_menuManager(menuManager) {
 }
-
 
 void MenuScreen::Render(float DT) {
     ImGui::SetCursorPosX((ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize("Menu Screen").x) / 2);
@@ -41,7 +39,7 @@ MenuSubMenuScreen::MenuSubMenuScreen() {
     m_ID = "MenuSubMenu";
 }
 
-bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
+bool MenuSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
     if (ImGui::BeginChild("Choices", ImVec2(200, 0), true)) {
         ImGui::Text("Menus");
         ImGui::Separator();
@@ -62,7 +60,7 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::InputTextMultiline("##Description", &m_descriptionField,
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                instance.SaveMenu(std::make_shared<Menu>(m_nameField, m_descriptionField));
+                instance->SaveMenu(std::make_shared<Menu>(m_nameField, m_descriptionField));
                 this->m_shouldRefresh = true;
                 ImGui::CloseCurrentPopup();
             }
@@ -76,12 +74,12 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::BeginDisabled();
         }
         if (ImGui::Button("Edit Menu", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
-            this->m_nameField = instance.GetMenuByID(this->m_CurrentChoiceID)->GetName();
-            this->m_descriptionField = instance.GetMenuByID(this->m_CurrentChoiceID)->GetDescription();
+            this->m_nameField = instance->GetMenuByID(this->m_CurrentChoiceID)->GetName();
+            this->m_descriptionField = instance->GetMenuByID(this->m_CurrentChoiceID)->GetDescription();
             ImGui::OpenPopup("Edit Menu");
         }
         if (ImGui::BeginPopupModal("Edit Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            auto menu = instance.GetMenuByID(this->m_CurrentChoiceID);
+            auto menu = instance->GetMenuByID(this->m_CurrentChoiceID);
             ImGui::Text("Edit Menu: %s", menu->GetName().c_str());
             ImGui::Separator();
             ImGui::TextUnformatted("Name");
@@ -106,9 +104,9 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
         }
         if (ImGui::BeginPopupModal("Delete Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Are you sure you want to delete this menu(name: %s)?",
-                        instance.GetMenuByID(this->m_CurrentChoiceID)->GetName().c_str());
+                        instance->GetMenuByID(this->m_CurrentChoiceID)->GetName().c_str());
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                instance.RemoveMenu(this->m_CurrentChoiceID);
+                instance->RemoveMenu(this->m_CurrentChoiceID);
                 this->m_shouldRefresh = true;
                 ImGui::CloseCurrentPopup();
             }
@@ -123,13 +121,13 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::OpenPopup("Add Section to Menu");
         }
         if (ImGui::BeginPopupModal("Add Section to Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            auto menu = instance.GetMenuByID(this->m_CurrentChoiceID);
-            auto sections = instance.GetSections();
+            auto menu = instance->GetMenuByID(this->m_CurrentChoiceID);
+            auto sections = instance->GetSections();
             ImGui::Text("Add Section to Menu: %s", menu->GetName().c_str());
             ImGui::Separator();
             std::string prev = "Select a section";
             if (m_SelectedID != -1)
-                prev = instance.GetSectionByID(m_SelectedID)->GetTitle();
+                prev = instance->GetSectionByID(m_SelectedID)->GetTitle();
             if (ImGui::BeginCombo("Sections", prev.c_str(), ImGuiComboFlags_None)) {
                 static ImGuiTextFilter filter;
                 if (ImGui::IsWindowFocused()) {
@@ -149,7 +147,7 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
             }
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 if (m_SelectedID != -1) {
-                    const auto section = instance.GetSectionByID(m_SelectedID);
+                    const auto section = instance->GetSectionByID(m_SelectedID);
                     if (!menu->ContainsSection(section->GetID())) {
                         menu->AddSection(section);
                         this->m_shouldRefresh = true;
@@ -171,7 +169,7 @@ bool MenuSubMenuScreen::RenderLeft(MenuManager &instance) {
     return false;
 }
 
-void MenuSubMenuScreen::RenderRight(MenuManager &instance) {
+void MenuSubMenuScreen::RenderRight(std::shared_ptr<MenuManager> &instance) {
     if (!ImGui::BeginChild("MenuTableChild", ImVec2(0, 0), true)) {
         return;
     }
@@ -193,7 +191,7 @@ void MenuSubMenuScreen::RenderRight(MenuManager &instance) {
         ImGuiTableSortSpecs *sortSpecs = ImGui::TableGetSortSpecs();
         if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
-            m_currentMenus = instance.GetMenus();
+            m_currentMenus = instance->GetMenus();
             if (sortSpecs) {
                 std::ranges::sort(m_currentMenus, [sortSpecs](
                               const std::shared_ptr<Menu> &a,
@@ -279,7 +277,7 @@ SectionSubMenuScreen::SectionSubMenuScreen() {
     m_ID = "SectionSubMenu";
 }
 
-bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
+bool SectionSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
     bool ret = false;
     if (ImGui::BeginChild("Choices", ImVec2(200, 0),
                           true)) {
@@ -303,7 +301,7 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 this->m_shouldRefresh = true;
-                instance.SaveSection(std::make_shared<MenuSection>(m_nameField, m_descriptionField));
+                instance->SaveSection(std::make_shared<MenuSection>(m_nameField, m_descriptionField));
                 ImGui::CloseCurrentPopup();
             }
             ImGui::SameLine();
@@ -316,12 +314,12 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::BeginDisabled();
         }
         if (ImGui::Button("Edit Section", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
-            this->m_nameField = instance.GetSectionByID(this->m_CurrentChoiceID)->GetTitle();
-            this->m_descriptionField = instance.GetSectionByID(this->m_CurrentChoiceID)->GetDescription();
+            this->m_nameField = instance->GetSectionByID(this->m_CurrentChoiceID)->GetTitle();
+            this->m_descriptionField = instance->GetSectionByID(this->m_CurrentChoiceID)->GetDescription();
             ImGui::OpenPopup("EditSectionPopup");
         }
         if (ImGui::BeginPopupModal("EditSectionPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            auto section = instance.GetSectionByID(this->m_CurrentChoiceID);
+            auto section = instance->GetSectionByID(this->m_CurrentChoiceID);
             ImGui::Text("Edit Section: %s", section->GetTitle().c_str());
             ImGui::Separator();
             ImGui::TextUnformatted("Title");
@@ -346,9 +344,9 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
         }
         if (ImGui::BeginPopupModal("DeleteSectionPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Are you sure you want to delete this section(name: %s)?",
-                        instance.GetSectionByID(this->m_CurrentChoiceID)->GetTitle().c_str());
+                        instance->GetSectionByID(this->m_CurrentChoiceID)->GetTitle().c_str());
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                instance.RemoveSection(this->m_CurrentChoiceID);
+                instance->RemoveSection(this->m_CurrentChoiceID);
                 this->m_shouldRefresh = true;
                 ImGui::CloseCurrentPopup();
             }
@@ -363,13 +361,13 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::OpenPopup("AddItemsPopup");
         }
         if (ImGui::BeginPopupModal("AddItemsPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            auto section = instance.GetSectionByID(this->m_CurrentChoiceID);
-            auto items = instance.GetMenuItems();
+            auto section = instance->GetSectionByID(this->m_CurrentChoiceID);
+            auto items = instance->GetMenuItems();
             ImGui::Text("Add Items to Section: %s", section->GetTitle().c_str());
             ImGui::Separator();
             std::string prev = "Select an item";
             if (m_SelectedID != -1)
-                prev = instance.GetMenuItemByID(m_SelectedID)->GetTitle();
+                prev = instance->GetMenuItemByID(m_SelectedID)->GetTitle();
             if (ImGui::BeginCombo("Items", prev.c_str(), ImGuiComboFlags_None)) {
                 static ImGuiTextFilter filter;
                 if (ImGui::IsWindowFocused()) {
@@ -389,7 +387,7 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
             }
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 if (m_SelectedID != -1) {
-                    const auto item = instance.GetMenuItemByID(m_SelectedID);
+                    const auto item = instance->GetMenuItemByID(m_SelectedID);
                     if (!section->ContainsItem(item->GetID())) {
                         section->AddMenuItem(item);
                         this->m_shouldRefresh = true;
@@ -411,7 +409,7 @@ bool SectionSubMenuScreen::RenderLeft(MenuManager &instance) {
     return ret;
 }
 
-void SectionSubMenuScreen::RenderRight(MenuManager &instance) {
+void SectionSubMenuScreen::RenderRight(std::shared_ptr<MenuManager> &instance) {
     if (!ImGui::BeginChild("SectionTableChild", ImVec2(0, 0), true)) {
         return;
     }
@@ -434,7 +432,7 @@ void SectionSubMenuScreen::RenderRight(MenuManager &instance) {
         if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
             m_shouldRefresh = false;
-            m_currentSections = instance.GetSections();
+            m_currentSections = instance->GetSections();
             if (sortSpecs) {
                 std::ranges::sort(m_currentSections, [sortSpecs](
                               const std::shared_ptr<MenuSection> &a,
@@ -516,7 +514,7 @@ ItemSubMenuScreen::ItemSubMenuScreen() {
     m_ID = "ItemSubMenu";
 }
 
-bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
+bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
     bool ret = false;
     if (ImGui::BeginChild("Choices", ImVec2(200, 0), true)) {
         ImGui::Text("Items");
@@ -543,7 +541,7 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 ImGui::CloseCurrentPopup();
-                instance.SaveMenuItem(std::make_shared<MenuItem>(m_nameField, m_descriptionField, m_priceField));
+                instance->SaveMenuItem(std::make_shared<MenuItem>(m_nameField, m_descriptionField, m_priceField));
                 this->m_shouldRefresh = true;
             }
             ImGui::SameLine();
@@ -556,13 +554,13 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::BeginDisabled();
         }
         if (ImGui::Button("Edit Item", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
-            this->m_nameField = instance.GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle();
-            this->m_descriptionField = instance.GetMenuItemByID(this->m_CurrentChoiceID)->GetDescription();
-            this->m_priceField = static_cast<float>(instance.GetMenuItemByID(this->m_CurrentChoiceID)->GetPrice());
+            this->m_nameField = instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle();
+            this->m_descriptionField = instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetDescription();
+            this->m_priceField = static_cast<float>(instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetPrice());
             ImGui::OpenPopup("EditItemPopup");
         }
         if (ImGui::BeginPopupModal("EditItemPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            auto item = instance.GetMenuItemByID(this->m_CurrentChoiceID);
+            auto item = instance->GetMenuItemByID(this->m_CurrentChoiceID);
             ImGui::Text("Edit Item: %s", item->GetTitle().c_str());
             ImGui::Separator();
             ImGui::TextUnformatted("Title");
@@ -592,9 +590,9 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
         }
         if (ImGui::BeginPopupModal("DeleteItemPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Are you sure you want to delete this item(name: %s)?",
-                        instance.GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle().c_str());
+                        instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle().c_str());
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                instance.RemoveMenuItem(this->m_CurrentChoiceID);
+                instance->RemoveMenuItem(this->m_CurrentChoiceID);
                 this->m_shouldRefresh = true;
                 ImGui::CloseCurrentPopup();
             }
@@ -609,13 +607,13 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::OpenPopup("AddAddonsPopup");
         }
         if (ImGui::BeginPopupModal("AddAddonsPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            auto item = instance.GetMenuItemByID(this->m_CurrentChoiceID);
-            auto addons = instance.GetMenuAddons();
+            auto item = instance->GetMenuItemByID(this->m_CurrentChoiceID);
+            auto addons = instance->GetMenuAddons();
             ImGui::Text("Add Addons to Item: %s", item->GetTitle().c_str());
             ImGui::Separator();
             std::string prev = "Select an addon";
             if (m_SelectedID != -1)
-                prev = instance.GetMenuAddonByID(m_SelectedID)->GetName();
+                prev = instance->GetMenuAddonByID(m_SelectedID)->GetName();
             if (ImGui::BeginCombo("Addons", prev.c_str(), ImGuiComboFlags_None)) {
                 static ImGuiTextFilter filter;
                 if (ImGui::IsWindowFocused()) {
@@ -635,7 +633,7 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
             }
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 if (m_SelectedID != -1) {
-                    const auto addon = instance.GetMenuAddonByID(m_SelectedID);
+                    const auto addon = instance->GetMenuAddonByID(m_SelectedID);
                     if (!item->ContainsAddon(addon->GetID())) {
                         item->AddAddon(addon);
                         this->m_shouldRefresh = true;
@@ -649,15 +647,60 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
             }
             ImGui::EndPopup();
         }
+        if (ImGui::Button("Remove Addons", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
+            this->m_SelectedID = -1;
+            ImGui::OpenPopup("RemoveAddonsPopup");
+        }
+        if (ImGui::BeginPopupModal("RemoveAddonsPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+            auto item = instance->GetMenuItemByID(this->m_CurrentChoiceID);
+            auto addons = item->GetAvailableAddons();
+            ImGui::Text("Remove Addons from Item: %s", item->GetTitle().c_str());
+            ImGui::Separator();
+            std::string prev = "Select an addon";
+            if (m_SelectedID != -1)
+                prev = item->GetAddon(m_SelectedID)->GetName();
+            if (ImGui::BeginCombo("Addons", prev.c_str(), ImGuiComboFlags_None)) {
+                static ImGuiTextFilter filter;
+                if (ImGui::IsWindowFocused()) {
+                    filter.Clear();
+                }
+                ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+                filter.Draw("##Filter", -1);
+                for (auto &addon: addons) {
+                    bool is_selected = (addon->GetID() == m_SelectedID);
+                    if (filter.PassFilter(addon->GetName().c_str())) {
+                        if (ImGui::Selectable(addon->GetName().c_str(), is_selected)) {
+                            m_SelectedID = addon->GetID();
+                        }
+                    }
+                }
+                ImGui::EndCombo();
+            }
+            if (ImGui::Button("OK", ImVec2(120, 0))) {
+                if (m_SelectedID != -1) {
+                    const auto addon = instance->GetMenuAddonByID(m_SelectedID);
+                    if (item->ContainsAddon(addon->GetID())) {
+                        item->RemoveAddon(addon);
+                        this->m_shouldRefresh = true;
+                    }
+                }
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+        }
         if (ImGui::Button("Edit Ingredient", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
-            this->m_ingredientsField = instance.GetMenuItemByID(this->m_CurrentChoiceID)->GetIngredientsMap();
+            this->m_ingredientsField = instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetIngredientsMap();
             this->m_deletedField.clear();
             this->m_SelectedID = -1;
             ImGui::OpenPopup("EditIngredient");
         }
         if (ImGui::BeginPopupModal("EditIngredient", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Edit Ingredient of: %s",
-                        instance.GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle().c_str());
+                        instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle().c_str());
             ImGui::Separator();
             ImGui::TextUnformatted("Ingredients (separated by commas)");
             auto ingredients = StorageManager::GetInstance().GetStorages().front()->GetResources();
@@ -738,12 +781,12 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
                     if (quantity <= 0) {
                         m_ingredientsField.erase(name);
                     } else {
-                        instance.GetMenuItemByID(this->m_CurrentChoiceID)->AddIngredient(name, quantity);
+                        instance->GetMenuItemByID(this->m_CurrentChoiceID)->AddIngredient(name, quantity);
                     }
                 }
                 for (auto &[name, deleted]: m_deletedField) {
                     if (deleted) {
-                        instance.GetMenuItemByID(this->m_CurrentChoiceID)->RemoveIngredient(name);
+                        instance->GetMenuItemByID(this->m_CurrentChoiceID)->RemoveIngredient(name);
                     }
                 }
                 ImGui::CloseCurrentPopup();
@@ -762,7 +805,7 @@ bool ItemSubMenuScreen::RenderLeft(MenuManager &instance) {
     return ret;
 }
 
-void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
+void ItemSubMenuScreen::RenderRight(std::shared_ptr<MenuManager> &instance) {
     if (!ImGui::BeginChild("ItemTableChild", ImVec2(0, 0), true)) {
         return;
     }
@@ -785,7 +828,7 @@ void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
         if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
             m_shouldRefresh = false;
-            m_currentItems = instance.GetMenuItems();
+            m_currentItems = instance->GetMenuItems();
             if (sortSpecs) {
                 std::ranges::sort(m_currentItems, [sortSpecs](
                               const std::shared_ptr<MenuItem> &a,
@@ -829,13 +872,14 @@ void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
             }
             bool open = ImGui::TreeNodeEx(item->GetTitle().c_str(), flags);
             if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
-                if (m_CurrentChoiceID == item->GetID())
+                if (m_CurrentChoiceID == item->GetID()) {
                     m_CurrentChoiceID = -1;
-                else
+                } else {
                     m_CurrentChoiceID = item->GetID();
+                }
             }
             ImGui::TableSetColumnIndex(2);
-            ImGui::Text("%s", item->GetDescription().c_str());
+            ImGui::TextWrapped("%s", item->GetDescription().c_str());
             ImGui::TableSetColumnIndex(3);
             ImGui::Text("%s", CurrencyUtils::FormatUSD(item->GetPrice()).c_str());
             if (open) {
@@ -843,7 +887,6 @@ void ItemSubMenuScreen::RenderRight(MenuManager &instance) {
                     ImGui::TableNextColumn();
                     ImGui::PushID(addon->GetID());
                     ImGui::TableSetColumnIndex(0);
-                    ImGui::Text("");
                     ImGui::TableSetColumnIndex(1);
                     ImGui::TreeNodeEx(addon->GetName().c_str(),
                                       ImGuiTreeNodeFlags_SpanFullWidth | ImGuiTreeNodeFlags_Leaf |
@@ -868,7 +911,7 @@ AddonSubMenuScreen::AddonSubMenuScreen() {
     m_ID = "AddonSubMenu";
 }
 
-bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
+bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
     if (ImGui::BeginChild("Choices", ImVec2(200, 0), true)) {
         ImGui::Text("Addons");
         ImGui::Separator();
@@ -890,7 +933,7 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 this->m_shouldRefresh = true;
-                instance.SaveMenuAddon(
+                instance->SaveMenuAddon(
                     std::make_shared<MenuAddon>(m_nameField, m_priceField, std::vector<MealIngredient>{}));
                 ImGui::CloseCurrentPopup();
             }
@@ -904,12 +947,12 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
             ImGui::BeginDisabled();
         }
         if (ImGui::Button("Edit Addon", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
-            this->m_nameField = instance.GetMenuAddonByID(this->m_CurrentChoiceID)->GetName();
-            this->m_priceField = static_cast<float>(instance.GetMenuAddonByID(this->m_CurrentChoiceID)->GetPrice());
+            this->m_nameField = instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetName();
+            this->m_priceField = static_cast<float>(instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetPrice());
             ImGui::OpenPopup("Edit Addon");
         }
         if (ImGui::BeginPopupModal("Edit Addon", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            auto addon = instance.GetMenuAddonByID(this->m_CurrentChoiceID);
+            auto addon = instance->GetMenuAddonByID(this->m_CurrentChoiceID);
             ImGui::Text("Edit Addon: %s",
                         addon->GetName().c_str());
             ImGui::Separator();
@@ -935,9 +978,9 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
         }
         if (ImGui::BeginPopupModal("Delete Addon", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Are you sure you want to delete this addon(name: %s)?",
-                        instance.GetMenuAddonByID(this->m_CurrentChoiceID)->GetName().c_str());
+                        instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetName().c_str());
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                instance.RemoveMenuAddon(this->m_CurrentChoiceID);
+                instance->RemoveMenuAddon(this->m_CurrentChoiceID);
                 this->m_shouldRefresh = true;
                 ImGui::CloseCurrentPopup();
             }
@@ -949,13 +992,13 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
         }
         if (ImGui::Button("Edit Ingredients", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_deletedField.clear();
-            this->m_ingredientsField = instance.GetMenuAddonByID(this->m_CurrentChoiceID)->GetIngredientsMap();
+            this->m_ingredientsField = instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetIngredientsMap();
             this->m_SelectedID = -1;
             ImGui::OpenPopup("EditIngredients");
         }
         if (ImGui::BeginPopupModal("EditIngredients", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Edit Ingredient of: %s",
-                        instance.GetMenuAddonByID(this->m_CurrentChoiceID)->GetName().c_str());
+                        instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetName().c_str());
             ImGui::Separator();
             ImGui::TextUnformatted("Ingredients (separated by commas)");
             auto ingredients = StorageManager::GetInstance().GetStorages().front()->GetResources();
@@ -1036,12 +1079,12 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
                     if (quantity < 0) {
                         m_ingredientsField.erase(name);
                     } else {
-                        instance.GetMenuAddonByID(this->m_CurrentChoiceID)->AddIngredient({name, quantity});
+                        instance->GetMenuAddonByID(this->m_CurrentChoiceID)->AddIngredient({name, quantity});
                     }
                 }
                 for (auto &[name, deleted]: m_deletedField) {
                     if (deleted) {
-                        instance.GetMenuAddonByID(this->m_CurrentChoiceID)->RemoveIngredient(name);
+                        instance->GetMenuAddonByID(this->m_CurrentChoiceID)->RemoveIngredient(name);
                     }
                 }
                 ImGui::CloseCurrentPopup();
@@ -1060,7 +1103,7 @@ bool AddonSubMenuScreen::RenderLeft(MenuManager &instance) {
     return false;
 }
 
-void AddonSubMenuScreen::RenderRight(MenuManager &instance) {
+void AddonSubMenuScreen::RenderRight(std::shared_ptr<MenuManager> &instance) {
     if (!ImGui::BeginChild("AddonTableChild", ImVec2(0, 0), true)) {
         return;
     }
@@ -1082,7 +1125,7 @@ void AddonSubMenuScreen::RenderRight(MenuManager &instance) {
         if (m_shouldRefresh || (sortSpecs && sortSpecs->SpecsDirty)) {
             m_CurrentChoiceID = -1;
             m_shouldRefresh = false;
-            m_currentAddons = instance.GetMenuAddons();
+            m_currentAddons = instance->GetMenuAddons();
             if (sortSpecs) {
                 std::ranges::sort(m_currentAddons, [sortSpecs](
                               const std::shared_ptr<MenuAddon> &a,

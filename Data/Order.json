@@ -4,11 +4,7 @@
             "CustomerPhone": "35653456",
             "Date": "26/8/2025 10:30:45",
             "ID": 2,
-            "MealIDs": [
-                3,
-                4,
-                5
-            ],
+            "MealID": 3,
             "Status": "Received",
             "TableID": 5
         },
@@ -16,9 +12,7 @@
             "CustomerPhone": "563465",
             "Date": "26/8/2025 11:22:18",
             "ID": 3,
-            "MealIDs": [
-                1
-            ],
+            "MealID": 1,
             "Status": "Preparing",
             "TableID": 2
         },
@@ -26,9 +20,7 @@
             "CustomerPhone": "3563456",
             "Date": "26/8/2025 12:05:42",
             "ID": 4,
-            "MealIDs": [
-                2
-            ],
+            "MealID": 2,
             "Status": "Received",
             "TableID": 5
         },
@@ -36,9 +28,7 @@
             "CustomerPhone": "3563465",
             "Date": "26/8/2025 13:18:25",
             "ID": 5,
-            "MealIDs": [
-                3
-            ],
+            "MealID": 3,
             "Status": "None",
             "TableID": 1
         },
@@ -46,10 +36,7 @@
             "CustomerPhone": "3465356",
             "Date": "26/8/2025 14:45:10",
             "ID": 6,
-            "MealIDs": [
-                3,
-                4
-            ],
+            "MealID": 3,
             "Status": "Received",
             "TableID": 4
         },
@@ -57,10 +44,7 @@
             "CustomerPhone": "3564365",
             "Date": "26/6/2025 15:30:55",
             "ID": 7,
-            "MealIDs": [
-                4,
-                5
-            ],
+            "MealID": 4,
             "Status": "Received",
             "TableID": 6
         },
@@ -68,9 +52,7 @@
             "CustomerPhone": "12412512",
             "Date": "27/8/2025 14:21:13",
             "ID": 1006,
-            "MealIDs": [
-                3
-            ],
+            "MealID": 3,
             "Status": "None",
             "TableID": 45
         },
@@ -78,11 +60,33 @@
             "CustomerPhone": "5655756756",
             "Date": "27/8/2025 14:27:44",
             "ID": 1007,
-            "MealIDs": [
-                1
-            ],
+            "MealID": 1,
             "Status": "None",
             "TableID": 5
+        },
+        {
+            "CustomerPhone": "67808707878078",
+            "Date": "28/8/2025 15:39:39",
+            "ID": 1009,
+            "MealID": 2,
+            "Status": "None",
+            "TableID": 678
+        },
+        {
+            "CustomerPhone": "33333",
+            "Date": "28/8/2025 15:49:32",
+            "ID": 1010,
+            "MealID": 3,
+            "Status": "None",
+            "TableID": 33
+        },
+        {
+            "CustomerPhone": "q",
+            "Date": "29/8/2025 00:04:13",
+            "ID": 1012,
+            "MealID": 1,
+            "Status": "None",
+            "TableID": 1
         }
     ]
 }

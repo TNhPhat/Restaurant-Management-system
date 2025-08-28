@@ -3,10 +3,10 @@
 
 class MenuManager {
 private:
-    std::unique_ptr<IMenuRepository> m_MenuRepository = nullptr;
+    std::shared_ptr<IMenuRepository> m_MenuRepository = nullptr;
 
 public:
-    MenuManager(IMenuRepository *MenuRepository);
+    MenuManager(std::shared_ptr<IMenuRepository> MenuRepository);
 
     std::shared_ptr<Menu> GetMenuByID(int MenuID) const;
 
@@ -43,4 +43,8 @@ public:
     ~MenuManager();
 
     void SaveSection(const std::shared_ptr<MenuSection> &shared);
+
+    void LoadAll(std::string MenuFilePath, std::string ItemFilePath, std::string AddonFilePath);
+
+    std::shared_ptr<const IMenuRepository> GetMenuRepository() const;
 };

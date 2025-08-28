@@ -1,6 +1,12 @@
 [
     {
-        "AvailableAddons": [],
+        "AvailableAddons": [
+            {
+                "ID": 1,
+                "Name": "Extra Cheese",
+                "Price": 2.5
+            }
+        ],
         "Description": "Juicy beef patty with melted cheddar cheese, lettuce, tomato, onion, and house sauce on a toasted bun",
         "Ingredients": [
             {
@@ -37,7 +43,13 @@
         "Title": "Classic Cheeseburger"
     },
     {
-        "AvailableAddons": [],
+        "AvailableAddons": [
+            {
+                "ID": 1,
+                "Name": "Extra Cheese",
+                "Price": 2.5
+            }
+        ],
         "Description": "Traditional Italian pizza with fresh mozzarella, tomato sauce, fresh basil, and extra virgin olive oil",
         "Ingredients": [
             {

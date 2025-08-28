@@ -27,7 +27,7 @@ FileMealRepository::FileMealRepository(const std::string &filePath,
                 continue;
             }
 
-            const auto mealItem = std::make_shared<MealItem>(mealItemID, *menuItem, quantity, note);
+            const auto mealItem = std::make_shared<MealItem>(mealItemID, menuItem, quantity, note);
 
             for (const auto &addonData: itemData["Addons"]) {
                 int addonID = addonData["AddonID"];
@@ -61,7 +61,7 @@ void FileMealRepository::SaveMeals(std::string filePath) const {
         for (const auto &item: meal->GetMealItems()) {
             json itemJson;
             itemJson["MealItemID"] = item->GetID();
-            itemJson["MenuItemID"] = item->GetMenuItem().GetID();
+            itemJson["MenuItemID"] = item->GetMenuItemID();
             itemJson["Quantity"] = item->GetQuantity();
             itemJson["Note"] = item->GetNote();
             itemJson["Addons"] = json::array();

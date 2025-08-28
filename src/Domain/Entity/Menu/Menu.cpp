@@ -167,6 +167,15 @@ void MenuItem::IncreaseCount() {
     this->m_MealCount++;
 }
 
+std::shared_ptr<MenuAddon> MenuItem::GetAddon(const int AddonID) const {
+    for (const auto &Addon: this->m_AvailableAddons) {
+        if (Addon->GetID() == AddonID) {
+            return Addon;
+        }
+    }
+    return nullptr;
+}
+
 MenuSection::MenuSection(const std::string &Title, const std::string &Description) : MenuSection(
     IDManager::GetInstance().GetNextID("MenuSection"), Title, Description) {
 }

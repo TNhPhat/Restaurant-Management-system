@@ -18,7 +18,7 @@ public:
     ~OrderManager();
 
     void CreateOrder(const int &tableID, const std::string &customerPhone,
-                     const DateTime &date, const std::vector<std::shared_ptr<Meal> > &meals);
+                     const DateTime &date, const std::shared_ptr<Meal> &meals);
 
     void UpdateOrderStatus(const int &orderID, const OrderStatus &newStatus);
 
@@ -29,4 +29,6 @@ public:
     void SaveAllOrders();
 
     std::vector<std::shared_ptr<Order> > GetOrdersInDateRange(const DateTime &startDate, const DateTime &endDate) const;
+
+    std::shared_ptr<Order> GetOrder(const int &orderID) const;
 };

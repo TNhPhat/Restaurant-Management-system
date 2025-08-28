@@ -8,23 +8,25 @@
 class MealItem {
 private:
     const int m_MealItemID;
-    MenuItem &m_MenuItem;
+    std::shared_ptr<MenuItem> m_MenuItem;
     int m_Quantity;
     std::vector<std::shared_ptr<MealAddon> > m_Addons;
     std::string m_Note;
 
 public:
-    MealItem(MenuItem &Item, int Quantity);
+    MealItem(const std::shared_ptr<MenuItem> &Item, int Quantity);
 
-    MealItem(MenuItem &Item, int Quantity, const std::string &Note);
+    MealItem(const std::shared_ptr<MenuItem> &Item, int Quantity, const std::string &Note);
 
-    MealItem(int ID, MenuItem &Item, int Quantity, const std::string &Note);
+    MealItem(int ID, const std::shared_ptr<MenuItem> &Item, int Quantity, const std::string &Note);
 
     MealItem(const MealItem &Origin);
 
     ~MealItem() = default;
 
     int GetID() const;
+
+    int GetMenuItemID() const;
 
     double GetPrice() const;
 
@@ -36,7 +38,9 @@ public:
 
     std::string GetNote() const;
 
-    const MenuItem &GetMenuItem() const;
+    // const MenuItem &GetMenuItem() const;
+
+    std::string GetMenuItemTitle() const;
 
     bool ContainsAddon(const int AddonID) const;
 
@@ -58,16 +62,16 @@ private:
     std::vector<std::shared_ptr<MealItem> > m_MealItems;
 
 public:
-    Meal(DateTime date);
+    Meal(const DateTime &date);
 
-    Meal(int ID, DateTime date);
+    Meal(int ID, const DateTime &date);
 
     ~Meal() = default;
 
-    void AddItem(const std::shared_ptr<MealItem> &Item);
+    std::shared_ptr<MealItem> AddItem(const std::shared_ptr<MealItem> &Item);
 
     template<typename... Args>
-    void AddItem(Args &&... args);
+    std::shared_ptr<MealItem> AddItem(Args &&... args);
 
     int GetID() const;
 
@@ -87,6 +91,7 @@ public:
 };
 
 template<typename... Args>
-void Meal::AddItem(Args &&... args) {
-    AddItem(std::make_shared<MealItem>(std::forward<Args>(args)...));
+std::shared_ptr<MealItem> Meal::AddItem(Args &&... args) {
+    const auto item = std::make_shared<MealItem>(std::forward<Args>(args)...);
+    return AddItem(item);
 }

@@ -66,6 +66,8 @@ public:
 
     std::string ToStringDateTime() const;
 
+    std::string ToStringTime() const;
+
     time_t ToTimeT() const;
 
     static std::vector<int> GetValidMonths();
