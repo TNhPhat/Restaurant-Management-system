@@ -4,7 +4,7 @@
 #include "Screen.hpp"
 
 class BudgetScreen : public Screen {
-    std::unique_ptr<BudgetManager> s_budgetManager = nullptr;
+    std::shared_ptr<BudgetManager> s_budgetManager = nullptr;
     bool m_shouldRefresh = true;
     int m_CurrentChoiceID = -1;
     int m_SelectedID = -1;
@@ -25,7 +25,7 @@ class BudgetScreen : public Screen {
     FilterCriteria m_filterCriteria;
 
 public:
-    BudgetScreen(Core &core);
+    BudgetScreen(Core &core, std::shared_ptr<BudgetManager> &budgetManager);
 
     void Render(float DT) override;
 

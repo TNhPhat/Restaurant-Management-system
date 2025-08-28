@@ -12,9 +12,9 @@ FileMealRepository::FileMealRepository(const std::string &filePath,
     }
     for (const auto &mealData: data) {
         int MealID = mealData["MealID"].get<int>();
-        // std::string mealDate = mealJson["MealDate"];
+        DateTime mealDate = DateTime::FromDateTimeString(mealData["MealDate"].get<std::string>());
 
-        const auto meal = std::make_shared<Meal>(MealID);
+        const auto meal = std::make_shared<Meal>(MealID, mealDate);
         for (const auto &itemData: mealData["Items"]) {
             const int mealItemID = itemData["MealItemID"];
             const int menuItemID = itemData["MenuItemID"];

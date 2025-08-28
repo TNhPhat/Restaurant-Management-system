@@ -10,7 +10,7 @@ FileReservationRepository::FileReservationRepository(std::string filePath) {
         return;
     }
 
-    for (const auto& resData : data) {
+    for (const auto &resData: data) {
         std::string PhoneNumber = resData["PhoneNumber"].get<std::string>();
         DateTime timeOfReservation = DateTime::FromDateTimeString(resData["TimeOfReservation"].get<std::string>());
         int peopleCount = resData["PeopleCount"].get<int>();
@@ -21,14 +21,14 @@ FileReservationRepository::FileReservationRepository(std::string filePath) {
         reservation->setPhoneNumber(PhoneNumber);
         reservation->setReservationStatus(status);
 
-        this->IReservationRepository::SaveReservation(reservation);
+        this->SaveReservation(reservation);
     }
 }
 
 void FileReservationRepository::SaveReservations(std::string filePath) const {
     json data = json::array();
 
-    for (const auto& r : this->GetReservations()) {
+    for (const auto &r: this->GetReservations()) {
         json rJson;
         rJson["PhoneNumber"] = r->getPhoneNumber();
         rJson["TimeOfReservation"] = r->getTimeOfReservation().ToStringDateTime();

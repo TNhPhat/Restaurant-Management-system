@@ -66,4 +66,12 @@ public:
     TaxCalculationResult CalculateTaxForMonth(int year, int month) const;
 
     double GetCurrentTaxRate() const;
+
+    double GetExpenseInMonth(int year, int month) const;
+
+    double GetIncomeInMonth(int year, int month) const;
+
+    double GetIncomeInYear(int get_year);
+
+    double GetExpenseInYear(int get_year);
 };

@@ -1,7 +1,7 @@
 #include "ReservationManager.hpp"
 
 ReservationManager::ReservationManager(
-    std::unique_ptr<FileReservationRepository> ReservationRepository): m_ReservationRepository(
+    std::unique_ptr<FileReservationRepository> &ReservationRepository): m_ReservationRepository(
     std::move(ReservationRepository)) {
 }
 
@@ -31,4 +31,24 @@ void ReservationManager::RemoveReservationByPhoneNumber(std::string PhoneNumber)
 
 std::vector<std::shared_ptr<Reservation> > ReservationManager::GetAllReservations() const {
     return m_ReservationRepository->GetReservations();
+}
+
+void ReservationManager::SaveReservations(std::string filePath) const {
+    m_ReservationRepository->SaveReservations(filePath);
+}
+
+void ReservationManager::RemoveReservation(std::string phone) {
+    m_ReservationRepository->RemoveReservation(phone);
+}
+
+std::vector<std::shared_ptr<Reservation> >
+ReservationManager::GetReservationsInRange(DateTime from, DateTime to) const {
+    std::vector<std::shared_ptr<Reservation> > result;
+    auto allReservations = m_ReservationRepository->GetReservations();
+    std::copy_if(allReservations.begin(), allReservations.end(), std::back_inserter(result),
+                 [&from, &to](const std::shared_ptr<Reservation> &res) {
+                     DateTime resTime = res->getTimeOfReservation();
+                     return resTime >= from && resTime <= to;
+                 });
+    return result;
 }

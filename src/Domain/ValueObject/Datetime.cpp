@@ -78,52 +78,58 @@ DateTime::DateTime(const DateTime &datetime) {
     this->m_Second = datetime.GetSecond();
 }
 
-void DateTime::SetDay(int Day) {
+DateTime &DateTime::SetDay(int Day) {
     if (!IsValidDate(Day, m_Month, m_Year)) {
         throw std::invalid_argument("Invalid day: " + std::to_string(Day) +
                                     " for month " + std::to_string(m_Month) +
                                     " and year " + std::to_string(m_Year));
     }
     this->m_Day = Day;
+    return *this;
 }
 
-void DateTime::SetMonth(int Month) {
+DateTime &DateTime::SetMonth(int Month) {
     if (!IsValidDate(m_Day, Month, m_Year)) {
         throw std::invalid_argument("Invalid month: " + std::to_string(Month) +
                                     " for day " + std::to_string(m_Day) +
                                     " and year " + std::to_string(m_Year));
     }
     this->m_Month = Month;
+    return *this;
 }
 
-void DateTime::SetYear(int Year) {
+DateTime &DateTime::SetYear(int Year) {
     if (!IsValidDate(m_Day, m_Month, Year)) {
         throw std::invalid_argument("Invalid year: " + std::to_string(Year) +
                                     " for day " + std::to_string(m_Day) +
                                     " and month " + std::to_string(m_Month));
     }
     this->m_Year = Year;
+    return *this;
 }
 
-void DateTime::SetHour(int Hour) {
+DateTime &DateTime::SetHour(int Hour) {
     if (!IsValidTime(Hour, m_Minute, m_Second)) {
         throw std::invalid_argument("Invalid hour: " + std::to_string(Hour));
     }
     this->m_Hour = Hour;
+    return *this;
 }
 
-void DateTime::SetMinute(int Minute) {
+DateTime &DateTime::SetMinute(int Minute) {
     if (!IsValidTime(m_Hour, Minute, m_Second)) {
         throw std::invalid_argument("Invalid minute: " + std::to_string(Minute));
     }
     this->m_Minute = Minute;
+    return *this;
 }
 
-void DateTime::SetSecond(int Second) {
+DateTime &DateTime::SetSecond(int Second) {
     if (!IsValidTime(m_Hour, m_Minute, Second)) {
         throw std::invalid_argument("Invalid second: " + std::to_string(Second));
     }
     this->m_Second = Second;
+    return *this;
 }
 
 int DateTime::GetDay() const {

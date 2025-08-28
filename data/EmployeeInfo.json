@@ -1,202 +1,202 @@
 [
-    {
-        "DateJoined": "2019/3/20",
-        "Email": "minhanh.nguyen@gmail.com",
-        "Gender": "Female",
-        "ID": 201,
-        "Name": "Nguyen Minh Anh",
-        "Phone": "0901659374",
-        "Position": "Manager",
-        "Salary": 20893352
-    },
-    {
-        "DateJoined": "2021/6/25",
-        "Email": "quocbao.tran@gmail.com",
-        "Gender": "Male",
-        "ID": 202,
-        "Name": "Tran Quoc Bao",
-        "Phone": "0901056400",
-        "Position": "Receptionist",
-        "Salary": 9787385
-    },
-    {
-        "DateJoined": "2023/12/4",
-        "Email": "cam.lethi@gmail.com",
-        "Gender": "Female",
-        "ID": 203,
-        "Name": "Le Thi Cam",
-        "Phone": "0903185056",
-        "Position": "Chef",
-        "Salary": 24566103
-    },
-    {
-        "DateJoined": "2021/9/29",
-        "Email": "duykhang.pham@gmail.com",
-        "Gender": "Female",
-        "ID": 204,
-        "Name": "Pham Duy Khang",
-        "Phone": "0907726979",
-        "Position": "Manager",
-        "Salary": 11081867
-    },
-    {
-        "DateJoined": "2019/9/27",
-        "Email": "chau.hoang@gmail.com",
-        "Gender": "Male",
-        "ID": 205,
-        "Name": "Hoang Bao Chau",
-        "Phone": "0902117404",
-        "Position": "Receptionist",
-        "Salary": 22102318
-    },
-    {
-        "DateJoined": "2021/3/17",
-        "Email": "vanhoang.doan@gmail.com",
-        "Gender": "Male",
-        "ID": 206,
-        "Name": "Doan Van Hoang",
-        "Phone": "0908801422",
-        "Position": "Reservation",
-        "Salary": 16308539
-    },
-    {
-        "DateJoined": "2022/4/7",
-        "Email": "lan.bui@gmail.com",
-        "Gender": "Female",
-        "ID": 207,
-        "Name": "Bui Thi Lan",
-        "Phone": "0906852919",
-        "Position": "Manager",
-        "Salary": 15868811
-    },
-    {
-        "DateJoined": "2023/11/2",
-        "Email": "viet.dang@gmail.com",
-        "Gender": "Female",
-        "ID": 208,
-        "Name": "Dang Quoc Viet",
-        "Phone": "0902492099",
-        "Position": "Manager",
-        "Salary": 12030549
-    },
-    {
-        "DateJoined": "2020/8/27",
-        "Email": "kim.nguyen@gmail.com",
-        "Gender": "Female",
-        "ID": 209,
-        "Name": "Nguyen Thi Kim",
-        "Phone": "0905906677",
-        "Position": "Waiter",
-        "Salary": 15014620
-    },
-    {
-        "DateJoined": "2019/3/21",
-        "Email": "long.tran@gmail.com",
-        "Gender": "Female",
-        "ID": 210,
-        "Name": "Tran Van Long",
-        "Phone": "0907406934",
-        "Position": "Waiter",
-        "Salary": 23287837
-    },
-    {
-        "DateJoined": "2020/6/23",
-        "Email": "hong.vo@gmail.com",
-        "Gender": "Female",
-        "ID": 211,
-        "Name": "Vo Thi Hong",
-        "Phone": "0902570523",
-        "Position": "Manager",
-        "Salary": 17018478
-    },
-    {
-        "DateJoined": "2019/1/31",
-        "Email": "tuan.phan@gmail.com",
-        "Gender": "Male",
-        "ID": 212,
-        "Name": "Phan Van Tuan",
-        "Phone": "0903387628",
-        "Position": "Reservation",
-        "Salary": 21788062
-    },
-    {
-        "DateJoined": "2023/5/21",
-        "Email": "minhduc.hoang@gmail.com",
-        "Gender": "Male",
-        "ID": 213,
-        "Name": "Hoang Minh Duc",
-        "Phone": "0909490553",
-        "Position": "Chef",
-        "Salary": 8188226
-    },
-    {
-        "DateJoined": "2021/6/16",
-        "Email": "nam.le@gmail.com",
-        "Gender": "Male",
-        "ID": 214,
-        "Name": "Le Van Nam",
-        "Phone": "0903501760",
-        "Position": "Reservation",
-        "Salary": 14096979
-    },
-    {
-        "DateJoined": "2022/7/1",
-        "Email": "baohan.nguyen@gmail.com",
-        "Gender": "Male",
-        "ID": 215,
-        "Name": "Nguyen Bao Han",
-        "Phone": "0907153972",
-        "Position": "Chef",
-        "Salary": 15200518
-    },
-    {
-        "DateJoined": "2019/2/22",
-        "Email": "quanghuy.trinh@gmail.com",
-        "Gender": "Male",
-        "ID": 216,
-        "Name": "Trinh Quang Huy",
-        "Phone": "0909101745",
-        "Position": "Reservation",
-        "Salary": 11103675
-    },
-    {
-        "DateJoined": "2021/1/17",
-        "Email": "ha.dang@gmail.com",
-        "Gender": "Male",
-        "ID": 217,
-        "Name": "Dang Thi Ha",
-        "Phone": "0905789690",
-        "Position": "Receptionist",
-        "Salary": 9383932
-    },
-    {
-        "DateJoined": "2020/11/9",
-        "Email": "duytuan.vu@gmail.com",
-        "Gender": "Male",
-        "ID": 218,
-        "Name": "Vu Duy Tuan",
-        "Phone": "0908000593",
-        "Position": "Chef",
-        "Salary": 12809434
-    },
-    {
-        "DateJoined": "2019/10/9",
-        "Email": "hoanganh.nguyen@gmail.com",
-        "Gender": "Female",
-        "ID": 219,
-        "Name": "Nguyen Hoang Anh",
-        "Phone": "0905622046",
-        "Position": "Receptionist",
-        "Salary": 22161979
-    },
-    {
-        "DateJoined": "2019/6/20",
-        "Email": "thao.do@gmail.com",
-        "Gender": "Female",
-        "ID": 220,
-        "Name": "Do Thi Thao",
-        "Phone": "0909733944",
-        "Position": "Reservation",
-        "Salary": 19757448
-    }
+  {
+    "DateJoined": "20/3/2019",
+    "Email": "minhanh.nguyen@gmail.com",
+    "Gender": "Female",
+    "ID": 201,
+    "Name": "Nguyen Minh Anh",
+    "Phone": "0901659374",
+    "Position": "Manager",
+    "Salary": 20893352
+  },
+  {
+    "DateJoined": "25/06/2021",
+    "Email": "quocbao.tran@gmail.com",
+    "Gender": "Male",
+    "ID": 202,
+    "Name": "Tran Quoc Bao",
+    "Phone": "0901056400",
+    "Position": "Receptionist",
+    "Salary": 9787385
+  },
+  {
+    "DateJoined": "4/12/2023",
+    "Email": "cam.lethi@gmail.com",
+    "Gender": "Female",
+    "ID": 203,
+    "Name": "Le Thi Cam",
+    "Phone": "0903185056",
+    "Position": "Chef",
+    "Salary": 24566103
+  },
+  {
+    "DateJoined": "29/9/2021",
+    "Email": "duykhang.pham@gmail.com",
+    "Gender": "Female",
+    "ID": 204,
+    "Name": "Pham Duy Khang",
+    "Phone": "0907726979",
+    "Position": "Manager",
+    "Salary": 11081867
+  },
+  {
+    "DateJoined": "27/9/2019",
+    "Email": "chau.hoang@gmail.com",
+    "Gender": "Male",
+    "ID": 205,
+    "Name": "Hoang Bao Chau",
+    "Phone": "0902117404",
+    "Position": "Receptionist",
+    "Salary": 22102318
+  },
+  {
+    "DateJoined": "17/3/21",
+    "Email": "vanhoang.doan@gmail.com",
+    "Gender": "Male",
+    "ID": 206,
+    "Name": "Doan Van Hoang",
+    "Phone": "0908801422",
+    "Position": "Reservation",
+    "Salary": 16308539
+  },
+  {
+    "DateJoined": "7/4/2022",
+    "Email": "lan.bui@gmail.com",
+    "Gender": "Female",
+    "ID": 207,
+    "Name": "Bui Thi Lan",
+    "Phone": "0906852919",
+    "Position": "Manager",
+    "Salary": 15868811
+  },
+  {
+    "DateJoined": "2/11/2023",
+    "Email": "viet.dang@gmail.com",
+    "Gender": "Female",
+    "ID": 208,
+    "Name": "Dang Quoc Viet",
+    "Phone": "0902492099",
+    "Position": "Manager",
+    "Salary": 12030549
+  },
+  {
+    "DateJoined": "27/8/2020",
+    "Email": "kim.nguyen@gmail.com",
+    "Gender": "Female",
+    "ID": 209,
+    "Name": "Nguyen Thi Kim",
+    "Phone": "0905906677",
+    "Position": "Waiter",
+    "Salary": 15014620
+  },
+  {
+    "DateJoined": "21/3/2019",
+    "Email": "long.tran@gmail.com",
+    "Gender": "Female",
+    "ID": 210,
+    "Name": "Tran Van Long",
+    "Phone": "0907406934",
+    "Position": "Waiter",
+    "Salary": 23287837
+  },
+  {
+    "DateJoined": "23/6/2020",
+    "Email": "hong.vo@gmail.com",
+    "Gender": "Female",
+    "ID": 211,
+    "Name": "Vo Thi Hong",
+    "Phone": "0902570523",
+    "Position": "Manager",
+    "Salary": 17018478
+  },
+  {
+    "DateJoined": "31/1/2019",
+    "Email": "tuan.phan@gmail.com",
+    "Gender": "Male",
+    "ID": 212,
+    "Name": "Phan Van Tuan",
+    "Phone": "0903387628",
+    "Position": "Reservation",
+    "Salary": 21788062
+  },
+  {
+    "DateJoined": "21/5/2023",
+    "Email": "minhduc.hoang@gmail.com",
+    "Gender": "Male",
+    "ID": 213,
+    "Name": "Hoang Minh Duc",
+    "Phone": "0909490553",
+    "Position": "Chef",
+    "Salary": 8188226
+  },
+  {
+    "DateJoined": "16/6/2021",
+    "Email": "nam.le@gmail.com",
+    "Gender": "Male",
+    "ID": 214,
+    "Name": "Le Van Nam",
+    "Phone": "0903501760",
+    "Position": "Reservation",
+    "Salary": 14096979
+  },
+  {
+    "DateJoined": "1/7/2022",
+    "Email": "baohan.nguyen@gmail.com",
+    "Gender": "Male",
+    "ID": 215,
+    "Name": "Nguyen Bao Han",
+    "Phone": "0907153972",
+    "Position": "Chef",
+    "Salary": 15200518
+  },
+  {
+    "DateJoined": "22/2/2019",
+    "Email": "quanghuy.trinh@gmail.com",
+    "Gender": "Male",
+    "ID": 216,
+    "Name": "Trinh Quang Huy",
+    "Phone": "0909101745",
+    "Position": "Reservation",
+    "Salary": 11103675
+  },
+  {
+    "DateJoined": "11/7/2021",
+    "Email": "ha.dang@gmail.com",
+    "Gender": "Male",
+    "ID": 217,
+    "Name": "Dang Thi Ha",
+    "Phone": "0905789690",
+    "Position": "Receptionist",
+    "Salary": 9383932
+  },
+  {
+    "DateJoined": "9/11/2020",
+    "Email": "duytuan.vu@gmail.com",
+    "Gender": "Male",
+    "ID": 218,
+    "Name": "Vu Duy Tuan",
+    "Phone": "0908000593",
+    "Position": "Chef",
+    "Salary": 12809434
+  },
+  {
+    "DateJoined": "9/10/2019",
+    "Email": "hoanganh.nguyen@gmail.com",
+    "Gender": "Female",
+    "ID": 219,
+    "Name": "Nguyen Hoang Anh",
+    "Phone": "0905622046",
+    "Position": "Receptionist",
+    "Salary": 22161979
+  },
+  {
+    "DateJoined": "20/7/2019",
+    "Email": "thao.do@gmail.com",
+    "Gender": "Female",
+    "ID": 220,
+    "Name": "Do Thi Thao",
+    "Phone": "0909733944",
+    "Position": "Reservation",
+    "Salary": 19757448
+  }
 ]

@@ -6,7 +6,8 @@
 #include "UI/UICore/Core.hpp"
 #include "misc/cpp/imgui_stdlib.h"
 
-BudgetScreen::BudgetScreen(Core &core): Screen(core) {
+BudgetScreen::BudgetScreen(Core &core, std::shared_ptr<BudgetManager> &budget_manager): Screen(core),
+    s_budgetManager(budget_manager) {
 }
 
 void BudgetScreen::Render(float DT) {
@@ -321,10 +322,6 @@ void BudgetScreen::Render(float DT) {
 
 
 void BudgetScreen::Init() {
-    auto budget = std::make_shared<Budget>();
-    auto repository = std::make_unique<BudgetRepository>("data/Budget.json");
-    auto service = std::make_unique<BudgetService>();
-    s_budgetManager = std::make_unique<BudgetManager>(budget, repository, service);
     m_filterCriteria.ClearAll();
     m_filterCriteria.SetAmountRange(m_minAmount, m_maxAmount);
     m_filterCriteria.SetShowIncome(m_showIncome);
