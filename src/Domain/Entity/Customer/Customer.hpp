@@ -13,7 +13,7 @@ public:
     int CalculateDiscountAmount(const int& PointsToUse);
     int GetPoints() const;
     void SetPoints(const int& Points);
-    json ToJson() const;
+    json ToJson() const override;
 private:
     int m_MemberPoints;
 };

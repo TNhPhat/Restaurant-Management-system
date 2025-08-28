@@ -82,7 +82,7 @@ std::vector<std::shared_ptr<Employee>> EmployeeRepositoryInfo::GetAllEmployeeInf
 void EmployeeRepositoryInfo::SaveEmployeeInfo(std::vector<std::shared_ptr<Employee> > &EmployeeInfo) {
     json data = json::array();
     for (auto it: EmployeeInfo)
-        data.push_back(it->EmployeeToJson());
+        data.push_back(it->ToJson());
     std::ofstream file(m_FileHandler->GetFilePath());
     if (m_FileHandler->GetFilePath() == "" || !file.is_open()) {
         throw std::runtime_error("Cannot open file for writing: " + m_FileHandler->GetFilePath());
