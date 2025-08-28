@@ -15,9 +15,11 @@ void StorageManager::SetFilePath(const std::string FilePath)
     if (this->m_FilePath == "")
     {
         this->m_FilePath = FilePath;
+        std::cerr << "File Path: " << this->m_FilePath << std::endl;
     }
     else
     {
+        std::cerr << "File Path: " << FilePath << std::endl;
         throw std::invalid_argument("File path already existed");
     }
 }

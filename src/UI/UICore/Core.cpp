@@ -11,6 +11,8 @@
 #include "UI/Components/ReservationScreen.hpp"
 
 #include "../Components/StorageScreen.hpp"
+#include "UI/Components/BudgetScreen.hpp"
+#include "UI/Components/EmployeesScreen.hpp"
 #include "UI/Components/MenuScreen.hpp"
 #include "UI/Components/OrderScreen.hpp"
 
@@ -106,6 +108,21 @@ void Core::Init() {
 
     ImGui_ImplGlfw_InitForOpenGL(this->m_Window, true);
     ImGui_ImplOpenGL3_Init(Constants::GLSL_VERSION.c_str());
+
+    // IDManager::Init("Data/IDRegistry.json");
+    // static FileReservationRepository reservationRepo("Reservation.json");
+    // static ReservationManager reservationManager(reservationRepo);
+    // PushScreen(std::make_unique<ReservationScreen>(*this, reservationManager, reservationRepo));
+    PushScreen(std::make_unique<StorageScreen>(*this));
+    // PushScreen(std::make_unique<EmployeesScreen>(*this));
+    // PushScreen(std::make_unique<MenuScreen>(*this));
+    // FileMenuRepository menuRepo("Data/Menu.json", "Data/MenuItem.json", "Data/MenuAddons.json");;
+    // std::shared_ptr mealRepo(
+    //     std::make_shared<FileMealRepository>("Data/MealHistory.json", menuRepo));
+    // std::unique_ptr orderRepo(std::make_unique<OrderRepository>("Data/Order.json", mealRepo));
+    // std::unique_ptr orderService = std::make_unique<OrderService>();
+    // std::shared_ptr orderManager(std::make_shared<OrderManager>(orderRepo, orderService));
+    // PushScreen(std::make_unique<OrderScreen>(*this, orderManager, mealRepo));
 
     // Initialize Dashboard as the main screen
     PushScreen(std::make_unique<Dashboard>(*this));

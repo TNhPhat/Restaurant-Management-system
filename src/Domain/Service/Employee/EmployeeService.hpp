@@ -38,16 +38,10 @@ public:
     EmployeeInfoService();
 
     void AddEmployee(std::shared_ptr<Employee> Employee);
-
-    std::vector<std::shared_ptr<Employee> > GetAllEmployeeInfo();
-
-    std::shared_ptr<Employee> SearchEmployeebyID(const int &ID);
-
-    std::vector<std::shared_ptr<Employee> > SearchEmployeebyName(const std::string &Name);
-
-    std::vector<std::shared_ptr<Employee> > SearchEmployeebyPosition(const EmployeePosition &Position);
-
-    void RemoveEmployeebyID(const int &ID);
-
+    std::vector<std::shared_ptr<Employee>> GetAllEmployeeInfo();
+    std::shared_ptr<Employee> SearchEmployeebyID(const int& ID);
+    std::vector<std::shared_ptr<Employee>> SearchEmployeebyName(const std::string& Name);
+    std::vector<std::shared_ptr<Employee>> SearchEmployeebyPosition(const EmployeePosition& Position);
+    void RemoveEmployeebyID(const int& ID);
     void SaveEmployeeInfo();
 };

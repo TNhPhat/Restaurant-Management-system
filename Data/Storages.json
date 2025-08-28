@@ -3,7 +3,7 @@
         "Resources": [
             {
                 "ResourceID": 1,
-                "ResourceName": "chicken",
+                "ResourceName": "chicken 12",
                 "ResourcePrice": 100.0,
                 "ResourceQuantity": 10
             },
@@ -18,6 +18,18 @@
                 "ResourceName": "rice",
                 "ResourcePrice": 10.0,
                 "ResourceQuantity": 100
+            },
+            {
+                "ResourceID": 4,
+                "ResourceName": "hihi",
+                "ResourcePrice": 0.0,
+                "ResourceQuantity": 0
+            },
+            {
+                "ResourceID": 5,
+                "ResourceName": "hehe",
+                "ResourcePrice": 0.0,
+                "ResourceQuantity": 0
             }
         ],
         "StorageID": 1
@@ -48,5 +60,27 @@
     {
         "Resources": [],
         "StorageID": 3
+    },
+    {
+        "Resources": [
+            {
+                "ResourceID": 1,
+                "ResourceName": "",
+                "ResourcePrice": 0.0,
+                "ResourceQuantity": 0
+            }
+        ],
+        "StorageID": 4
+    },
+    {
+        "Resources": [
+            {
+                "ResourceID": 1,
+                "ResourceName": "hjnjk",
+                "ResourcePrice": 0.0,
+                "ResourceQuantity": 0
+            }
+        ],
+        "StorageID": 5
     }
 ]

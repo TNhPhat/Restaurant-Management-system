@@ -1,5 +1,6 @@
 #pragma once
 #include "Screen.hpp"
+#include "StorageScreen.hpp"
 #include "Storage/Storage.hpp"
 #include "Storage/Resource.hpp"
 

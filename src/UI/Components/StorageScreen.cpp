@@ -10,8 +10,8 @@ StorageScreen::StorageScreen(Core &core)
 
 void StorageScreen::Init() {
 }
-
-void StorageScreen::OnExit() {
+void StorageScreen::OnExit(){
+    StorageManager::GetInstance().SaveStorageToFile();
 }
 
 void StorageScreen::Render(float dt) {
@@ -38,6 +38,7 @@ void StorageScreen::DrawTable() {
             std::string text = "Storage " + std::to_string(num);
             if (ImGui::Selectable(text.c_str(), true, ImGuiSelectableFlags_None)) {
                 std::cout << "Click on " << num << std::endl;
+                StorageManager::GetInstance().SaveStorageToFile();
                 this->m_Core.PushScreen(std::make_unique<ResourceScreen>(m_Core, storage.get()));
             }
             ImGui::TableSetColumnIndex(1);
