@@ -121,7 +121,7 @@ void Dashboard::Render(float DT) {
     DateTime fromDT = DateTime::Now().SetHour(0).SetMinute(0).SetSecond(0), toDT = DateTime::Now().SetHour(23).
             SetMinute(59).SetSecond(59), future = DateTime(1, 1, 2100);
     ImGui::Text("Today: %d", m_OrderManager->GetOrdersInDateRange(fromDT, toDT).size());
-    ImGui::Text("All the time: %d", m_OrderManager->GetAllOrders().size());
+    ImGui::Text("All time: %d", m_OrderManager->GetAllOrders().size());
 
     ImGui::NextColumn();
     ImGui::TextColored(ImVec4(0.7f, 0.2f, 0.5f, 1.0f), "Reservations");
