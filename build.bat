@@ -2,20 +2,20 @@
 setlocal
 
 :: Clean previous build directory if it exists
-if exist build (
-    echo Cleaning previous build directory...
-    rd /s /q build
-)
+@REM if exist build (
+@REM     echo Cleaning previous build directory...
+@REM     rd /s /q build
+@REM )
 
-:: Create build directory and enter it
-mkdir build
-cd build
+@REM :: Create build directory and enter it
+@REM mkdir build
 
-echo Configuring with CMake (MinGW Makefiles)...
-cmake .. -G "Ninja"
-if errorlevel 1 goto :error
+@REM echo Configuring with CMake (MinGW Makefiles)...
+@REM cmake .. -G "Ninja"
+@REM if errorlevel 1 goto :error
 
 echo Building project...
+cd build
 ninja
 if errorlevel 1 goto :error
 

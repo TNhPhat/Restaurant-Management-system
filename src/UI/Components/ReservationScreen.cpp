@@ -20,7 +20,8 @@ void ReservationScreen::OnExit() {
 void ReservationScreen::Render(float dt) {
     ImGui::Text("Restaurant Reservation Management");
     ImGui::Separator();
-
+    
+    DrawBackButton();
     DrawNewReservationInput();
     ImGui::Spacing();
 
@@ -29,7 +30,6 @@ void ReservationScreen::Render(float dt) {
 
     DrawSaveButton();
     ImGui::SameLine();
-    DrawBackButton();
 }
 
 // Draw input + button to add new reservation
@@ -238,7 +238,7 @@ void ReservationScreen::DrawSaveButton() {
 
 // Back to previous screen
 void ReservationScreen::DrawBackButton() {
-    if (ImGui::Button("Back")) {
+    if (ImGui::Button("Go Back")) {
         m_Core.PopScreen();
     }
 }
