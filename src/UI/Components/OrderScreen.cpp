@@ -26,6 +26,7 @@ void OrderScreen::Render(float dt) {
     ImGui::Text("Restaurant Order Management");
     ImGui::Separator();
 
+    DrawBackButton();
     DrawNewOrderInput();
     ImGui::Spacing();
 
@@ -34,7 +35,6 @@ void OrderScreen::Render(float dt) {
 
     DrawSaveButton();
     ImGui::SameLine();
-    DrawBackButton();
 
     // Handle popups
     if (m_ShowMealSelectionPopup) {
@@ -626,7 +626,7 @@ void OrderScreen::DrawSaveButton() {
 }
 
 void OrderScreen::DrawBackButton() {
-    if (ImGui::Button("Back")) {
+    if (ImGui::Button("Go Back")) {
         m_Core.PopScreen();
     }
 }
