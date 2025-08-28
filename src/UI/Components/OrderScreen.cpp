@@ -135,7 +135,7 @@ void OrderScreen::DrawOrderTable() {
 
     if (ImGui::BeginTable("Orders", 7, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
         ImGui::TableSetupColumn("Order ID", ImGuiTableColumnFlags_WidthFixed, 80.0f);
-        ImGui::TableSetupColumn("Table ID", ImGuiTableColumnFlags_WidthFixed, 80.0f);
+        ImGui::TableSetupColumn("Table ID", ImGuiTableColumnFlags_WidthFixed, 120.0f);
         ImGui::TableSetupColumn("Customer Phone", ImGuiTableColumnFlags_WidthFixed,
                                 ImGui::CalcTextSize("Customer Phone").x + 80);
         ImGui::TableSetupColumn("Time", ImGuiTableColumnFlags_WidthFixed, 210.0f);
@@ -156,7 +156,7 @@ void OrderScreen::DrawOrderTable() {
             ImGui::TableSetColumnIndex(1);
             int &tableID = m_EditedTableID[orderID];
             if (tableID == 0) tableID = order->GetTableID();
-            ImGui::SetNextItemWidth(-1);
+            ImGui::SetNextItemWidth(100);
             ImGui::InputInt(("##table" + std::to_string(orderID)).c_str(), &tableID);
 
             // --- Customer Phone ---
@@ -167,7 +167,7 @@ void OrderScreen::DrawOrderTable() {
             char phoneBuffer[256];
             strncpy(phoneBuffer, customerPhone.c_str(), sizeof(phoneBuffer) - 1);
             phoneBuffer[sizeof(phoneBuffer) - 1] = '\0';
-            ImGui::SetNextItemWidth(-1);
+            ImGui::SetNextItemWidth(150);
             if (ImGui::InputText(("##phone" + std::to_string(orderID)).c_str(), phoneBuffer, sizeof(phoneBuffer))) {
                 customerPhone = std::string(phoneBuffer);
             }
@@ -184,7 +184,7 @@ void OrderScreen::DrawOrderTable() {
             auto minutes = DateTime::GetValidMinutes(5);
 
             std::string hourLabel = (dt.GetHour() < 10 ? "0" : "") + std::to_string(dt.GetHour());
-            ImGui::SetNextItemWidth(50);
+            ImGui::SetNextItemWidth(80);
             if (ImGui::BeginCombo(("##hour_" + std::to_string(orderID)).c_str(), hourLabel.c_str())) {
                 for (int h: hours) {
                     std::string label = (h < 10 ? "0" : "") + std::to_string(h);
@@ -201,7 +201,7 @@ void OrderScreen::DrawOrderTable() {
             ImGui::SameLine();
 
             std::string minuteLabel = (dt.GetMinute() < 10 ? "0" : "") + std::to_string(dt.GetMinute());
-            ImGui::SetNextItemWidth(50);
+            ImGui::SetNextItemWidth(80);
             if (ImGui::BeginCombo(("##minute_" + std::to_string(orderID)).c_str(), minuteLabel.c_str())) {
                 for (int m: minutes) {
                     std::string label = (m < 10 ? "0" : "") + std::to_string(m);

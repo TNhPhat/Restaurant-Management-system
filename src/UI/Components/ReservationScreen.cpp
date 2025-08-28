@@ -103,7 +103,7 @@ void ReservationScreen::DrawReservationTable() {
             // --- Day combo ---
             {
                 std::string id = "##day_" + phone;
-                ImGui::SetNextItemWidth(50);
+                ImGui::SetNextItemWidth(100);
                 if (ImGui::BeginCombo(id.c_str(), std::to_string(dt.GetDay()).c_str())) {
                     for (int d: days) {
                         bool selected = (d == dt.GetDay());
@@ -141,7 +141,7 @@ void ReservationScreen::DrawReservationTable() {
             // --- Year combo ---
             {
                 std::string id = "##year_" + phone;
-                ImGui::SetNextItemWidth(70);
+                ImGui::SetNextItemWidth(100);
                 if (ImGui::BeginCombo(id.c_str(), std::to_string(dt.GetYear()).c_str())) {
                     for (int y: years) {
                         bool selected = (y == dt.GetYear());
@@ -163,7 +163,7 @@ void ReservationScreen::DrawReservationTable() {
             {
                 std::string hourLabel = (dt.GetHour() < 10 ? "0" : "") + std::to_string(dt.GetHour());
                 std::string id = "##hour_" + phone;
-                ImGui::SetNextItemWidth(50);
+                ImGui::SetNextItemWidth(80);
                 if (ImGui::BeginCombo(id.c_str(), hourLabel.c_str())) {
                     for (int h: hours) {
                         std::string label = (h < 10 ? "0" : "") + std::to_string(h);
@@ -182,7 +182,7 @@ void ReservationScreen::DrawReservationTable() {
             {
                 std::string minuteLabel = (dt.GetMinute() < 10 ? "0" : "") + std::to_string(dt.GetMinute());
                 std::string id = "##minute_" + phone;
-                ImGui::SetNextItemWidth(50);
+                ImGui::SetNextItemWidth(80 );
                 if (ImGui::BeginCombo(id.c_str(), minuteLabel.c_str())) {
                     for (int m: minutes) {
                         std::string label = (m < 10 ? "0" : "") + std::to_string(m);
