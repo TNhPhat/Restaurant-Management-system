@@ -21,7 +21,13 @@
             },
             {
                 "ResourceID": 4,
-                "ResourceName": "",
+                "ResourceName": "hihi",
+                "ResourcePrice": 0.0,
+                "ResourceQuantity": 0
+            },
+            {
+                "ResourceID": 5,
+                "ResourceName": "hehe",
                 "ResourcePrice": 0.0,
                 "ResourceQuantity": 0
             }
@@ -54,5 +60,27 @@
     {
         "Resources": [],
         "StorageID": 3
+    },
+    {
+        "Resources": [
+            {
+                "ResourceID": 1,
+                "ResourceName": "",
+                "ResourcePrice": 0.0,
+                "ResourceQuantity": 0
+            }
+        ],
+        "StorageID": 4
+    },
+    {
+        "Resources": [
+            {
+                "ResourceID": 1,
+                "ResourceName": "hjnjk",
+                "ResourcePrice": 0.0,
+                "ResourceQuantity": 0
+            }
+        ],
+        "StorageID": 5
     }
 ]

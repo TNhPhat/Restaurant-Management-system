@@ -16,7 +16,7 @@ void StorageScreen::Init(){
 
 }
 void StorageScreen::OnExit(){
-
+    StorageManager::GetInstance().SaveStorageToFile();
 }
 void StorageScreen::Render(float dt){
     ImGui::Text("Restaurant Storage Management");
@@ -43,6 +43,7 @@ void StorageScreen::DrawTable() {
             if (ImGui::Selectable(text.c_str(), true, ImGuiSelectableFlags_None))
             {
                 std::cout << "Click on " << num << std::endl;
+                StorageManager::GetInstance().SaveStorageToFile();
                 this->m_Core.PushScreen(std::make_unique<ResourceScreen>(m_Core, storage.get()));
             }
             ImGui::TableSetColumnIndex(1);

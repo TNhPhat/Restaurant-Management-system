@@ -11,6 +11,7 @@ EmployeesScreen::EmployeesScreen(Core &core)
 void EmployeesScreen::Init() {
     // Không thay đổi
     m_EmployeeManager = std::make_shared<EmployeeManager>();
+    IDManager::Init("/home/hlt/Documents/Restaurant-Management-system/Data/IDRegistry.json");
 }
 
 void EmployeesScreen::OnExit() {
@@ -96,6 +97,7 @@ void EmployeesScreen::DrawTable() {
 void EmployeesScreen::DrawSaveButton() {
     if (ImGui::Button("Save All")) {
         // Gọi hàm lưu từ EmployeeManager
+        m_EmployeeManager->SaveEmployeeInfo();
     }
 }
 
@@ -105,13 +107,96 @@ void EmployeesScreen::DrawBackButton() {
     }
 }
 
+// void EmployeesScreen::DrawAddButton() {
+//     if (ImGui::Button("Add")) {
+//         // Lấy danh sách nhân viên hiện tại để tạo ID mới
+//         std::vector<std::shared_ptr<Employee>> currentEmployees = m_EmployeeManager->GetAllEmployeeInfo();
+//         int newId = IDManager::GetInstance();
+//
+//         // Tạo một đối tượng Employee mới với các giá trị mặc định/trống
+//         auto newEmployee = std::make_shared<Employee>();
+//
+//         // Đặt ID duy nhất cho nhân viên mới
+//         newEmployee->SetEmployeeID(newId);
+//
+//         // Thêm trực tiếp nhân viên mới vào Manager
+//         m_EmployeeManager->AddEmployee(newEmployee);
+//     }
+// }
+
 void EmployeesScreen::DrawAddButton() {
     if (ImGui::Button("Add")) {
-        // Logic thêm mới không đổi, vì m_Employees là tham chiếu trực tiếp đến dữ liệu trong Manager
-        // int newId = m_Employees.empty() ? 1 : m_Employees.back()->GetEmployeeID() + 1;
-        // auto newEmployee = std::make_shared<Employee>("New Employee", "email@example.com", "0123456789", Gender::Female,
-        //                                               DateTime::Now(), 3000000, EmployeePosition::Waiter);
-        // newEmployee->SetEmployeeID(newId);
-        // this->m_Employees.push_back(newEmployee);
+        // Initialize fields with default values
+        this->m_nameField = "";
+        this->m_emailField = "";
+        this->m_phoneField = "";
+        this->m_genderField = 0; // Female = 0, Male = 1
+        this->m_salaryField = 3000000; // Default salary
+        this->m_positionField = 3; // Waiter = 3
+        this->m_dateJoinedField = DateTime::Now();
+        ImGui::OpenPopup("Add Employee");
+    }
+
+    if (ImGui::BeginPopupModal("Add Employee", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("Add Employee");
+        ImGui::Separator();
+
+        ImGui::TextUnformatted("Name");
+        ImGui::InputText("##Name", &m_nameField);
+
+        ImGui::TextUnformatted("Email");
+        ImGui::InputText("##Email", &m_emailField);
+
+        ImGui::TextUnformatted("Phone");
+        ImGui::InputText("##Phone", &m_phoneField);
+
+        ImGui::TextUnformatted("Gender");
+        const char *genders[] = {"Female", "Male"};
+        ImGui::Combo("##Gender", &m_genderField, genders, IM_ARRAYSIZE(genders));
+
+        ImGui::TextUnformatted("Salary");
+        ImGui::InputInt("VND##Salary", &m_salaryField, 100000, 500000);
+        if (m_salaryField < 0) m_salaryField = 0;
+
+        ImGui::TextUnformatted("Position");
+        const char *positions[] = {"Chef", "Manager", "Receptionist", "Waiter", "Reservation"};
+        ImGui::Combo("##Position", &m_positionField, positions, IM_ARRAYSIZE(positions));
+
+        ImGui::TextUnformatted("Date Joined");
+        std::string buttonText = m_dateJoinedField.ToStringDate();
+        if (ImGui::Button(buttonText.c_str())) {
+            ImGui::OpenPopup("DatePicker");
+        }
+        if (m_datePicker.Render("DatePicker")) {
+            m_dateJoinedField = m_datePicker.GetDateTime();
+        }
+
+        ImGui::Dummy(ImVec2(0.0f, 20.0f));
+
+        if (ImGui::Button("OK", ImVec2(120, 0))) {
+            // Create new employee
+            auto newEmployee = std::make_shared<Employee>(
+                m_nameField,
+                m_emailField,
+                m_phoneField,
+                static_cast<Gender>(m_genderField),
+                m_dateJoinedField,
+                m_salaryField,
+                static_cast<EmployeePosition>(m_positionField)
+            );
+
+            // Add through manager
+            m_EmployeeManager->AddEmployee(newEmployee);
+
+            // Set refresh flag if available
+            this->m_shouldRefresh = true;
+
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
     }
 }

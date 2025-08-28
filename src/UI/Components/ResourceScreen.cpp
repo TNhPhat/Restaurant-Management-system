@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "IDManager.hpp"
 #include "UI/UICore/Core.hpp"
 
 ResourceScreen::ResourceScreen(Core &core, Storage *storage)
@@ -115,6 +116,7 @@ void ResourceScreen::DrawBackButton() {
 
 void ResourceScreen::DrawAddButton() {
     if (ImGui::Button("Add")) {
-        this->m_Resources.push_back(std::make_shared<Resource>(this->m_Resources.back()->GetID() + 1));
+        int nID = this->m_Resources.empty() ? 1 : this->m_Resources.back()->GetID() + 1;
+        this->m_Resources.push_back(std::make_shared<Resource>(nID));
     }
 }
