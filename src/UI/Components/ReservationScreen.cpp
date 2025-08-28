@@ -232,7 +232,7 @@ void ReservationScreen::DrawReservationTable() {
 // Save to file
 void ReservationScreen::DrawSaveButton() {
     if (ImGui::Button("Save All")) {
-        m_Manager->SaveReservations("Reservation.json");
+        m_Manager->SaveReservations("Data/Reservation.json");
     }
 }
 
