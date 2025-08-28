@@ -10,8 +10,8 @@ FileTableRepository::FileTableRepository(std::string filePath) {
         return;
     }
 
-    for (const auto& tableData : data) {
-        int id = tableData["ID"].get<int>();
+    for (const auto &tableData: data) {
+        int id = tableData["TableID"].get<int>();
         int maxCapacity = tableData["MaxCapacity"].get<int>();
         int location = tableData["LocationIdentifier"].get<int>();
         TableStatus status = static_cast<TableStatus>(tableData["Status"].get<int>());
@@ -19,14 +19,14 @@ FileTableRepository::FileTableRepository(std::string filePath) {
         auto table = std::make_shared<Table>(id, maxCapacity, location);
         table->SetTableStatus(status);
 
-        this->ITableRepository::SaveTable(table);
+        this->SaveTable(table);
     }
 }
 
 void FileTableRepository::SaveTables(std::string filePath) const {
     json data = json::array();
 
-    for (const auto& t : this->GetTables()) {
+    for (const auto &t: this->GetTables()) {
         json tJson;
         tJson["ID"] = t->GetTableID();
         tJson["MaxCapacity"] = t->GetMaxCapacity();

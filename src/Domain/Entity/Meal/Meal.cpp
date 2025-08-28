@@ -2,22 +2,24 @@
 #include "IDManager.hpp"
 #include "FileHandle/FileHandle.hpp"
 
-MealItem::MealItem(const int ID, MenuItem &Item, int Quantity, const std::string &Note) : m_MealItemID(ID),
-    m_MenuItem(Item), m_Quantity(Quantity), m_Note(Note) {
+MealItem::MealItem(const int ID, const std::shared_ptr<MenuItem> &Item, int Quantity,
+                   const std::string &Note) : m_MealItemID(ID),
+                                              m_MenuItem(Item), m_Quantity(Quantity), m_Note(Note) {
     if (ID <= 0) {
         throw std::invalid_argument("Meal Item ID must be greater than zero");
     }
     if (Quantity <= 0) {
         throw std::invalid_argument("Quantity must be greater than zero");
     }
-    Item.IncreaseCount();
+    Item->IncreaseCount();
 }
 
-MealItem::MealItem(MenuItem &Item, const int Quantity) : MealItem(IDManager::GetInstance().GetNextID("MealItem"),
-                                                                  Item, Quantity, "") {
+MealItem::MealItem(const std::shared_ptr<MenuItem> &Item, const int Quantity) : MealItem(
+    IDManager::GetInstance().GetNextID("MealItem"),
+    Item, Quantity, "") {
 }
 
-MealItem::MealItem(MenuItem &Item, const int Quantity, const std::string &Note) : MealItem(
+MealItem::MealItem(const std::shared_ptr<MenuItem> &Item, const int Quantity, const std::string &Note) : MealItem(
     IDManager::GetInstance().GetNextID("MealItem"), Item, Quantity, Note) {
 }
 
@@ -27,11 +29,15 @@ MealItem::MealItem(const MealItem &Origin) : m_MealItemID(Origin.m_MealItemID), 
 }
 
 double MealItem::GetPrice() const {
-    return this->m_Quantity * this->m_MenuItem.GetPrice();
+    return this->m_Quantity * this->m_MenuItem->GetPrice();
 }
 
 int MealItem::GetID() const {
     return this->m_MealItemID;
+}
+
+int MealItem::GetMenuItemID() const {
+    return this->m_MenuItem->GetID();
 }
 
 int MealItem::GetQuantity() const {
@@ -46,9 +52,13 @@ std::string MealItem::GetNote() const {
     return this->m_Note;
 }
 
-const MenuItem &MealItem::GetMenuItem() const {
-    return this->m_MenuItem;
+std::string MealItem::GetMenuItemTitle() const {
+    return this->m_MenuItem->GetTitle();
 }
+
+// const MenuItem &MealItem::GetMenuItem() const {
+//     return this->m_MenuItem;
+// }
 
 bool MealItem::ContainsAddon(const int AddonID) const {
     for (const auto &Addon: this->m_Addons) {
@@ -65,7 +75,7 @@ void MealItem::SetQuantity(const int Quantity) {
 
 std::vector<MealIngredient> MealItem::GetResources() const {
     std::unordered_map<std::string, int> ingredients;
-    for (const auto &[Name, Quantity]: this->m_MenuItem.GetIngredients()) {
+    for (const auto &[Name, Quantity]: this->m_MenuItem->GetIngredients()) {
         ingredients[Name] += Quantity * this->m_Quantity;
     }
     for (const auto &AddonPtr: this->m_Addons) {
@@ -120,20 +130,21 @@ void MealItem::RemoveAddon(const int AddonID, const unsigned int Quantity) {
     throw std::invalid_argument("Addon not found with ID: " + std::to_string(AddonID));
 }
 
-Meal::Meal(DateTime date) : Meal(IDManager::GetInstance().GetNextID("Meal"), date) {
+Meal::Meal(const DateTime &date) : Meal(IDManager::GetInstance().GetNextID("Meal"), date) {
 }
 
-Meal::Meal(const int ID, DateTime date) : m_MealID(ID), m_MealDate(date) {
+Meal::Meal(const int ID, const DateTime &date) : m_MealID(ID), m_MealDate(date) {
     if (ID <= 0) {
         throw std::invalid_argument("Meal ID must be greater than zero");
     }
 }
 
-void Meal::AddItem(const std::shared_ptr<MealItem> &Item) {
+std::shared_ptr<MealItem> Meal::AddItem(const std::shared_ptr<MealItem> &Item) {
     if (Item == nullptr) {
         throw std::invalid_argument("MealItem cannot be null");
     }
     this->m_MealItems.emplace_back(Item);
+    return Item;
 }
 
 int Meal::GetID() const {

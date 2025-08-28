@@ -12,7 +12,7 @@ OrderManager::~OrderManager() {
 }
 
 void OrderManager::CreateOrder(const int &tableID, const std::string &customerPhone,
-                               const DateTime &date, const std::vector<std::shared_ptr<Meal> > &meals) {
+                               const DateTime &date, const std::shared_ptr<Meal> &meals) {
     auto order = m_Service->GenerateOrder(tableID, customerPhone, date, meals);
     m_Orders.push_back(order);
 }
@@ -50,4 +50,13 @@ void OrderManager::SaveAllOrders() {
 std::vector<std::shared_ptr<Order> > OrderManager::GetOrdersInDateRange(const DateTime &startDate,
                                                                         const DateTime &endDate) const {
     return m_Service->FilterByDateRange(m_Orders, startDate, endDate);
+}
+
+std::shared_ptr<Order> OrderManager::GetOrder(const int &orderID) const {
+    for (const auto &order: m_Orders) {
+        if (order->GetID() == orderID) {
+            return order;
+        }
+    }
+    return nullptr;
 }

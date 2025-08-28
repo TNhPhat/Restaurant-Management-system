@@ -40,7 +40,7 @@ bool SubMenuScreen<T>::Render(T &instance) {
     return false;
 }
 
-class MenuSubMenuScreen : public SubMenuScreen<MenuManager> {
+class MenuSubMenuScreen : public SubMenuScreen<std::shared_ptr<MenuManager> > {
 private:
     friend class MenuScreen;
     std::vector<std::shared_ptr<Menu> > m_currentMenus;
@@ -49,12 +49,12 @@ private:
 public:
     MenuSubMenuScreen();
 
-    bool RenderLeft(MenuManager &instance) override;
+    bool RenderLeft(std::shared_ptr<MenuManager> &instance) override;
 
-    void RenderRight(MenuManager &instance) override;
+    void RenderRight(std::shared_ptr<MenuManager> &instance) override;
 };
 
-class SectionSubMenuScreen : public SubMenuScreen<MenuManager> {
+class SectionSubMenuScreen : public SubMenuScreen<std::shared_ptr<MenuManager> > {
 private:
     std::vector<std::shared_ptr<MenuSection> > m_currentSections;
     std::string m_nameField, m_descriptionField;
@@ -64,12 +64,12 @@ public:
 
     SectionSubMenuScreen();
 
-    bool RenderLeft(MenuManager &instance) override;
+    bool RenderLeft(std::shared_ptr<MenuManager> &instance) override;
 
-    void RenderRight(MenuManager &instance) override;
+    void RenderRight(std::shared_ptr<MenuManager> &instance) override;
 };
 
-class ItemSubMenuScreen : public SubMenuScreen<MenuManager> {
+class ItemSubMenuScreen : public SubMenuScreen<std::shared_ptr<MenuManager> > {
 private:
     std::vector<std::shared_ptr<MenuItem> > m_currentItems;
     std::string m_nameField, m_descriptionField;
@@ -82,12 +82,12 @@ public:
 
     ItemSubMenuScreen();
 
-    bool RenderLeft(MenuManager &instance) override;
+    bool RenderLeft(std::shared_ptr<MenuManager> &instance) override;
 
-    void RenderRight(MenuManager &instance) override;
+    void RenderRight(std::shared_ptr<MenuManager> &instance) override;
 };
 
-class AddonSubMenuScreen : public SubMenuScreen<MenuManager> {
+class AddonSubMenuScreen : public SubMenuScreen<std::shared_ptr<MenuManager> > {
 private:
     std::vector<std::shared_ptr<MenuAddon> > m_currentAddons;
     std::string m_nameField;
@@ -100,20 +100,20 @@ public:
 
     AddonSubMenuScreen();
 
-    bool RenderLeft(MenuManager &instance) override;
+    bool RenderLeft(std::shared_ptr<MenuManager> &instance) override;
 
-    void RenderRight(MenuManager &instance) override;
+    void RenderRight(std::shared_ptr<MenuManager> &instance) override;
 };
 
 class MenuScreen : public Screen {
-    MenuManager s_menuManager;
+    std::shared_ptr<MenuManager> s_menuManager;
     MenuSubMenuScreen m_menuSubMenuScreen;
     SectionSubMenuScreen m_sectionSubMenuScreen;
     ItemSubMenuScreen m_itemSubMenuScreen;
     AddonSubMenuScreen m_addonSubMenuScreen;
 
 public:
-    MenuScreen(Core &core);
+    MenuScreen(Core &core, std::shared_ptr<MenuManager> menuManager);
 
     void Render(float DT) override;
 

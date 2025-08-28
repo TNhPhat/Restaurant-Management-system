@@ -9,7 +9,7 @@
 class OrderService {
 public:
     std::shared_ptr<Order> GenerateOrder(const int &tableID, const std::string &customerPhone, const DateTime &date,
-                                         const std::vector<std::shared_ptr<Meal> > &meals);
+                                         const std::shared_ptr<Meal> &meals);
 
     std::vector<std::shared_ptr<Order> > FilterByDate(const std::vector<std::shared_ptr<Order> > &orders,
                                                       const DateTime &date);

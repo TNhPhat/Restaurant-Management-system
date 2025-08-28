@@ -12,17 +12,23 @@
 #include <unordered_map>
 #include <vector>
 
+#include "DateTimePicker.hpp"
+
+class Table;
+class TableManager;
+
 class OrderScreen : public Screen {
 private:
     std::shared_ptr<OrderManager> m_Manager;
-    std::shared_ptr<IMenuRepository> m_MenuRepo;
+    std::shared_ptr<const IMenuRepository> m_MenuRepo;
     std::shared_ptr<IMealRepository> m_MealRepo;
+    std::shared_ptr<TableManager> m_TableManager;
+
 
     // New order inputs
-    std::vector<char> m_NewTableIDInput;
-    std::string m_NewTableIDStr;
-    std::vector<char> m_NewCustomerPhoneInput;
+    int m_NewTableID = -1;
     std::string m_NewCustomerPhoneStr;
+    DateTime m_NewDate;
 
     // Editing state
     std::unordered_map<int, int> m_EditedTableID;
@@ -32,10 +38,14 @@ private:
 
     // Meal selection for new orders
     std::vector<int> m_SelectedMealIDs;
-    std::unordered_map<int, int> m_SelectedMealQuantities; // NEW: Track quantities for each meal
+    std::unordered_map<int, int> m_SelectedMenuItemQuantities; // NEW: Track quantities for each meal
     bool m_ShowMealSelectionPopup = false;
     std::vector<bool> m_MealSelectionState;
     std::unordered_map<int, int> m_MealQuantities; // NEW: Track quantities in selection popup
+    std::vector<std::shared_ptr<Table> > m_AvailableTables;
+    std::unordered_map<int, std::unordered_map<int, int> > m_AddonsMap;
+
+    DateTimePicker m_DatePicker;
 
     // Meal detail popup
     int m_ShowMealDetailsForOrder = -1;
@@ -43,9 +53,15 @@ private:
     // Meal editing popup
     int m_EditingOrderID = -1;
     bool m_ShowMealEditPopup = false;
+    int m_SelectedMenuID = -1;
+    int m_SelectedMenuSectionID = -1;
+    bool m_AddonEditPopup = false;
+    bool m_confirm = false;
+    int m_OrderID = -1;
+    int m_MealID = -1;
 
 public:
-    OrderScreen(Core &core, std::shared_ptr<OrderManager> manager, std::shared_ptr<IMenuRepository> menuRepo,
+    OrderScreen(Core &core, std::shared_ptr<OrderManager> manager, std::shared_ptr<const IMenuRepository> menuRepo,
                 std::shared_ptr<IMealRepository> mealRepo);
 
     void Init() override;
@@ -55,8 +71,6 @@ public:
     void Render(float dt) override;
 
 private:
-    void DrawNewOrderInput();
-
     void DrawOrderTable();
 
     void DrawSaveButton();
@@ -67,9 +81,11 @@ private:
 
     void DrawMealDetailsPopup();
 
-    void DrawMealEditPopup();
+    void DrawNewOrderButton();
 
-    const char *StatusToString(OrderStatus status);
+    void DrawEditAddonPopup(int menuID);
 
-    std::vector<OrderStatus> GetValidOrderStatuses();
+    static const char *StatusToString(OrderStatus status);
+
+    static std::vector<OrderStatus> GetValidOrderStatuses();
 };
