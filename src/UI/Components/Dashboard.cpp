@@ -7,6 +7,7 @@
 #include "OrderScreen.hpp"
 #include "ReservationScreen.hpp"
 #include "StorageScreen.hpp"
+#include "EmployeesScreen.hpp"
 #include <chrono>
 #include <iomanip>
 #include <sstream>
@@ -51,7 +52,8 @@ void Dashboard::Render(float DT) {
         {"Menu", ImVec4(0.7f, 0.5f, 0.2f, 1.0f), [this]() { NavigateToMenuScreen(); }},
         {"Budget", ImVec4(0.2f, 0.5f, 0.7f, 1.0f), [this]() { NavigateToBudgetScreen(); }},
         {"Reservations", ImVec4(0.7f, 0.2f, 0.5f, 1.0f), [this]() { NavigateToReservationScreen(); }},
-        {"Storage", ImVec4(0.5f, 0.3f, 0.7f, 1.0f), [this]() { NavigateToStorageScreen(); }}
+        {"Storage", ImVec4(0.5f, 0.3f, 0.7f, 1.0f), [this]() { NavigateToStorageScreen(); }},
+        {"Employees", ImVec4(0.5f, 0.3f, 0.7f, 1.0f), [this]() { NavigateToEmployeesScreen(); }}
     };
 
     // Navigation Grid - evenly distributed buttons
@@ -287,5 +289,13 @@ void Dashboard::NavigateToStorageScreen() {
         m_Core.PushScreen<StorageScreen>(m_Core);
     } catch (const std::exception &e) {
         LOG_ERROR("Failed to open Storage Screen: %s", e.what());
+    }
+}
+
+void Dashboard::NavigateToEmployeesScreen() {
+    try {
+        m_Core.PushScreen<EmployeesScreen>(m_Core);
+    } catch (const std::exception &e) {
+        LOG_ERROR("Failed to open Employees Screen: %s", e.what());
     }
 }
