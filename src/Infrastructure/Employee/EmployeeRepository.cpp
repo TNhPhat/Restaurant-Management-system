@@ -56,7 +56,7 @@ EmployeeRepositoryInfo::EmployeeRepositoryInfo() {
 
 std::vector<std::shared_ptr<Employee>> EmployeeRepositoryInfo::GetAllEmployeeInfo(){
     std::vector<std::shared_ptr<Employee>> EmployeeList;
-    this->m_FileHandler->LoadFile("data\\EmployeeInfo.json");
+    this->m_FileHandler->LoadFile("Data\\EmployeeInfo.json");
     // this->m_FileHandler->LoadFile("/home/hlt/Documents/Restaurant-Management-system/data/EmployeeInfo.json");
 
     json Data = this->m_FileHandler->GetDaTa();
@@ -102,7 +102,7 @@ EmployeeRepositoryAttendance::EmployeeRepositoryAttendance() {
 
 std::vector<std::shared_ptr<AttendanceRecord> > EmployeeRepositoryAttendance::GetAllEmployeeAttendanceRecord() {
     std::vector<std::shared_ptr<AttendanceRecord> > record;
-    this->m_FileHandler->LoadFile("data\\AttendanceRecord.json");
+    this->m_FileHandler->LoadFile("Data\\AttendanceRecord.json");
     json Data = this->m_FileHandler->GetDaTa();
     for (auto it = Data.begin(); it != Data.end(); it++) {
         int ID = (*it)["ID"];
