@@ -31,6 +31,7 @@ void EmployeesScreen::Render(float dt) {
 
 void EmployeesScreen::DrawTable() {
     auto m_Employees = m_EmployeeManager->GetAllEmployeeInfo();
+    Employee* deleted = nullptr;
     if (ImGui::BeginTable("Employees", 6,
                           ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable)) {
         // ... Nội dung của DrawTable giữ nguyên như trước ...
@@ -84,13 +85,16 @@ void EmployeesScreen::DrawTable() {
             // Cột 5: Actions
             ImGui::TableSetColumnIndex(5);
             if (ImGui::Button("Delete")) {
-                m_Employees.erase(m_Employees.begin() + i);
-                --i;
+                deleted = m_Employees[i].get();
             }
 
             ImGui::PopID();
         }
         ImGui::EndTable();
+    }
+
+    if (deleted != nullptr) {
+        m_EmployeeManager->RemoveEmployeebyID(deleted->GetEmployeeID());
     }
 }
 
@@ -102,27 +106,11 @@ void EmployeesScreen::DrawSaveButton() {
 }
 
 void EmployeesScreen::DrawBackButton() {
-    if (ImGui::Button("Back")) {
+    if (ImGui::Button("Go Back")) {
+        this->m_EmployeeManager->SaveEmployeeInfo();
         this->m_Core.PopScreen();
     }
 }
-
-// void EmployeesScreen::DrawAddButton() {
-//     if (ImGui::Button("Add")) {
-//         // Lấy danh sách nhân viên hiện tại để tạo ID mới
-//         std::vector<std::shared_ptr<Employee>> currentEmployees = m_EmployeeManager->GetAllEmployeeInfo();
-//         int newId = IDManager::GetInstance();
-//
-//         // Tạo một đối tượng Employee mới với các giá trị mặc định/trống
-//         auto newEmployee = std::make_shared<Employee>();
-//
-//         // Đặt ID duy nhất cho nhân viên mới
-//         newEmployee->SetEmployeeID(newId);
-//
-//         // Thêm trực tiếp nhân viên mới vào Manager
-//         m_EmployeeManager->AddEmployee(newEmployee);
-//     }
-// }
 
 void EmployeesScreen::DrawAddButton() {
     if (ImGui::Button("Add")) {

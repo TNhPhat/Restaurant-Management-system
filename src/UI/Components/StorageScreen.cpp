@@ -66,6 +66,7 @@ void StorageScreen::DrawBackButton() {
 
 void StorageScreen::DrawAddButton() {
     if (ImGui::Button("Add")) {
-        this->m_Storages.push_back(std::make_shared<Storage>(this->m_Storages.back()->GetID() + 1));
+        int nID = (this->m_Storages.empty()) ? 1 : this->m_Storages.back()->GetID() + 1;
+        this->m_Storages.push_back(std::make_shared<Storage>(nID));
     }
 }
