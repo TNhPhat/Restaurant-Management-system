@@ -239,7 +239,7 @@ void Dashboard::Init() {
     auto FileRevRepo = std::make_unique<FileReservationRepository>("Data/Reservation.json");
     m_ReservationManager = std::make_unique<ReservationManager>(FileRevRepo);
     auto budget = std::make_shared<Budget>();
-    auto repository = std::make_unique<BudgetRepository>("data/Budget.json");
+    auto repository = std::make_unique<BudgetRepository>("Data/Budget.json");
     auto service = std::make_unique<BudgetService>();
     m_BudgetManager = std::make_unique<BudgetManager>(budget, repository, service);
 }
