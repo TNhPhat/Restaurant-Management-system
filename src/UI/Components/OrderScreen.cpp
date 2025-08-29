@@ -108,7 +108,6 @@ void OrderScreen::DrawOrderTable() {
             }
             DateTime &dt = m_EditedDateTime[orderID];
 
-            ImGui::TextUnformatted("Date: ");
             ImGui::SameLine();
             std::string buttonText = dt.ToStringTime();
             if (ImGui::Button((buttonText + "##date" + std::to_string(orderID)).c_str())) {
