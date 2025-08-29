@@ -108,7 +108,6 @@ void OrderScreen::DrawOrderTable() {
             }
             DateTime &dt = m_EditedDateTime[orderID];
 
-            ImGui::TextUnformatted("Date: ");
             ImGui::SameLine();
             std::string buttonText = dt.ToStringTime();
             if (ImGui::Button((buttonText + "##date" + std::to_string(orderID)).c_str())) {
@@ -314,7 +313,7 @@ void OrderScreen::DrawMealSelectionPopup() {
                 auto order = m_Manager->GetOrder(m_OrderID);
                 if (order) {
                     auto meal = order->GetMeal();
-                    for (auto id: meal->GetMealItems()) {
+                    for (const auto &id: meal->GetMealItems()) {
                         meal->RemoveItem(id->GetID());
                     }
                     for (auto &[mealID, quantity]: m_SelectedMenuItemQuantities) {
@@ -457,6 +456,9 @@ void OrderScreen::DrawNewOrderButton() {
         this->m_DatePicker.SetDateTime(m_NewDate);
         this->m_DatePicker.SetShowTime(true);
         this->m_DatePicker.SetShowSeconds(true);
+        m_AddonsMap.clear();
+        m_confirm = false;
+        m_OrderID = -1;
 
         // Open the popup
         ImGui::OpenPopup("Create New Order");
@@ -502,6 +504,8 @@ void OrderScreen::DrawNewOrderButton() {
             m_SelectedMenuItemQuantities.clear();
             m_AddonsMap.clear();
             m_ShowMealSelectionPopup = true;
+            m_confirm = false;
+            m_OrderID = -1;
             ImGui::OpenPopup("Select Meals");
         }
         DrawMealSelectionPopup();
@@ -537,8 +541,8 @@ void OrderScreen::DrawNewOrderButton() {
             if (m_NewTableID != -1 && !m_NewCustomerPhoneStr.empty() && !m_SelectedMenuItemQuantities.empty()) {
                 auto meal = std::make_shared<Meal>(m_NewDate);
 
-                for (const auto &[mealID, quantity]: m_SelectedMenuItemQuantities) {
-                    if (meal) {
+                if (meal) {
+                    for (const auto &[mealID, quantity]: m_SelectedMenuItemQuantities) {
                         auto item = meal->AddItem(m_MenuRepo->GetMenuItemByID(mealID), quantity);
                         if (m_AddonsMap.contains(mealID)) {
                             for (const auto &[addonID, addonQty]: m_AddonsMap[mealID]) {
@@ -547,9 +551,6 @@ void OrderScreen::DrawNewOrderButton() {
                             }
                         }
                     }
-                }
-
-                if (!meal) {
                     m_Manager->CreateOrder(m_NewTableID, m_NewCustomerPhoneStr, m_NewDate, meal);
 
                     // Clear inputs and close popup
@@ -577,6 +578,7 @@ void OrderScreen::DrawNewOrderButton() {
         ImGui::EndPopup();
     }
 }
+
 
 void OrderScreen::DrawEditAddonPopup(int menuID) {
     if (!ImGui::BeginPopupModal("Edit Addons", &m_AddonEditPopup, ImGuiWindowFlags_AlwaysAutoResize))

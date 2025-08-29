@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <sstream>
 
+#include "EmployeesScreen.hpp"
 #include "FileMenuRepository.hpp"
 #include "UI/UICore/Core.hpp"
 
@@ -51,7 +52,8 @@ void Dashboard::Render(float DT) {
         {"Menu", ImVec4(0.7f, 0.5f, 0.2f, 1.0f), [this]() { NavigateToMenuScreen(); }},
         {"Budget", ImVec4(0.2f, 0.5f, 0.7f, 1.0f), [this]() { NavigateToBudgetScreen(); }},
         {"Reservations", ImVec4(0.7f, 0.2f, 0.5f, 1.0f), [this]() { NavigateToReservationScreen(); }},
-        {"Storage", ImVec4(0.5f, 0.3f, 0.7f, 1.0f), [this]() { NavigateToStorageScreen(); }}
+        {"Storage", ImVec4(0.5f, 0.3f, 0.7f, 1.0f), [this]() { NavigateToStorageScreen(); }},
+        {"Employees", ImVec4(0.5f, 0.3f, 0.7f, 1.0f), [this]() { NavigateToEmployeesScreen(); }}
     };
 
     // Navigation Grid - evenly distributed buttons
@@ -237,7 +239,7 @@ void Dashboard::Init() {
     auto FileRevRepo = std::make_unique<FileReservationRepository>("Data/Reservation.json");
     m_ReservationManager = std::make_unique<ReservationManager>(FileRevRepo);
     auto budget = std::make_shared<Budget>();
-    auto repository = std::make_unique<BudgetRepository>("data/Budget.json");
+    auto repository = std::make_unique<BudgetRepository>("Data/Budget.json");
     auto service = std::make_unique<BudgetService>();
     m_BudgetManager = std::make_unique<BudgetManager>(budget, repository, service);
 }
@@ -289,5 +291,13 @@ void Dashboard::NavigateToStorageScreen() {
         m_Core.PushScreen<StorageScreen>(m_Core);
     } catch (const std::exception &e) {
         LOG_ERROR("Failed to open Storage Screen: %s", e.what());
+    }
+}
+
+void Dashboard::NavigateToEmployeesScreen() {
+    try {
+        m_Core.PushScreen<EmployeesScreen>(m_Core);
+    } catch (const std::exception &e) {
+        LOG_ERROR("Failed to open Employees Screen: %s", e.what());
     }
 }

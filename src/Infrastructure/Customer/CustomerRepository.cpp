@@ -4,7 +4,7 @@ CustomerRepository::CustomerRepository(){
 }
 
 std::vector<std::shared_ptr<Customer>> CustomerRepository::GetAllCustomerInfo(){
-    this->m_FileHandler->LoadFile("data\\CustomerInfo.json");
+    this->m_FileHandler->LoadFile("Data\\CustomerInfo.json");
     std::vector<std::shared_ptr<Customer>> CustomerInfo;
     json Data = this->m_FileHandler->GetDaTa();
     for(auto it = Data.begin() ; it != Data.end() ; it++){

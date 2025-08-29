@@ -16,7 +16,7 @@ public:
     bool AddResource(int ID, std::string Name, int Quantity, float Price);
     bool Use(int ID, int q);
     bool Add(int ID, int q);
-
+    bool Delete(int ID);
 };
 
 

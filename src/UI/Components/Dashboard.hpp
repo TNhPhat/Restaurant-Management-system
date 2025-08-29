@@ -38,4 +38,6 @@ private:
     void NavigateToReservationScreen();
 
     void NavigateToStorageScreen();
+
+    void NavigateToEmployeesScreen();
 };
