@@ -502,6 +502,8 @@ void OrderScreen::DrawNewOrderButton() {
             m_SelectedMenuItemQuantities.clear();
             m_AddonsMap.clear();
             m_ShowMealSelectionPopup = true;
+            m_confirm = false;
+            m_OrderID = -1;
             ImGui::OpenPopup("Select Meals");
         }
         DrawMealSelectionPopup();
@@ -560,19 +562,18 @@ void OrderScreen::DrawNewOrderButton() {
             LOG_WARNING("Failed to create order. Missing required fields.");
         } else
             m_confirm = true;
-    }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+            // Clear inputs and close popup
+            m_NewTableID = -1;;
+            m_NewCustomerPhoneStr.clear();
+            m_SelectedMealIDs.clear();
+            m_SelectedMenuItemQuantities.clear();
+            ImGui::CloseCurrentPopup();
+        }
 
-    ImGui::SameLine();
-    if (ImGui::Button("Cancel", ImVec2(120, 0))) {
-        // Clear inputs and close popup
-        m_NewTableID = -1;;
-        m_NewCustomerPhoneStr.clear();
-        m_SelectedMealIDs.clear();
-        m_SelectedMenuItemQuantities.clear();
-        ImGui::CloseCurrentPopup();
+        ImGui::EndPopup();
     }
-
-    ImGui::EndPopup();
 }
 
 
