@@ -314,7 +314,7 @@ void OrderScreen::DrawMealSelectionPopup() {
                 auto order = m_Manager->GetOrder(m_OrderID);
                 if (order) {
                     auto meal = order->GetMeal();
-                    for (auto id: meal->GetMealItems()) {
+                    for (const auto &id: meal->GetMealItems()) {
                         meal->RemoveItem(id->GetID());
                     }
                     for (auto &[mealID, quantity]: m_SelectedMenuItemQuantities) {
@@ -536,8 +536,8 @@ void OrderScreen::DrawNewOrderButton() {
             if (m_NewTableID != -1 && !m_NewCustomerPhoneStr.empty() && !m_SelectedMenuItemQuantities.empty()) {
                 auto meal = std::make_shared<Meal>(m_NewDate);
 
-                for (const auto &[mealID, quantity]: m_SelectedMenuItemQuantities) {
-                    if (meal) {
+                if (meal) {
+                    for (const auto &[mealID, quantity]: m_SelectedMenuItemQuantities) {
                         auto item = meal->AddItem(m_MenuRepo->GetMenuItemByID(mealID), quantity);
                         if (m_AddonsMap.contains(mealID)) {
                             for (const auto &[addonID, addonQty]: m_AddonsMap[mealID]) {
@@ -546,9 +546,6 @@ void OrderScreen::DrawNewOrderButton() {
                             }
                         }
                     }
-                }
-
-                if (!meal) {
                     m_Manager->CreateOrder(m_NewTableID, m_NewCustomerPhoneStr, m_NewDate, meal);
 
                     // Clear inputs and close popup
@@ -557,24 +554,27 @@ void OrderScreen::DrawNewOrderButton() {
                     m_SelectedMealIDs.clear();
                     m_SelectedMenuItemQuantities.clear();
                     ImGui::CloseCurrentPopup();
-                }
-            } else
-                m_confirm = true;
-        }
-
-        ImGui::SameLine();
-        if (ImGui::Button("Cancel", ImVec2(120, 0))) {
-            // Clear inputs and close popup
-            m_NewTableID = -1;;
-            m_NewCustomerPhoneStr.clear();
-            m_SelectedMealIDs.clear();
-            m_SelectedMenuItemQuantities.clear();
-            ImGui::CloseCurrentPopup();
-        }
-
-        ImGui::EndPopup();
+                } else
+                    LOG_WARNING("Failed to create meal for new order.");
+            }
+            LOG_WARNING("Failed to create order. Missing required fields.");
+        } else
+            m_confirm = true;
     }
+
+    ImGui::SameLine();
+    if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+        // Clear inputs and close popup
+        m_NewTableID = -1;;
+        m_NewCustomerPhoneStr.clear();
+        m_SelectedMealIDs.clear();
+        m_SelectedMenuItemQuantities.clear();
+        ImGui::CloseCurrentPopup();
+    }
+
+    ImGui::EndPopup();
 }
+
 
 void OrderScreen::DrawEditAddonPopup(int menuID) {
     if (!ImGui::BeginPopupModal("Edit Addons", &m_AddonEditPopup, ImGuiWindowFlags_AlwaysAutoResize))
