@@ -457,6 +457,9 @@ void OrderScreen::DrawNewOrderButton() {
         this->m_DatePicker.SetDateTime(m_NewDate);
         this->m_DatePicker.SetShowTime(true);
         this->m_DatePicker.SetShowSeconds(true);
+        m_AddonsMap.clear();
+        m_confirm = false;
+        m_OrderID = -1;
 
         // Open the popup
         ImGui::OpenPopup("Create New Order");
