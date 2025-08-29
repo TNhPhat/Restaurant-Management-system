@@ -38,10 +38,7 @@ void Customer::SetPoints(const int& Points){
 
 json Customer::ToJson() const{
     json Data;
-    Data["Name"] = this->GetName();
-    Data["Phone"] = this->GetPhone();
-    Data["Email"] = this->GetEmail();
-    Data["Gender"] = this->GenderToString();
+    Data = Person::ToJson();
     Data["MemberPoints"] = this->m_MemberPoints;
     return Data;
 }

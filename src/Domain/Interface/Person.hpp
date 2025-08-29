@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 
+#include "FileHandle.hpp"
+#include "../external/json.hpp"
 enum Gender{
     Female,
     Male
@@ -16,6 +18,7 @@ public:
     std::string GetEmail() const;
     std::string GetPhone() const;
     Gender GetGender() const;
+    virtual json ToJson() const;
     void SetName(const std::string& Name);
     void SetEmail(const std::string& Email);
     void SetPhone(const std::string& Phone);
