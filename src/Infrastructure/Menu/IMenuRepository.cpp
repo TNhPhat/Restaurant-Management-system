@@ -234,6 +234,8 @@ void IMenuRepository::SaveSection(const std::shared_ptr<MenuSection> &Section) {
     const auto sectionInRepo = this->GetSectionByID(Section->GetID());
     if (sectionInRepo == nullptr) {
         this->m_Sections.push_back(Section);
+        this->GetMenuByID(Section->GetMenuID())->AddSection(Section);
+        return;
     }
     sectionInRepo->SetTitle(Section->GetTitle());
     sectionInRepo->SetDescription(Section->GetDescription());

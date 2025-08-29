@@ -16,6 +16,7 @@ protected:
     int m_SelectedID = -1;
     std::string m_ID;
     bool m_shouldRefresh = true;
+    bool m_isSubmit = false;
 
     // Filter components
     ImGuiTextFilter m_filter;
