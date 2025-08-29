@@ -88,6 +88,8 @@ public:
     void RemoveAddon(const std::shared_ptr<MenuAddon> &Addon);
 
     void IncreaseCount();
+
+    std::shared_ptr<MenuAddon> GetAddon(const int AddonID) const;
 };
 
 class MenuSection {

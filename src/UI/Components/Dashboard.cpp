@@ -229,8 +229,10 @@ void Dashboard::Init() {
     IDManager::Init("Data/IDRegistry.json");
     StorageManager::GetInstance().SetFilePath("Data/Storages.json");
     StorageManager::GetInstance().LoadStorageFromFile();
-    m_MenuRepo = std::make_unique<FileMenuRepository>("Data/Menu.json", "Data/MenuItem.json", "Data/MenuAddons.json");
-    m_MealRepo = std::make_shared<FileMealRepository>("Data/MealHistory.json", *m_MenuRepo);
+    auto MenuRepo = std::make_shared<
+        FileMenuRepository>("Data/Menu.json", "Data/MenuItem.json", "Data/MenuAddons.json");
+    m_MenuManager = std::make_shared<MenuManager>(MenuRepo);
+    m_MealRepo = std::make_shared<FileMealRepository>("Data/MealHistory.json", *m_MenuManager->GetMenuRepository());
     auto OrderRepo = std::make_unique<OrderRepository>("Data/Order.json", m_MealRepo);
     auto OrderServ = std::make_unique<OrderService>();
     m_OrderManager = std::make_unique<OrderManager>(OrderRepo, OrderServ);
@@ -245,7 +247,7 @@ void Dashboard::Init() {
 void Dashboard::OnExit() {
     m_OrderManager.reset();
     m_MealRepo.reset();
-    m_MenuRepo.reset();
+    m_MenuManager.reset();
     m_ReservationManager.reset();
     m_BudgetManager.reset();
     StorageManager::GetInstance().SaveStorageToFile();
@@ -254,7 +256,7 @@ void Dashboard::OnExit() {
 
 void Dashboard::NavigateToOrderScreen() {
     try {
-        m_Core.PushScreen<OrderScreen>(m_Core, m_OrderManager, m_MenuRepo, m_MealRepo);
+        m_Core.PushScreen<OrderScreen>(m_Core, m_OrderManager, m_MenuManager->GetMenuRepository(), m_MealRepo);
     } catch (const std::exception &e) {
         LOG_ERROR("Failed to open Order Screen: %s", e.what());
     }
@@ -262,7 +264,7 @@ void Dashboard::NavigateToOrderScreen() {
 
 void Dashboard::NavigateToMenuScreen() {
     try {
-        m_Core.PushScreen<MenuScreen>(m_Core);
+        m_Core.PushScreen<MenuScreen>(m_Core, m_MenuManager);
     } catch (const std::exception &e) {
         LOG_ERROR("Failed to open Menu Screen: %s", e.what());
     }

@@ -1,5 +1,7 @@
 #include "MenuManager.hpp"
 
+#include <utility>
+
 std::shared_ptr<MenuAddon> MenuManager::GetMenuAddonByID(int MenuAddonID) const {
     return this->m_MenuRepository->GetMenuAddonByID(MenuAddonID);
 }
@@ -38,6 +40,10 @@ void MenuManager::SaveSection(const std::shared_ptr<MenuSection> &shared) {
     return this->m_MenuRepository->SaveSection(shared);
 }
 
+std::shared_ptr<const IMenuRepository> MenuManager::GetMenuRepository() const {
+    return const_pointer_cast<const IMenuRepository, IMenuRepository>(this->m_MenuRepository);
+}
+
 std::shared_ptr<MenuItem> MenuManager::GetMenuItemByID(int MenuItemID) const {
     return this->m_MenuRepository->GetMenuItemByID(MenuItemID);
 }
@@ -59,7 +65,7 @@ std::vector<std::shared_ptr<MenuAddon> > MenuManager::GetAvailableAddonsForItem(
     return this->m_MenuRepository->GetMenuItemByID(MenuItemID)->GetAvailableAddons();
 }
 
-MenuManager::MenuManager(IMenuRepository *MenuRepository): m_MenuRepository(std::move(MenuRepository)) {
+MenuManager::MenuManager(std::shared_ptr<IMenuRepository> MenuRepository): m_MenuRepository(std::move(MenuRepository)) {
 }
 
 std::shared_ptr<Menu> MenuManager::GetMenuByID(const int MenuID) const {

@@ -62,14 +62,10 @@ std::string Employee::NumToString(int num){
     std::reverse(res.begin(),res.end());
     return res;
 }
-json Employee::EmployeeToJson() const{
+json Employee::ToJson() const{
     json Info;
-    
+    Info = Person::ToJson();
     Info["ID"] = this->m_EmployeeID;
-    Info["Name"] = this->GetName();
-    Info["Gender"] = this->GenderToString();
-    Info["Phone"] = this->GetPhone();
-    Info["Email"] = this->GetEmail();
     Info["Salary"] = this->m_Salary;
     Info["DateJoined"] = this->m_DateJoined.ToStringDate();
     Info["Position"] = this->PositionToString();

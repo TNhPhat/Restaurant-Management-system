@@ -215,6 +215,14 @@ std::string DateTime::ToStringDateTime() const {
     return oss.str();
 }
 
+std::string DateTime::ToStringTime() const {
+    std::ostringstream oss;
+    oss << std::setw(2) << std::setfill('0') << m_Hour << ':'
+            << std::setw(2) << std::setfill('0') << m_Minute << ':'
+            << std::setw(2) << std::setfill('0') << m_Second;
+    return oss.str();
+}
+
 DateTime DateTime::FromDateTimeString(const std::string &str) {
     int month, day, year, hour, minute, second = 0; // default second to 0
     char sep1, sep2, sep3, sep4;

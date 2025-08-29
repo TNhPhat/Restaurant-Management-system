@@ -2,13 +2,10 @@
 
 std::shared_ptr<Order> OrderService::GenerateOrder(const int &tableID, const std::string &customerPhone,
                                                    const DateTime &date,
-                                                   const std::vector<std::shared_ptr<Meal> > &meals) {
+                                                   const std::shared_ptr<Meal> &meals) {
     int newOrderID = IDManager::GetInstance().GetNextID("Order");
     auto order = std::make_shared<Order>(newOrderID, tableID, customerPhone, date);
-
-    for (const auto &meal: meals) {
-        order->AddMeal(meal);
-    }
+    order->SetMeal(std::move(meals));
 
     return order;
 }

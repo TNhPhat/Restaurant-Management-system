@@ -32,18 +32,7 @@ std::vector<std::shared_ptr<Order> > OrderRepository::LoadAllOrders() {
 
         auto OrderObj = std::make_shared<Order>(ID, TableID, CustomerPhone, Date);
         OrderObj->SetOrderStatus(Status);
-
-        if (OrderJson.contains("MealIDs") && OrderJson["MealIDs"].is_array()) {
-            for (const auto &MealID: OrderJson["MealIDs"]) {
-                auto meal = m_MealRepo->GetMealByID(MealID.get<int>());
-                if (meal) {
-                    OrderObj->AddMeal(meal);
-                } else {
-                    LOG_WARNING("Meal ID {} not found in MealRepository", MealID.get<int>());
-                }
-            }
-        }
-
+        OrderObj->SetMeal(m_MealRepo->GetMealByID(OrderJson.value("MealID", -1)));
         Orders.push_back(OrderObj);
     }
 
@@ -60,13 +49,7 @@ void OrderRepository::SaveAllOrders(const std::vector<std::shared_ptr<Order> > &
         OrderData["CustomerPhone"] = Order->GetCustomerPhone();
         OrderData["Date"] = Order->GetDate().ToStringDateTime(); // format: dd/MM/yyyy HH:mm:ss
         OrderData["Status"] = OrderStatusToString(Order->GetStatus());
-
-        json MealIDs = json::array();
-        for (const auto &meal: Order->GetMeals()) {
-            MealIDs.push_back(meal->GetID());
-        }
-
-        OrderData["MealIDs"] = MealIDs;
+        OrderData["MealID"] = Order->GetMeal()->GetID();
         OrdersJson.push_back(OrderData);
     }
 

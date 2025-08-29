@@ -251,17 +251,7 @@ bool DateTimePicker::Render(const char *label) {
 bool DateTimePicker::RenderDateOnly(const char *label) {
     bool changed = false;
 
-    ImGui::Text("%s", label);
-    ImGui::SameLine();
-
-    std::string dateStr = GetDateString();
-    ImGui::PushItemWidth(100);
-    if (ImGui::Button(dateStr.c_str())) {
-        ImGui::OpenPopup("DatePicker");
-    }
-    ImGui::PopItemWidth();
-
-    if (ImGui::BeginPopup("DatePicker")) {
+    if (ImGui::BeginPopup(label)) {
         ImGui::Text("Select Date");
         ImGui::Separator();
 
@@ -296,17 +286,7 @@ bool DateTimePicker::RenderDateOnly(const char *label) {
 bool DateTimePicker::RenderTimeOnly(const char *label) {
     bool changed = false;
 
-    ImGui::Text("%s", label);
-    ImGui::SameLine();
-
-    std::string timeStr = GetTimeString();
-    ImGui::PushItemWidth(80);
-    if (ImGui::Button(timeStr.c_str())) {
-        ImGui::OpenPopup("TimePicker");
-    }
-    ImGui::PopItemWidth();
-
-    if (ImGui::BeginPopup("TimePicker")) {
+    if (ImGui::BeginPopup(label)) {
         ImGui::Text("Select Time");
         ImGui::Separator();
 
