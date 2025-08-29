@@ -537,6 +537,7 @@ void OrderScreen::DrawNewOrderButton() {
 
         // OK and Cancel buttons
         if (ImGui::Button("Create Order", ImVec2(120, 0))) {
+            m_confirm = true;
             if (m_NewTableID != -1 && !m_NewCustomerPhoneStr.empty() && !m_SelectedMenuItemQuantities.empty()) {
                 auto meal = std::make_shared<Meal>(m_NewDate);
 
@@ -561,9 +562,9 @@ void OrderScreen::DrawNewOrderButton() {
                 } else
                     LOG_WARNING("Failed to create meal for new order.");
             }
-            LOG_WARNING("Failed to create order. Missing required fields.");
-        } else
-            m_confirm = true;
+            else
+                LOG_WARNING("Failed to create order. Missing required fields.");
+        }
         ImGui::SameLine();
         if (ImGui::Button("Cancel", ImVec2(120, 0))) {
             // Clear inputs and close popup
