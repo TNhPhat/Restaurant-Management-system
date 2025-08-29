@@ -28,11 +28,14 @@ void ResourceScreen::Render(float dt){
 }
 
 void ResourceScreen::DrawTable() {
-    if (ImGui::BeginTable("Resources", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+    m_Resources = m_Storage->GetResources();
+    Resource* deleted = nullptr;
+    if (ImGui::BeginTable("Resources", 5, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
         ImGui::TableSetupColumn("Index");
         ImGui::TableSetupColumn("Name");
         ImGui::TableSetupColumn("Quantity");
         ImGui::TableSetupColumn("Price");
+        ImGui::TableSetupColumn("Options");
         ImGui::TableHeadersRow();
 
         int num = 0;
@@ -96,11 +99,22 @@ void ResourceScreen::DrawTable() {
                 }
             }
 
+            ImGui::TableSetColumnIndex(4);
+            if (ImGui::Button(("Delete##" + std::to_string(num)).c_str())) {
+                deleted = m_Resources[num].get();
+                std::cout << "Deleted " << deleted->GetID() << std::endl;
+                // m_Resources.erase(m_Resources.begin() + num);
+            }
+
             // Xóa ID của hàng hiện tại khỏi stack
             ImGui::PopID();
             ++num;
         }
         ImGui::EndTable();
+    }
+
+    if (deleted != nullptr){
+        m_Storage->Delete(deleted->GetID());
     }
 }
 void ResourceScreen::DrawSaveButton() {
@@ -109,7 +123,7 @@ void ResourceScreen::DrawSaveButton() {
     }
 }
 void ResourceScreen::DrawBackButton() {
-    if (ImGui::Button("Back")) {
+    if (ImGui::Button("Go Back")) {
         this->m_Core.PopScreen();
     }
 }
@@ -117,6 +131,6 @@ void ResourceScreen::DrawBackButton() {
 void ResourceScreen::DrawAddButton() {
     if (ImGui::Button("Add")) {
         int nID = this->m_Resources.empty() ? 1 : this->m_Resources.back()->GetID() + 1;
-        this->m_Resources.push_back(std::make_shared<Resource>(nID));
+        this->m_Storage->AddResource(nID, "", 0, 0.0);
     }
 }

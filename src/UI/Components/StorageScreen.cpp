@@ -45,7 +45,6 @@ void StorageScreen::DrawTable() {
             if (ImGui::Button(("Delete##" + std::to_string(num)).c_str())) {
                 auto deleted = m_Storages[num];
                 m_Storages.erase(m_Storages.begin() + num);
-                std::cout << m_Storages.size() << std::endl;
             }
             ++num;
         }
@@ -60,7 +59,7 @@ void StorageScreen::DrawSaveButton() {
 }
 
 void StorageScreen::DrawBackButton() {
-    if (ImGui::Button("Back")) {
+    if (ImGui::Button("Go Back")) {
         this->m_Core.PopScreen();
     }
 }

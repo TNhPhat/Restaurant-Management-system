@@ -1,6 +1,5 @@
 #include "Storage.hpp"
 
-
 Storage::Storage(const int ID):m_StorageID(ID){}
 Storage::~Storage()
 {
@@ -60,5 +59,16 @@ bool Storage::Add(int ID, int q)
         throw std::invalid_argument("Can not find resource");
     }
     r->Add(q);
+    return true;
+}
+
+bool Storage::Delete(int ID) {
+    Resource *r = SearchByID(ID);
+    if (r == nullptr) {
+        throw std::invalid_argument("Can not find resource");
+    }
+    m_Resources.erase(std::remove_if(m_Resources.begin(), m_Resources.end(), [&](const std::shared_ptr<Resource>& ptr) {
+    return ptr.get() == r;
+    }), m_Resources.end());
     return true;
 }
