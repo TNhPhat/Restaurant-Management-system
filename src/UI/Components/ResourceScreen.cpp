@@ -33,6 +33,7 @@ void ResourceScreen::DrawTable() {
         ImGui::TableSetupColumn("Name");
         ImGui::TableSetupColumn("Quantity");
         ImGui::TableSetupColumn("Price");
+        ImGui::TableSetupColumn("Options");
         ImGui::TableHeadersRow();
 
         int num = 0;
@@ -96,6 +97,13 @@ void ResourceScreen::DrawTable() {
                 }
             }
 
+            ImGui::TableSetColumnIndex(4);
+            if (ImGui::Button(("Delete##" + std::to_string(num)).c_str())) {
+                auto deleted = m_Resources[num];
+
+                m_Resources.erase(m_Resources.begin() + num);
+            }
+
             // Xóa ID của hàng hiện tại khỏi stack
             ImGui::PopID();
             ++num;
@@ -109,7 +117,7 @@ void ResourceScreen::DrawSaveButton() {
     }
 }
 void ResourceScreen::DrawBackButton() {
-    if (ImGui::Button("Back")) {
+    if (ImGui::Button("Go Back")) {
         this->m_Core.PopScreen();
     }
 }
