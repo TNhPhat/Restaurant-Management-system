@@ -176,13 +176,13 @@ std::shared_ptr<MenuAddon> MenuItem::GetAddon(const int AddonID) const {
     return nullptr;
 }
 
-MenuSection::MenuSection(const std::string &Title, const std::string &Description) : MenuSection(
-    IDManager::GetInstance().GetNextID("MenuSection"), Title, Description) {
+MenuSection::MenuSection(const std::string &Title, const std::string &Description, int MenuID) : MenuSection(
+    IDManager::GetInstance().GetNextID("MenuSection"), Title, Description, MenuID) {
 }
 
-MenuSection::MenuSection(const int ID, const std::string &Title, const std::string &Description) : m_MenuSectionID(ID),
+MenuSection::MenuSection(const int ID, const std::string &Title, const std::string &Description, int MenuID) : m_MenuSectionID(ID),
     m_Title(Title),
-    m_Description(Description) {
+    m_Description(Description), m_MenuID(MenuID) {
     if (ID <= 0) {
         throw std::invalid_argument("MenuSection ID must be greater than zero");
     }
@@ -261,6 +261,14 @@ std::shared_ptr<MenuItem> MenuSection::GetItemByTitle(const std::string &Title) 
         }
     }
     return nullptr;
+}
+
+int MenuSection::GetMenuID() const {
+    return this->m_MenuID;
+}
+
+void MenuSection::SetMenuID(int ID) {
+    this->m_MenuID = ID;
 }
 
 Menu::Menu(const std::string &Name, const std::string &Description) : Menu(

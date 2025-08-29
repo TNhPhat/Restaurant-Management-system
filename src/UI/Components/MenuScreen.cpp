@@ -49,20 +49,30 @@ bool MenuSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         if (ImGui::Button("Add Menu", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = "";
             this->m_descriptionField = "";
+            this->m_isSubmit = false;
             ImGui::OpenPopup("Add Menu");
         }
         if (ImGui::BeginPopupModal("Add Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Add Menu feature");
             ImGui::Separator();
-            ImGui::TextUnformatted("Name");
+            if (!m_isSubmit || !m_nameField.empty())
+                ImGui::TextUnformatted("Name");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Name (Required)");
             ImGui::InputText("##Name", &m_nameField);
-            ImGui::TextUnformatted("Description");
+            if (!m_isSubmit || !m_descriptionField.empty())
+                ImGui::TextUnformatted("Description");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Description");
             ImGui::InputTextMultiline("##Description", &m_descriptionField,
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                instance->SaveMenu(std::make_shared<Menu>(m_nameField, m_descriptionField));
-                this->m_shouldRefresh = true;
-                ImGui::CloseCurrentPopup();
+                m_isSubmit = true;
+                if (!m_nameField.empty() && !m_descriptionField.empty()) {
+                    instance->SaveMenu(std::make_shared<Menu>(m_nameField, m_descriptionField));
+                    this->m_shouldRefresh = true;
+                    ImGui::CloseCurrentPopup();
+                }
             }
             ImGui::SameLine();
             if (ImGui::Button("Cancel", ImVec2(120, 0))) {
@@ -76,22 +86,32 @@ bool MenuSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         if (ImGui::Button("Edit Menu", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = instance->GetMenuByID(this->m_CurrentChoiceID)->GetName();
             this->m_descriptionField = instance->GetMenuByID(this->m_CurrentChoiceID)->GetDescription();
+            this->m_isSubmit = false;
             ImGui::OpenPopup("Edit Menu");
         }
         if (ImGui::BeginPopupModal("Edit Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             auto menu = instance->GetMenuByID(this->m_CurrentChoiceID);
             ImGui::Text("Edit Menu: %s", menu->GetName().c_str());
             ImGui::Separator();
-            ImGui::TextUnformatted("Name");
+            if (!m_isSubmit && !m_nameField.empty())
+                ImGui::TextUnformatted("Name");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Name (Required)");
             ImGui::InputText("##Name", &m_nameField);
-            ImGui::TextUnformatted("Description");
+            if (!m_isSubmit && !m_descriptionField.empty())
+                ImGui::TextUnformatted("Description");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Description (Required)");
             ImGui::InputTextMultiline("##Description", &m_descriptionField,
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                this->m_shouldRefresh = true;
-                menu->SetName(m_nameField);
-                menu->SetDescription(m_descriptionField);
-                ImGui::CloseCurrentPopup();
+                m_isSubmit = true;
+                if (!m_nameField.empty() && !m_descriptionField.empty()) {
+                    this->m_shouldRefresh = true;
+                    menu->SetName(m_nameField);
+                    menu->SetDescription(m_descriptionField);
+                    ImGui::CloseCurrentPopup();
+                }
             }
             ImGui::SameLine();
             if (ImGui::Button("Cancel", ImVec2(120, 0))) {
@@ -118,6 +138,7 @@ bool MenuSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         }
         if (ImGui::Button("Add Section to Menu", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_SelectedID = -1;
+            this->m_isSubmit = false;
             ImGui::OpenPopup("Add Section to Menu");
         }
         if (ImGui::BeginPopupModal("Add Section to Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -125,6 +146,9 @@ bool MenuSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             auto sections = instance->GetSections();
             ImGui::Text("Add Section to Menu: %s", menu->GetName().c_str());
             ImGui::Separator();
+            if (m_isSubmit && m_SelectedID == -1)
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
+
             std::string prev = "Select a section";
             if (m_SelectedID != -1)
                 prev = instance->GetSectionByID(m_SelectedID)->GetTitle();
@@ -145,7 +169,10 @@ bool MenuSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                 }
                 ImGui::EndCombo();
             }
+            if (m_isSubmit && m_SelectedID == -1)
+                ImGui::PopStyleColor();
             if (ImGui::Button("OK", ImVec2(120, 0))) {
+                m_isSubmit = true;
                 if (m_SelectedID != -1) {
                     const auto section = instance->GetSectionByID(m_SelectedID);
                     if (!menu->ContainsSection(section->GetID())) {
@@ -289,20 +316,57 @@ bool SectionSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         if (ImGui::Button("Add Section", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = "";
             this->m_descriptionField = "";
+            this->m_isSubmit = false;
+            this->m_SelectedID = -1;
             ImGui::OpenPopup("AddSectionPopup");
         }
         if (ImGui::BeginPopupModal("AddSectionPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Add Section feature.");
             ImGui::Separator();
-            ImGui::TextUnformatted("Title");
+            if (!m_isSubmit || !m_nameField.empty())
+                ImGui::TextUnformatted("Title");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Title (Required)");
             ImGui::InputText("##Title", &m_nameField);
-            ImGui::TextUnformatted("Description");
+            if (!m_isSubmit || m_SelectedID != -1)
+                ImGui::TextUnformatted("Select Menu to add this section to");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Select Menu to add this section to (Required)");
+            std::string menuName = "Please select a menu";
+            if (m_SelectedID != -1)
+                menuName = instance->GetMenuByID(m_SelectedID)->GetName();
+            if (ImGui::BeginCombo("##Menu", menuName.c_str(), ImGuiComboFlags_None)) {
+                static ImGuiTextFilter filter;
+                if (ImGui::IsWindowFocused()) {
+                    filter.Clear();
+                }
+                ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+                filter.Draw("##Filter", -1);
+                for (auto &menu: instance->GetMenus()) {
+                    bool is_selected = (m_SelectedID == menu->GetID());
+                    if (filter.PassFilter(menu->GetName().c_str())) {
+                        if (ImGui::Selectable(menu->GetName().c_str(), is_selected)) {
+                            m_SelectedID = menu->GetID();
+                        }
+                    }
+                }
+                ImGui::EndCombo();
+            }
+            if (!m_isSubmit || !m_descriptionField.empty())
+                ImGui::TextUnformatted("Description");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Description (Required)");
+
             ImGui::InputTextMultiline("##Description", &m_descriptionField,
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                this->m_shouldRefresh = true;
-                instance->SaveSection(std::make_shared<MenuSection>(m_nameField, m_descriptionField));
-                ImGui::CloseCurrentPopup();
+                m_isSubmit = true;
+                if (!m_nameField.empty() && !m_descriptionField.empty() && m_SelectedID != -1) {
+                    this->m_shouldRefresh = true;
+                    auto sect = std::make_shared<MenuSection>(m_nameField, m_descriptionField, m_SelectedID);
+                    instance->SaveSection(sect);
+                    ImGui::CloseCurrentPopup();
+                }
             }
             ImGui::SameLine();
             if (ImGui::Button("Cancel", ImVec2(120, 0))) {
@@ -316,22 +380,60 @@ bool SectionSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         if (ImGui::Button("Edit Section", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = instance->GetSectionByID(this->m_CurrentChoiceID)->GetTitle();
             this->m_descriptionField = instance->GetSectionByID(this->m_CurrentChoiceID)->GetDescription();
+            this->m_isSubmit = false;
+            this->m_SelectedID = instance->GetSectionByID(this->m_CurrentChoiceID)->GetMenuID();
             ImGui::OpenPopup("EditSectionPopup");
         }
         if (ImGui::BeginPopupModal("EditSectionPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             auto section = instance->GetSectionByID(this->m_CurrentChoiceID);
             ImGui::Text("Edit Section: %s", section->GetTitle().c_str());
             ImGui::Separator();
-            ImGui::TextUnformatted("Title");
+            if (!m_isSubmit || !m_nameField.empty())
+                ImGui::TextUnformatted("Title");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Title (Required)");
             ImGui::InputText("##Title", &m_nameField);
-            ImGui::TextUnformatted("Description");
+
+            if (!m_isSubmit || m_SelectedID != -1)
+                ImGui::TextUnformatted("Select Menu to add this section to");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Select Menu to add this section to (Required)");
+            std::string menuName = "Please select a menu";
+            if (m_SelectedID != -1)
+                menuName = instance->GetMenuByID(m_SelectedID)->GetName();
+            if (ImGui::BeginCombo("##Menu", menuName.c_str(), ImGuiComboFlags_None)) {
+                static ImGuiTextFilter filter;
+                if (ImGui::IsWindowFocused()) {
+                    filter.Clear();
+                }
+                ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F);
+                filter.Draw("##Filter", -1);
+                for (auto &menu: instance->GetMenus()) {
+                    bool is_selected = (m_SelectedID == menu->GetID());
+                    if (filter.PassFilter(menu->GetName().c_str())) {
+                        if (ImGui::Selectable(menu->GetName().c_str(), is_selected)) {
+                            m_SelectedID = menu->GetID();
+                        }
+                    }
+                }
+                ImGui::EndCombo();
+            }
+
+            if (!m_isSubmit || !m_descriptionField.empty())
+                ImGui::TextUnformatted("Description");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Description (Required)");
             ImGui::InputTextMultiline("##Description", &m_descriptionField,
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                this->m_shouldRefresh = true;
-                section->SetTitle(m_nameField);
-                section->SetDescription(m_descriptionField);
-                ImGui::CloseCurrentPopup();
+                m_isSubmit = true;
+                if (!m_nameField.empty() && !m_descriptionField.empty() && m_SelectedID != -1) {
+                    this->m_shouldRefresh = true;
+                    section->SetTitle(m_nameField);
+                    section->SetDescription(m_descriptionField);
+                    section->SetMenuID(m_SelectedID);
+                    ImGui::CloseCurrentPopup();
+                }
             }
             ImGui::SameLine();
             if (ImGui::Button("Cancel", ImVec2(120, 0))) {
@@ -526,23 +628,36 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             this->m_nameField = "";
             this->m_descriptionField = "";
             this->m_priceField = 0;
+            this->m_isSubmit = false;
             ImGui::OpenPopup("Add Item");
         }
         if (ImGui::BeginPopupModal("Add Item", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Add Item feature.");
             ImGui::Separator();
-            ImGui::TextUnformatted("Title");
+            if (m_isSubmit && m_nameField.empty())
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Title (Required)");
+            else
+                ImGui::TextUnformatted("Title");
             ImGui::InputText("##Title", &m_nameField);
-            ImGui::TextUnformatted("Description");
+            if (m_isSubmit && m_descriptionField.empty())
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Description (Required)");
+            else
+                ImGui::TextUnformatted("Description");
             ImGui::InputTextMultiline("##Description", &m_descriptionField,
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
-            ImGui::TextUnformatted("Price");
+            if (m_isSubmit && m_priceField <= 0)
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
+            else
+                ImGui::TextUnformatted("Price");
             ImGui::InputFloat("VND##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                ImGui::CloseCurrentPopup();
-                instance->SaveMenuItem(std::make_shared<MenuItem>(m_nameField, m_descriptionField, m_priceField));
-                this->m_shouldRefresh = true;
+                m_isSubmit = true;
+                if (!m_nameField.empty() && !m_descriptionField.empty() && m_priceField > 0) {
+                    ImGui::CloseCurrentPopup();
+                    instance->SaveMenuItem(std::make_shared<MenuItem>(m_nameField, m_descriptionField, m_priceField));
+                    this->m_shouldRefresh = true;
+                }
             }
             ImGui::SameLine();
             if (ImGui::Button("Cancel", ImVec2(120, 0))) {
@@ -557,26 +672,39 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             this->m_nameField = instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle();
             this->m_descriptionField = instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetDescription();
             this->m_priceField = static_cast<float>(instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetPrice());
+            this->m_isSubmit = false;
             ImGui::OpenPopup("EditItemPopup");
         }
         if (ImGui::BeginPopupModal("EditItemPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             auto item = instance->GetMenuItemByID(this->m_CurrentChoiceID);
             ImGui::Text("Edit Item: %s", item->GetTitle().c_str());
             ImGui::Separator();
-            ImGui::TextUnformatted("Title");
+            if (m_isSubmit && m_nameField.empty())
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Title (Required)");
+            else
+                ImGui::TextUnformatted("Title");
             ImGui::InputText("##Title", &m_nameField);
-            ImGui::TextUnformatted("Description");
+            if (m_isSubmit && m_descriptionField.empty())
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Description (Required)");
+            else
+                ImGui::TextUnformatted("Description");
             ImGui::InputTextMultiline("##Description", &m_descriptionField,
                                       ImVec2(400, ImGui::GetTextLineHeight() * 4));
-            ImGui::TextUnformatted("Price");
+            if (m_isSubmit && m_priceField <= 0)
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
+            else
+                ImGui::TextUnformatted("Price");
             ImGui::InputFloat("VND##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                item->SetTitle(m_nameField);
-                item->SetDescription(m_descriptionField);
-                item->SetPrice(m_priceField);
-                this->m_shouldRefresh = true;
-                ImGui::CloseCurrentPopup();
+                this->m_isSubmit = true;
+                if (!m_nameField.empty() && !m_descriptionField.empty() && m_priceField > 0) {
+                    item->SetTitle(m_nameField);
+                    item->SetDescription(m_descriptionField);
+                    item->SetPrice(m_priceField);
+                    this->m_shouldRefresh = true;
+                    ImGui::CloseCurrentPopup();
+                }
             }
             ImGui::SameLine();
             ImGui::SetItemDefaultFocus();
@@ -604,6 +732,7 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         }
         if (ImGui::Button("Add Addons", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_SelectedID = -1;
+            this->m_isSubmit = false;
             ImGui::OpenPopup("AddAddonsPopup");
         }
         if (ImGui::BeginPopupModal("AddAddonsPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -611,6 +740,10 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             auto addons = instance->GetMenuAddons();
             ImGui::Text("Add Addons to Item: %s", item->GetTitle().c_str());
             ImGui::Separator();
+            if (!m_isSubmit || m_SelectedID != -1)
+                ImGui::TextUnformatted("Select an addon");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Select an addon (Required)");
             std::string prev = "Select an addon";
             if (m_SelectedID != -1)
                 prev = instance->GetMenuAddonByID(m_SelectedID)->GetName();
@@ -632,6 +765,7 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                 ImGui::EndCombo();
             }
             if (ImGui::Button("OK", ImVec2(120, 0))) {
+                m_isSubmit = true;
                 if (m_SelectedID != -1) {
                     const auto addon = instance->GetMenuAddonByID(m_SelectedID);
                     if (!item->ContainsAddon(addon->GetID())) {
@@ -649,6 +783,7 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         }
         if (ImGui::Button("Remove Addons", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_SelectedID = -1;
+            this->m_isSubmit = false;
             ImGui::OpenPopup("RemoveAddonsPopup");
         }
         if (ImGui::BeginPopupModal("RemoveAddonsPopup", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -656,6 +791,10 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             auto addons = item->GetAvailableAddons();
             ImGui::Text("Remove Addons from Item: %s", item->GetTitle().c_str());
             ImGui::Separator();
+            if (!m_isSubmit || m_SelectedID != -1)
+                ImGui::TextUnformatted("Select an addon");
+            else
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Select an addon (Required)");
             std::string prev = "Select an addon";
             if (m_SelectedID != -1)
                 prev = item->GetAddon(m_SelectedID)->GetName();
@@ -677,6 +816,7 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                 ImGui::EndCombo();
             }
             if (ImGui::Button("OK", ImVec2(120, 0))) {
+                m_isSubmit = true;
                 if (m_SelectedID != -1) {
                     const auto addon = instance->GetMenuAddonByID(m_SelectedID);
                     if (item->ContainsAddon(addon->GetID())) {
@@ -921,21 +1061,31 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         if (ImGui::Button("Add Addon", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = "";
             this->m_priceField = 0;
+            this->m_isSubmit = false;
             ImGui::OpenPopup("Add Addon");
         }
         if (ImGui::BeginPopupModal("Add Addon", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Add Addon feature.");
             ImGui::Separator();
-            ImGui::TextUnformatted("Title");
+            if (m_isSubmit && m_nameField.empty())
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Title (Required)");
+            else
+                ImGui::TextUnformatted("Title");
             ImGui::InputText("##Title", &m_nameField);
-            ImGui::TextUnformatted("Price");
+            if (m_isSubmit && m_priceField <= 0)
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
+            else
+                ImGui::TextUnformatted("Price");
             ImGui::InputFloat("VND##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                this->m_shouldRefresh = true;
-                instance->SaveMenuAddon(
-                    std::make_shared<MenuAddon>(m_nameField, m_priceField, std::vector<MealIngredient>{}));
-                ImGui::CloseCurrentPopup();
+                this->m_isSubmit = true;
+                if (!m_nameField.empty() && m_priceField > 0) {
+                    this->m_shouldRefresh = true;
+                    instance->SaveMenuAddon(
+                        std::make_shared<MenuAddon>(m_nameField, m_priceField, std::vector<MealIngredient>{}));
+                    ImGui::CloseCurrentPopup();
+                }
             }
             ImGui::SameLine();
             if (ImGui::Button("Cancel", ImVec2(120, 0))) {
@@ -949,6 +1099,7 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
         if (ImGui::Button("Edit Addon", ImVec2(-1, Constants::BUTTON_HEIGHT))) {
             this->m_nameField = instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetName();
             this->m_priceField = static_cast<float>(instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetPrice());
+            this->m_isSubmit = false;
             ImGui::OpenPopup("Edit Addon");
         }
         if (ImGui::BeginPopupModal("Edit Addon", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
@@ -956,16 +1107,25 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             ImGui::Text("Edit Addon: %s",
                         addon->GetName().c_str());
             ImGui::Separator();
-            ImGui::TextUnformatted("Title");
+            if (m_isSubmit && m_nameField.empty())
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Title (Required)");
+            else
+                ImGui::TextUnformatted("Title");
             ImGui::InputText("##Title", &m_nameField);
-            ImGui::TextUnformatted("Price");
+            if (m_isSubmit && m_priceField <= 0)
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
+            else
+                ImGui::TextUnformatted("Price");
             ImGui::InputFloat("VND##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
-                addon->SetName(m_nameField);
-                addon->SetPrice(m_priceField);
-                this->m_shouldRefresh = true;
-                ImGui::CloseCurrentPopup();
+                this->m_isSubmit = true;
+                if (!m_nameField.empty() && m_priceField > 0) {
+                    addon->SetName(m_nameField);
+                    addon->SetPrice(m_priceField);
+                    this->m_shouldRefresh = true;
+                    ImGui::CloseCurrentPopup();
+                }
             }
             ImGui::SameLine();
             if (ImGui::Button("Cancel", ImVec2(120, 0))) {
@@ -1000,7 +1160,7 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             ImGui::Text("Edit Ingredient of: %s",
                         instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetName().c_str());
             ImGui::Separator();
-            ImGui::TextUnformatted("Ingredients (separated by commas)");
+            ImGui::TextUnformatted("Ingredients");
             auto ingredients = StorageManager::GetInstance().GetStorages().front()->GetResources();
             std::string prev = "Select ingredients";
             if (m_SelectedID != -1) {
