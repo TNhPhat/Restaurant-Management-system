@@ -78,7 +78,7 @@ FileMenuRepository::FileMenuRepository(std::string MenuFilePath, std::string Ite
             auto title = sectionData["Title"].get<std::string>();
             auto sectionDescription = sectionData["Description"].get<std::string>();
 
-            const auto sectionPtr = std::make_shared<MenuSection>(sectionID, title, sectionDescription);
+            const auto sectionPtr = std::make_shared<MenuSection>(sectionID, title, sectionDescription, menuID);
             this->SaveSection(menuPtr, sectionPtr);
             for (const auto &itemData: sectionData["Menu Items"]) {
                 int itemID = itemData.get<int>();

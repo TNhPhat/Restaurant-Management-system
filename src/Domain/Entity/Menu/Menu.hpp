@@ -98,11 +98,12 @@ private:
     std::string m_Title;
     std::string m_Description;
     std::vector<std::shared_ptr<MenuItem> > m_MenuItems;
+    int m_MenuID;
 
 public:
-    MenuSection(const std::string &Title, const std::string &Description);
+    MenuSection(const std::string &Title, const std::string &Description, int MenuID);
 
-    MenuSection(const int ID, const std::string &Title, const std::string &Description);
+    MenuSection(const int ID, const std::string &Title, const std::string &Description, int MenuID);
 
     ~MenuSection() = default;
 
@@ -130,6 +131,10 @@ public:
     std::shared_ptr<MenuItem> GetItemByID(int ItemID);
 
     std::shared_ptr<MenuItem> GetItemByTitle(const std::string &Title);
+
+    int GetMenuID() const;
+
+    void SetMenuID(int ID) ;
 };
 
 template<typename... Args>
@@ -177,5 +182,6 @@ public:
 
 template<typename... Args>
 std::shared_ptr<MenuSection> Menu::AddSection(Args &&... args) {
-    return AddSection(std::make_shared<MenuSection>(std::forward<Args>(args)...));
+    const auto sect = std::make_shared<MenuSection>(std::forward<Args>(args)...);
+    return AddSection(sect);
 }

@@ -75,7 +75,7 @@ void ReservationScreen::DrawReservationTable() {
             ImGui::TableSetColumnIndex(1);
             int &people = m_EditedPeopleCount[phone];
             if (people == 0) people = r->getPeopleCount(); // default
-            ImGui::SetNextItemWidth(80);
+            ImGui::SetNextItemWidth(110);
             ImGui::InputInt(("##people" + phone).c_str(), &people);
 
             // --- Reservation Time with DateTimePicker ---
@@ -125,10 +125,12 @@ void ReservationScreen::DrawReservationTable() {
 
             // --- Status combo ---
             ImGui::TableSetColumnIndex(4);
-            ReservationStatus &status = m_EditedStatus[phone];
-            if (status == ReservationStatus::Requested && r->getStatus() != ReservationStatus::Requested)
-                status = r->getStatus(); // preserve
 
+            if (m_EditedStatus.find(phone) == m_EditedStatus.end()) {
+                m_EditedStatus[phone] = r->getStatus();
+            }
+            ReservationStatus &status = m_EditedStatus[phone];
+            
             static const std::array<const char *, 3> statusLabels = {
                 "Requested", "Pending", "CheckedIn"
             };
