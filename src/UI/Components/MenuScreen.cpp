@@ -649,7 +649,7 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
             else
                 ImGui::TextUnformatted("Price");
-            ImGui::InputFloat("VND##Price", &m_priceField);
+            ImGui::InputFloat("USD##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 m_isSubmit = true;
@@ -694,7 +694,7 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
             else
                 ImGui::TextUnformatted("Price");
-            ImGui::InputFloat("VND##Price", &m_priceField);
+            ImGui::InputFloat("USD##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 this->m_isSubmit = true;
@@ -1076,7 +1076,7 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
             else
                 ImGui::TextUnformatted("Price");
-            ImGui::InputFloat("VND##Price", &m_priceField);
+            ImGui::InputFloat("USD##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 this->m_isSubmit = true;
@@ -1116,7 +1116,7 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                 ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Price (Must be greater than 0)");
             else
                 ImGui::TextUnformatted("Price");
-            ImGui::InputFloat("VND##Price", &m_priceField);
+            ImGui::InputFloat("USD##Price", &m_priceField);
             ImGui::Dummy(ImVec2(0.0f, 20.0f));
             if (ImGui::Button("OK", ImVec2(120, 0))) {
                 this->m_isSubmit = true;
