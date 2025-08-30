@@ -1,0 +1,30 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Kitchen Class Diagram
+
+' Forward-declare dependencies to show relationships
+class Order
+class Storage
+
+class Kitchen {
+  - m_KitchenID: const int
+  - m_Storage: Storage&
+  - m_Orders: std::vector<std::shared_ptr<Order>>
+  --
+  + Kitchen(n_KitchenID: int, n_Storage: Storage&)
+  + ~Kitchen()
+  + AddOrder(n_Order: Order): bool
+}
+
+' --- Relationships ---
+
+' Association: Kitchen has a mandatory reference to one Storage object,
+' but does not own it.
+Kitchen --> "1" Storage : references
+
+' Aggregation: Kitchen holds a collection of Order objects via shared pointers.
+Kitchen o-- "*" Order : holds
+
+@enduml

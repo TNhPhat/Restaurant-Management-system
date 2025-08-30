@@ -1,0 +1,48 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title OrderManager Facade
+
+' --- Subsystem Components ---
+class OrderRepository
+class OrderService
+
+' --- Domain Entities and Value Objects ---
+class Order
+class Meal
+class DateTime
+enum OrderStatus
+
+' --- The Facade Class ---
+' Provides a simplified, unified interface to the order subsystem.
+class OrderManager <<facade>> {
+  - m_Orders: std::vector<std::shared_ptr<Order>>
+  - m_Repository: std::unique_ptr<OrderRepository>
+  - m_Service: std::unique_ptr<OrderService>
+  --
+  + OrderManager(Repository: std::unique_ptr<OrderRepository>&, Service: std::unique_ptr<OrderService>&)
+  + ~OrderManager()
+  + CreateOrder(tableID: const int&, customerPhone: const std::string&, date: const DateTime&, meals: const std::shared_ptr<Meal>&): void
+  + UpdateOrderStatus(orderID: const int&, newStatus: const OrderStatus&): void
+  + RemoveOrder(orderID: const int&): bool
+  + GetAllOrders(): std::vector<std::shared_ptr<Order>>
+  + SaveAllOrders(): void
+  + GetOrdersInDateRange(startDate: const DateTime&, endDate: const DateTime&): std::vector<std::shared_ptr<Order>>
+}
+
+' --- Relationships ---
+
+' Composition: The manager owns and controls the lifetime of its repository and service.
+OrderManager "*"-- "1" OrderRepository : owns >
+OrderManager "*"-- "1" OrderService : owns >
+
+' Aggregation: The manager maintains an in-memory cache of Order objects.
+OrderManager o-- "*" Order : manages >
+
+' Dependencies: The manager's methods use these types to perform its operations.
+OrderManager ..> Meal : uses
+OrderManager ..> DateTime : uses
+OrderManager ..> OrderStatus : uses
+
+@enduml

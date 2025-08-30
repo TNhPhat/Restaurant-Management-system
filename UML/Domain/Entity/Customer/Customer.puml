@@ -1,0 +1,37 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Customer Class Diagram
+
+' Forward-declare the base class and external library package for context
+class Person
+package "nlohmann" as JSON_Lib <<library>> {
+  class json
+}
+
+class Customer {
+  - m_MemberPoints: int
+  --
+  + Customer(const std::string& Name, const std::string& Email, const std::string& Phone, const Gender& Gender)
+  + ~Customer()
+  --
+  + EarnPointFromSpending(const int& AmountSpent): void
+  + RedeemPoints(const int& PointsToUse): void
+  + CalculateDiscountAmount(const int& PointsToUse): int
+  + GetPoints(): int
+  + SetPoints(const int& Points): void
+  + ToJson(): json
+}
+
+' --- Relationships ---
+
+' Customer "is-a" Person (Inheritance)
+Person <|-- Customer
+
+' Customer depends on the json library for its ToJson method.
+Customer ..> JSON_Lib
+Customer -- Constants
+Customer -- Logger
+
+@enduml

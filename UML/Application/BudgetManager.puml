@@ -1,0 +1,55 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title BudgetManager Facade
+
+' --- Subsystem Components ---
+class Budget
+class BudgetRepository
+class BudgetService
+class Bill
+
+' --- Supporting Value Objects and Enums ---
+class FilterCriteria
+enum SortCriteria
+class MonthlySummary
+class HistoricalAveragesCalculator
+class TaxCalculationResult
+class DateTime
+
+' --- The Facade Class ---
+' Provides a simplified, high-level interface to the complex subsystem.
+class BudgetManager <<facade>> {
+  - m_Budget: std::shared_ptr<Budget>
+  - m_Repository: std::unique_ptr<BudgetRepository>
+  - m_Service: std::unique_ptr<BudgetService>
+  --
+  + AddIncome(Date: const DateTime&, Message: const std::string&, Total: const double&): void
+  + FilterBills(criteria: const FilterCriteria&): std::vector<std::shared_ptr<Bill>>
+  + SortBills(criteria: SortCriteria): std::vector<std::shared_ptr<Bill>>
+  + GetYearlyMonthlySummary(year: int): std::vector<MonthlySummary>
+  + GetHistoricalAverages(startYear: int, endYear: int): HistoricalData
+  + CalculateTotalTax(): TaxCalculationResult
+  + GetCurrentTaxRate(): double
+}
+
+' --- Relationships ---
+
+' The Facade owns its core service and repository components.
+BudgetManager "*"-- "1" BudgetRepository : owns >
+BudgetManager "*"-- "1" BudgetService : owns >
+
+' The Facade aggregates the main Budget data object.
+BudgetManager o-- "1" Budget : aggregates >
+
+' The Facade depends on various other classes to fulfill its contract.
+BudgetManager ..> Bill : operates on
+BudgetManager ..> FilterCriteria : uses
+BudgetManager ..> SortCriteria : uses
+BudgetManager ..> MonthlySummary : returns
+BudgetManager ..> HistoricalAveragesCalculator : uses
+BudgetManager ..> TaxCalculationResult : returns
+BudgetManager ..> DateTime : uses
+
+@enduml

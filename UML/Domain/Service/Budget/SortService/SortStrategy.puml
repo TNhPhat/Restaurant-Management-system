@@ -1,0 +1,66 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Sorting Strategy and Factory
+
+' Forward-declare the Bill class, which is the target of the sort operations
+class Bill
+
+' Enum to select the desired strategy
+enum SortCriteria <<enumeration>> {
+  ID
+  Date
+  Message
+  Amount
+  BillType
+}
+
+' The Strategy interface
+interface ISortStrategy <<interface>> {
+  + {abstract} Sort(bills: std::vector<std::shared_ptr<Bill>>&): void
+}
+
+' Concrete Strategy implementations
+class SortByDateStrategy {
+  + Sort(bills: std::vector<std::shared_ptr<Bill>>&): void
+}
+class SortByAmountStrategy {
+  + Sort(bills: std::vector<std::shared_ptr<Bill>>&): void
+}
+class SortByBillTypeStrategy {
+  + Sort(bills: std::vector<std::shared_ptr<Bill>>&): void
+}
+class SortByIDStrategy {
+  + Sort(bills: std::vector<std::shared_ptr<Bill>>&): void
+}
+class SortByMessageStrategy {
+  + Sort(bills: std::vector<std::shared_ptr<Bill>>&): void
+}
+
+' The Factory for creating strategies
+class SortStrategyFactory <<factory>> {
+  + {static} CreateStrategy(criteria: SortCriteria): std::unique_ptr<ISortStrategy>
+}
+
+
+' --- Relationships ---
+
+' Realization: Concrete strategies implement the ISortStrategy interface.
+ISortStrategy <|.. SortByDateStrategy
+ISortStrategy <|.. SortByAmountStrategy
+ISortStrategy <|.. SortByBillTypeStrategy
+ISortStrategy <|.. SortByIDStrategy
+ISortStrategy <|.. SortByMessageStrategy
+
+' Dependency: The factory creates instances of ISortStrategy.
+' The <<create>> stereotype highlights the factory's purpose.
+SortStrategyFactory ..> ISortStrategy : <<create>>
+
+' Dependency: The factory uses the SortCriteria enum to decide which strategy to create.
+SortStrategyFactory ..> SortCriteria : uses
+
+' Dependency: The strategy interface (and all implementers) operates on Bill objects.
+ISortStrategy ..> Bill : modifies
+
+@enduml

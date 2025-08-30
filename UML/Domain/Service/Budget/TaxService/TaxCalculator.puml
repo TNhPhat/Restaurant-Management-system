@@ -1,0 +1,47 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Tax Calculation Strategy Pattern
+
+' Forward-declare the Bill class as an external dependency
+class Bill
+
+' Data transfer object for the calculation result
+class TaxCalculationResult <<struct>> {
+  + totalIncome: double
+  + totalExpenses: double
+  + netProfit: double
+  + taxableAmount: double
+  + taxRate: double
+  + taxOwed: double
+  + isProfitable: bool
+}
+
+' The Strategy interface
+interface ITaxCalculationStrategy <<interface>> {
+  + {abstract} CalculateTax(bills: const std::vector<std::shared_ptr<Bill>>&): TaxCalculationResult
+  + {abstract} GetTaxRate(): double
+}
+
+' A Concrete Strategy implementation
+class VietnameseCorporateTaxStrategy {
+  - {static} VIETNAM_CORPORATE_TAX_RATE: const double = 0.20
+  --
+  + CalculateTax(bills: const std::vector<std::shared_ptr<Bill>>&): TaxCalculationResult
+  + GetTaxRate(): double
+  --
+  - CalculateTotals(bills: const std::vector<std::shared_ptr<Bill>>&, totalIncome: double&, totalExpenses: double&): void
+}
+
+' --- Relationships ---
+
+' Realization: The concrete strategy implements the strategy interface.
+ITaxCalculationStrategy <|.. VietnameseCorporateTaxStrategy
+
+' Dependency: The strategy interface and its implementations depend on
+' Bill to perform calculations and TaxCalculationResult to return the outcome.
+ITaxCalculationStrategy ..> Bill : uses
+ITaxCalculationStrategy ..> TaxCalculationResult : returns
+
+@enduml

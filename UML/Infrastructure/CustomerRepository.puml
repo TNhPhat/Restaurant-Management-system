@@ -1,0 +1,28 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Customer Repository Diagram
+
+' Forward-declare dependencies to show relationships
+class JsonHandle
+class Customer
+
+class CustomerRepository {
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  --
+  + CustomerRepository()
+  + ~CustomerRepository()
+  + GetAllCustomerInfo(): std::vector<std::shared_ptr<Customer>>
+  + SaveCustomerInfo(CustomerInfo: std::vector<std::shared_ptr<Customer>>&): void
+}
+
+' --- Relationships ---
+
+' Composition: The repository owns its file handler for data persistence.
+CustomerRepository "*"-- "1" JsonHandle : owns >
+
+' Dependency: The repository's responsibility is to persist and retrieve Customer objects.
+CustomerRepository ..> Customer : persists >
+
+@enduml

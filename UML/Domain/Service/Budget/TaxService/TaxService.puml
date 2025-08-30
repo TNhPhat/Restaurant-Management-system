@@ -1,0 +1,51 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title TaxService (Strategy Pattern Context)
+
+' --- Forward declarations for context ---
+interface ITaxCalculationStrategy
+class TaxCalculationResult
+class Bill
+class DateTime
+
+' --- Value Object for Tax Period ---
+class TaxPeriod <<struct>> {
+  + startDate: DateTime
+  + endDate: DateTime
+  + description: std::string
+  --
+  + TaxPeriod(const DateTime& start, const DateTime& end, const std::string& desc)
+}
+
+' --- The Context Class ---
+class TaxService {
+  - m_TaxStrategy: std::unique_ptr<ITaxCalculationStrategy>
+  --
+  + TaxService()
+  + TaxService(std::unique_ptr<ITaxCalculationStrategy> strategy)
+  + CalculateTotalTax(bills: const std::vector<std::shared_ptr<Bill>>&): TaxCalculationResult
+  + CalculateTaxForPeriod(bills: const std::vector<std::shared_ptr<Bill>>&, period: const TaxPeriod&): TaxCalculationResult
+  + CalculateTaxForYear(bills: const std::vector<std::shared_ptr<Bill>>&, year: int): TaxCalculationResult
+  + CalculateTaxForMonth(bills: const std::vector<std::shared_ptr<Bill>>&, year: int, month: int): TaxCalculationResult
+  + GetCurrentTaxRate(): double
+  --
+  - FilterBillsByPeriod(bills: const std::vector<std::shared_ptr<Bill>>&, period: const TaxPeriod&): std::vector<std::shared_ptr<Bill>>
+}
+
+' --- Relationships ---
+
+' Composition: TaxService owns its ITaxCalculationStrategy instance.
+' This is the core of the Strategy Pattern's Context.
+TaxService "*"-- "1" ITaxCalculationStrategy : owns >
+
+' Composition: TaxPeriod is composed of two DateTime objects.
+TaxPeriod "*"-- "2" DateTime
+
+' Dependencies: TaxService uses these classes to perform its work.
+TaxService ..> TaxPeriod : uses
+TaxService ..> Bill : uses
+TaxService ..> TaxCalculationResult : returns
+
+@enduml

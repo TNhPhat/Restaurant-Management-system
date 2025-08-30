@@ -1,0 +1,65 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title DateTime Class Diagram
+
+class DateTime {
+  ' --- Static Methods ---
+  ' --- Instance Members ---
+  - m_Day: int
+  - m_Month: int
+  - m_Year: int
+  - m_Hour: int
+  - m_Minute: int
+  - m_Second: int
+
+  - ValidateAndSet(day: int, month: int, year: int, hour: int, minute: int, second: int): void
+  --
+  ' --- Constructors & Destructor ---
+  + DateTime()
+  + DateTime(Day: int, Month: int, Year: int, Hour: int, Minute: int, Second: int)
+  + DateTime(const DateTime& datetime)
+  + ~DateTime()
+
+  ' --- Public Instance Methods ---
+  + SetDay(Day: int): DateTime&
+  + SetMonth(Month: int): DateTime&
+  + SetYear(Year: int): DateTime&
+  + SetHour(Hour: int): DateTime&
+  + SetMinute(Minute: int): DateTime&
+  + SetSecond(Second: int): DateTime&
+  + GetDay(): int
+  + GetMonth(): int
+  + GetYear(): int
+  + GetHour(): int
+  + GetMinute(): int
+  + GetSecond(): int
+  + IsValid(): bool
+  + ToStringDate(): std::string
+  + ToStringDateTime(): std::string
+  + ToStringTime(): std::string
+  + ToTimeT(): time_t
+
+  ' --- Operators ---
+  + operator<(const DateTime& other): bool
+  + operator>(const DateTime& other): bool
+  + operator>=(const DateTime& other): bool
+  + operator<=(const DateTime& other): bool
+
+  + {static} IsLeapYear(year: int): bool
+  + {static} GetDaysInMonth(month: int, year: int): int
+  + {static} IsValidDate(day: int, month: int, year: int): bool
+  + {static} IsValidTime(hour: int, minute: int, second: int): bool
+  + {static} Now(): DateTime
+  + {static} FromDateTimeString(const std::string& str): DateTime
+  + {static} FromDateString(const std::string& str): DateTime
+  + {static} GetValidMonths(): std::vector<int>
+  + {static} GetValidDays(month: int, year: int): std::vector<int>
+  + {static} GetValidHours(): std::vector<int>
+  + {static} GetValidMinutes(interval: int = 5): std::vector<int>
+  + {static} MonthToString(month: int): std::string
+  ' --- Private Helper Methods ---
+}
+
+@enduml

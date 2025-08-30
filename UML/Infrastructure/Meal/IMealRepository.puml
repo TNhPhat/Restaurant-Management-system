@@ -1,0 +1,42 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Abstract Meal Repository
+
+' --- Forward declarations for context ---
+class Meal
+class MealItem
+class MealAddon
+
+' --- The Abstract Base Class for a Meal Repository ---
+' Note: This is not a pure interface, as it contains data members and concrete methods.
+abstract class IMealRepository <<abstract>> {
+  ' --- Private Data Members (In-memory cache) ---
+  - m_Meals: std::vector<std::shared_ptr<Meal>>
+  - m_MealAddons: std::vector<std::shared_ptr<MealAddon>>
+  - m_MealItems: std::vector<std::shared_ptr<MealItem>>
+  --
+  ' --- Pure Virtual Method (must be implemented by subclasses) ---
+  + {abstract} SaveMeals(filePath: std::string) const: void
+  --
+  ' --- Concrete Public Methods (In-memory operations) ---
+  + SaveMeal(meal: const std::shared_ptr<Meal>&): std::shared_ptr<Meal>
+  + RemoveMeal(MealID: int): void
+  + GetMealByID(ID: int): std::shared_ptr<Meal>
+  + SaveMealItem(item: const std::shared_ptr<MealItem>&): std::shared_ptr<MealItem>
+  + RemoveMealItem(ItemID: int): void
+  + GetMealItemByID(ID: int): std::shared_ptr<MealItem>
+  + SaveMealAddon(addon: const std::shared_ptr<MealAddon>&): std::shared_ptr<MealAddon>
+  + RemoveMealAddon(AddonID: int): void
+  + GetMealAddonByID(ID: int): std::shared_ptr<MealAddon>
+}
+
+' --- Relationships ---
+
+' Aggregation: The repository manages collections of these entities.
+IMealRepository o-- "*" Meal : manages
+IMealRepository o-- "*" MealItem : manages
+IMealRepository o-- "*" MealAddon : manages
+
+@enduml

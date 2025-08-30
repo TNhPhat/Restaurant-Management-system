@@ -1,0 +1,35 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title CustomerManager Facade
+
+' --- Forward declarations for context ---
+class CustomerInfoService
+class Customer
+
+' --- The Facade Class ---
+' Provides a simplified interface to the CustomerInfoService subsystem.
+class CustomerManager <<facade>> {
+  - m_Info: std::unique_ptr<CustomerInfoService>
+  --
+  + CustomerManager()
+  + ~CustomerManager()
+  + AddCustomerInfo(CustomerInfo: std::shared_ptr<Customer>): void
+  + RemoveCustomerByPhone(Phone: const std::string&): void
+  + GetAllCustomerInfo(): std::vector<std::shared_ptr<Customer>>
+  + SearchCustomerByPhone(Phone: const std::string&): std::shared_ptr<Customer>
+  + SearchCustomerByName(Name: const std::string&): std::vector<std::shared_ptr<Customer>>
+  + SaveCustomerInfo(): void
+}
+
+' --- Relationships ---
+
+' Composition: The CustomerManager owns and controls the lifetime of its service object.
+CustomerManager "*"-- "1" CustomerInfoService : owns >
+
+' Dependency: The manager's methods operate on Customer objects, which are passed
+' down to the service layer.
+CustomerManager ..> Customer : delegates operations for >
+
+@enduml

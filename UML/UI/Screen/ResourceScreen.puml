@@ -1,0 +1,42 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title ResourceScreen Diagram
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class Core
+class Storage
+class Resource
+
+' --- The Concrete Screen Implementation ---
+class ResourceScreen {
+  - m_Storage: Storage*
+  - m_Resources: std::vector<std::shared_ptr<Resource>>&
+  --
+  ' --- Public Methods ---
+  + ResourceScreen(core: Core&, storage: Storage*)
+  + Render(dt: float): void
+  + Init(): void
+  + OnExit(): void
+  --
+  ' --- Private UI Helper Methods ---
+  - DrawTable(): void
+  - DrawSaveButton(): void
+  - DrawAddButton(): void
+  - DrawBackButton(): void
+}
+
+' --- Relationships ---
+
+' Inheritance: ResourceScreen is a type of Screen.
+Screen <|-- ResourceScreen
+
+' Association: ResourceScreen has a non-owning reference (raw pointer) to a single Storage object.
+ResourceScreen --> "1" Storage : references >
+
+' Dependency: The screen's main purpose is to display and manage a collection of Resource objects.
+ResourceScreen ..> Resource : displays/manages
+
+@enduml

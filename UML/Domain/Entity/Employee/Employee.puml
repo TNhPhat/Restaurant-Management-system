@@ -1,0 +1,66 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Employee Class and Position Enum
+
+' Forward-declare dependencies for context
+class Person
+class DateTime
+package "nlohmann" as JSON_Lib <<library>> {
+  class json
+}
+
+' The EmployeePosition enumeration
+enum EmployeePosition <<enumeration>> {
+  Chef
+  Manager
+  Receptionist
+  Waiter
+  Reservation
+}
+
+' The Employee class
+class Employee {
+  ' --- Static Methods ---
+  + {static} NumToString(num: int): std::string
+  + {static} StringToPosition(const std::string& position): EmployeePosition
+  --
+  ' --- Instance Members ---
+  - m_Position: EmployeePosition
+  - m_EmployeeID: int
+  - m_DateJoined: DateTime
+  - m_Salary: int
+  --
+  ' --- Constructor & Destructor ---
+  + Employee()
+  + Employee(const std::string&, const std::string&, const std::string&, const Gender&, const DateTime&, const int&, const EmployeePosition&)
+  + ~Employee()
+  --
+  ' --- Public Methods ---
+  + GetEmployeeID(): int
+  + GetDateJoined(): DateTime
+  + GetSalary(): int
+  + GetPostion(): EmployeePosition
+  + GetYearOfService(): int
+  + SetPosition(const EmployeePosition& Position): void
+  + SetEmployeeID(const int& EmployeeID): void
+  + SetDateJoined(const DateTime& DateJoined): void
+  + SetSalary(const int& Salary): void
+  + PositionToString(): std::string
+  + ToJson(): json
+}
+
+' --- Relationships ---
+
+' Inheritance: Employee "is-a" Person
+Person <|-- Employee
+
+' Composition: An Employee has an EmployeePosition and a DateTime for their join date.
+Employee "*"-- "1" EmployeePosition
+Employee "*"-- "1" DateTime
+
+' Dependency: Employee depends on the json library for serialization.
+Employee ..> JSON_Lib
+
+@enduml

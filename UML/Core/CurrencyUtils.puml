@@ -1,0 +1,14 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Utility Namespace: CurrencyUtils
+
+class CurrencyUtils <<utility>> {
+  + {static} FormatUSD(amount: double, showSymbol: bool = true): std::string
+  + {static} FormatCurrency(amount: double, symbol: const std::string& = "VND", showSymbol: bool = true): std::string
+  + {static} AddThousandSeparators(number: double): std::string
+  + {static} ParseCurrency(currencyStr: const std::string&): double
+}
+
+@enduml

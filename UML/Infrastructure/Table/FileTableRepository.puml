@@ -1,0 +1,27 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Concrete Table Repository
+
+' --- Forward declarations for context ---
+abstract class ITableRepository <<abstract>>
+class JsonHandle
+
+' --- The Concrete Repository Implementation ---
+class FileTableRepository {
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  --
+  + FileTableRepository(filePath: std::string)
+  + SaveTables(filePath: std::string) const: void
+}
+
+' --- Relationships ---
+
+' Inheritance: Implements the abstract base class contract.
+ITableRepository <|-- FileTableRepository
+
+' Composition: Owns its file handler for persistence.
+FileTableRepository "*"-- "1" JsonHandle : owns >
+
+@enduml

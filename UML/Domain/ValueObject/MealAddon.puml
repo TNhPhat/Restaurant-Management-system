@@ -1,0 +1,28 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title MealAddon Class Diagram
+
+' Forward-declare the MenuAddon class to show the relationship
+class MenuAddon
+
+class MealAddon {
+  - m_Addon: std::shared_ptr<MenuAddon>
+  - m_Quantity: unsigned int
+  --
+  + MealAddon(const std::shared_ptr<MenuAddon>& Addon, int Quantity)
+  + GetAddon(): std::shared_ptr<MenuAddon>
+  + GetQuantity(): int
+  + SetQuantity(unsigned int Quantity): void
+  + AddQuantity(unsigned int Quantity): void
+  + RemoveQuantity(unsigned int Quantity): void
+  + GetIngredients(): std::vector<MealIngredient>
+}
+
+' --- Relationships ---
+' MealAddon aggregates a MenuAddon. It holds a shared reference to it.
+' The open diamond represents aggregation.
+MealAddon o-- "1" MenuAddon : refers to >
+
+@enduml

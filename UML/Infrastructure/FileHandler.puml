@@ -1,0 +1,83 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Class Diagram for Json Handler
+
+' Define the external library as a package with the <<library>> stereotype
+package "nlohmann" as JSON_Lib <<library>> {
+  class json
+}
+
+' FileHandle is an abstract base class
+abstract class FileHandle <<abstract>> {
+  # m_FilePath: std::string
+  + GetFilePath(): std::string
+}
+
+' JsonCommand is a pure interface for the Command Pattern
+interface JsonCommand <<interface>> {
+  + {abstract} execute(json& Data): bool
+  + {abstract} undo(json& Data): bool
+}
+
+class SetKeyCommand {
+  - m_Key: std::vector<std::string>
+  - m_NewValue: json
+  - m_OldValue: json
+  + execute(json& Data): bool
+  + undo(json& Data): bool
+}
+
+class AddDataCommand {
+  - m_Key: std::vector<std::string>
+  - m_NewData: json
+  - m_OldData: json
+  + execute(json& Data): bool
+  + undo(json& Data): bool
+}
+
+class PushArrayCommand {
+  - m_Key: std::vector<std::string>
+  - m_NewElement: json
+  + execute(json& Data): bool
+  + undo(json& Data): bool
+}
+
+class RemoveDataCommand {
+  - m_Key: std::vector<std::string>
+  - m_OldData: json
+  - m_ArrayIndex: std::optional<size_t>
+  + execute(json& Data): bool
+  + undo(json& Data): bool
+}
+
+class JsonHandle {
+  - m_Data: json
+  - m_UndoDeque: std::deque<JsonCommand*>
+  - m_RedoDeque: std::deque<JsonCommand*>
+  + LoadFile(const std::string& FilePath): void
+  + GetDaTa(): json
+  + GetKeyData(const std::vector<std::string>& Key): json
+  + ExecuteCommand(JsonCommand* command): void
+  + Undo(): void
+  + Redo(): void
+  + SaveFile(): void
+  + SaveFileAs(const std::string& SavePath): void
+}
+
+' --- Relationships ---
+
+FileHandle <|-- JsonHandle
+JsonCommand <|-- SetKeyCommand
+JsonCommand <|-- AddDataCommand
+JsonCommand <|-- PushArrayCommand
+JsonCommand <|-- RemoveDataCommand
+
+JsonHandle o-- "*" JsonCommand : manages
+
+' Dependencies on the external json library package
+JsonHandle ..> JSON_Lib
+JsonCommand ..> JSON_Lib
+
+@enduml

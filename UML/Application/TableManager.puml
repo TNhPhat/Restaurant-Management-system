@@ -1,0 +1,33 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title TableManager Facade
+
+' --- Subsystem Component ---
+class FileTableRepository
+
+' --- Domain Entity ---
+class Table
+
+' --- The Facade Class ---
+' Provides a simplified interface to the table repository subsystem.
+class TableManager <<facade>> {
+  - m_TableRepository: std::shared_ptr<FileTableRepository>
+  --
+  + TableManager(TableRepository: std::shared_ptr<FileTableRepository>&)
+  + ~TableManager()
+  + GetTables(): std::vector<std::shared_ptr<Table>>
+  + GetFreeTables(): std::vector<std::shared_ptr<Table>>
+  + AddATableByID(tableID: int): void
+}
+
+' --- Relationships ---
+
+' Aggregation: The manager uses and shares ownership of a FileTableRepository instance.
+TableManager o-- "1" FileTableRepository : aggregates >
+
+' Dependency: The manager's purpose is to delegate operations for Table objects.
+TableManager ..> Table : delegates operations for >
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title OrderStatus Enumeration and Utilities
+
+enum OrderStatus <<enumeration>> {
+  None
+  Received
+  Preparing
+  Complete
+  Canceled
+}
+
+class OrderStatusUtils <<utility>> {
+  + {static} OrderStatusToString(status: OrderStatus): std::string
+  + {static} StringToOrderStatus(str: const std::string&): OrderStatus
+}
+
+' The utility functions depend on and operate on the OrderStatus enum.
+OrderStatusUtils ..> OrderStatus : uses
+
+@enduml

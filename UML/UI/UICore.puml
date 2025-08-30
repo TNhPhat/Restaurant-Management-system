@@ -1,0 +1,62 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Application Core and Screen Management
+
+' --- External Libraries ---
+package "Dear ImGui" as IMGUI_LIB <<library>> {
+  class ImGuiIO
+  class ImGuiContext
+  class ImGuiStyle
+}
+
+package "GLFW" as GLFW_LIB <<library>> {
+  class GLFWwindow
+}
+
+' --- Abstract Base Class for Screens/States ---
+abstract class Screen <<abstract>> {
+  ' Typically would have virtual methods like:
+  ' {abstract} OnAttach(): void
+  ' {abstract} OnUpdate(): void
+  ' {abstract} OnRender(): void
+}
+
+' --- The Main Application Controller ---
+class Core <<controller>> {
+  ' --- Private Members ---
+  - m_IO: ImGuiIO*
+  - m_Context: ImGuiContext*
+  - m_Style: ImGuiStyle*
+  - m_Window: GLFWwindow*
+  - m_ScreenStack: std::vector<std::unique_ptr<Screen>>
+  - m_ChangedScreen: std::unique_ptr<Screen>
+  - m_ShouldPop: bool
+  --
+  ' --- Public Lifecycle Methods ---
+  + Init(): void
+  + Start(): void
+  + Shutdown(): void
+  --
+  ' --- Public Screen Management ---
+  + PushScreen(screen: std::unique_ptr<Screen>&&): void
+  + {method} PushScreen<T>(...): void
+  + {method} ChangeScreen<T>(...): bool
+  + PopScreen(): void
+  + GetCurrentScreen(): Screen&
+}
+
+' --- Relationships ---
+
+' Composition: Core owns and manages the lifetime of all Screen objects in its stack.
+Core "*"-- "*" Screen : manages screen stack >
+
+' Factory: Core is responsible for creating new Screen instances.
+Core ..> Screen : <<create>>
+
+' Association: Core holds pointers to and interacts with external library objects.
+Core --> IMGUI_LIB : uses
+Core --> GLFW_LIB : uses
+
+@enduml

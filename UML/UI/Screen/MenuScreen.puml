@@ -1,0 +1,85 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title MenuScreen and Sub-component Architecture
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class MenuManager
+class Menu
+class MenuSection
+class MenuItem
+class MenuAddon
+package "Dear ImGui" as IMGUI_LIB <<library>> {
+    class ImGuiTextFilter
+}
+
+' --- Abstract Generic Base Class for Sub-Screens ---
+abstract class "SubMenuScreen<T>" as SubMenuScreen_T {
+  # m_filter: ImGuiTextFilter
+  # m_CurrentChoiceID: int
+  # m_SelectedID: int
+  --
+  # {abstract} RenderLeft(instance: T&): bool
+  # {abstract} RenderRight(instance: T&): void
+  + Render(instance: T&): bool
+}
+
+' --- Concrete Sub-Screen Implementations ---
+' All inherit from the same template instantiation.
+class "SubMenuScreen<std::shared_ptr<MenuManager>>" as InstantiatedBase
+SubMenuScreen_T <|-- InstantiatedBase
+
+class MenuSubMenuScreen {
+  - m_currentMenus: std::vector<std::shared_ptr<Menu>>
+}
+class SectionSubMenuScreen {
+  - m_currentSections: std::vector<std::shared_ptr<MenuSection>>
+}
+class ItemSubMenuScreen {
+  - m_currentItems: std::vector<std::shared_ptr<MenuItem>>
+}
+class AddonSubMenuScreen {
+  - m_currentAddons: std::vector<std::shared_ptr<MenuAddon>>
+}
+
+' --- Main Screen that composes the sub-screens ---
+class MenuScreen {
+  - s_menuManager: std::shared_ptr<MenuManager>
+  - m_menuSubMenuScreen: MenuSubMenuScreen
+  - m_sectionSubMenuScreen: SectionSubMenuScreen
+  - m_itemSubMenuScreen: ItemSubMenuScreen
+  - m_addonSubMenuScreen: AddonSubMenuScreen
+  --
+  + MenuScreen(core: Core&, menuManager: std::shared_ptr<MenuManager>)
+  + Render(DT: float): void
+  + Init(): void
+  + OnExit(): void
+}
+
+' --- Relationships ---
+
+' Main Screen Inheritance and Composition
+Screen <|-- MenuScreen
+MenuScreen "*"-- "1" MenuSubMenuScreen : has >
+MenuScreen "*"-- "1" SectionSubMenuScreen : has >
+MenuScreen "*"-- "1" ItemSubMenuScreen : has >
+MenuScreen "*"-- "1" AddonSubMenuScreen : has >
+
+' Sub-Screen Inheritance
+InstantiatedBase <|-- MenuSubMenuScreen
+InstantiatedBase <|-- SectionSubMenuScreen
+InstantiatedBase <|-- ItemSubMenuScreen
+InstantiatedBase <|-- AddonSubMenuScreen
+
+' Dependencies
+MenuScreen o-- "1" MenuManager : aggregates >
+SubMenuScreen_T ..> IMGUI_LIB : uses
+
+MenuSubMenuScreen ..> Menu : displays/manages
+SectionSubMenuScreen ..> MenuSection : displays/manages
+ItemSubMenuScreen ..> MenuItem : displays/manages
+AddonSubMenuScreen ..> MenuAddon : displays/manages
+
+@enduml

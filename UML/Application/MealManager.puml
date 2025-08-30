@@ -1,0 +1,49 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title MealManager Facade
+
+' --- Subsystem Component ---
+class FileMealRepository
+
+' --- Domain Entities ---
+class Meal
+class MealItem
+class MealAddon
+
+' --- The Facade Class ---
+' Provides a simplified interface to the meal repository subsystem.
+class MealManager <<facade>> {
+  - m_MealRepository: std::unique_ptr<FileMealRepository>
+  --
+  + MealManager(MealRepository: std::unique_ptr<FileMealRepository>&)
+  + ~MealManager()
+
+  ' (Methods for Meal)
+  + GetMealByID(MealID: int): std::shared_ptr<Meal>
+  + SaveMeal(MealPtr: const std::shared_ptr<Meal>&): std::shared_ptr<Meal>
+  + RemoveMeal(MealID: int): void
+
+  ' (Methods for MealItem)
+  + GetMealItemByID(ID: const int): std::shared_ptr<MealItem>
+  + SaveMealItem(MealItemPtr: const std::shared_ptr<MealItem>&): std::shared_ptr<MealItem>
+  + RemoveMealItem(MealItemID: int): void
+
+  ' (Methods for MealAddon)
+  + GetMealAddonByID(MealAddonID: int): std::shared_gptr<MealAddon>
+  + SaveMealAddon(MealAddonPtr: const std::shared_ptr<MealAddon>&): std::shared_ptr<MealAddon>
+  + RemoveMealAddon(MealAddonID: int): void
+}
+
+' --- Relationships ---
+
+' Composition: The manager owns and controls the lifetime of its repository.
+MealManager "*"-- "1" FileMealRepository : owns >
+
+' Dependencies: The manager delegates operations for these entities to its repository.
+MealManager ..> Meal : delegates operations for >
+MealManager ..> MealItem : delegates operations for >
+MealManager ..> MealAddon : delegates operations for >
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Budget Repository Diagram
+
+' Forward-declare dependencies to show relationships
+class JsonHandle
+class Bill
+
+class BudgetRepository {
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  - m_FilePath: std::string
+  --
+  + BudgetRepository(FilePath: const std::string&)
+  + LoadAllBills(): std::vector<std::shared_ptr<Bill>>
+  + SaveAllBills(Bill: const std::vector<std::shared_ptr<Bill>>&): void
+  + SaveBill(Bill: const std::shared_ptr<Bill>&): void
+  + RemoveBillByID(BillID: const int&): bool
+}
+
+' --- Relationships ---
+
+' Composition: The repository owns and controls the lifetime of its file handler.
+BudgetRepository "*"-- "1" JsonHandle : owns >
+
+' Dependency: The repository is responsible for loading and saving Bill objects.
+BudgetRepository ..> Bill : manages persistence of >
+
+@enduml

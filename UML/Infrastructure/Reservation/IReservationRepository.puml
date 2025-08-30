@@ -1,0 +1,30 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Abstract Reservation Repository
+
+' --- Forward declarations for context ---
+class Reservation
+
+' --- The Abstract Base Class for a Reservation Repository ---
+abstract class IReservationRepository <<abstract>> {
+  ' --- Private Data Members (In-memory cache) ---
+  - m_Reservations: std::vector<std::shared_ptr<Reservation>>
+  --
+  ' --- Pure Virtual Method (Persistence Contract) ---
+  + {abstract} SaveReservations(filePath: std::string) const: void
+  --
+  ' --- Concrete Public Methods (In-memory management) ---
+  + SaveReservation(reservation: std::shared_ptr<Reservation>): std::shared_ptr<Reservation>
+  + RemoveReservation(PhoneNumber: std::string): void
+  + GetReservations(): std::vector<std::shared_ptr<Reservation>>
+  + GetReservationByPhoneNumber(PhoneNumber: std::string): std::shared_ptr<Reservation>
+}
+
+' --- Relationships ---
+
+' Aggregation: The repository manages an in-memory collection of reservations.
+IReservationRepository o-- "*" Reservation : manages >
+
+@enduml

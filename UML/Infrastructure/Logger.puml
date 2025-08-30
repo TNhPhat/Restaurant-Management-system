@@ -1,0 +1,56 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Static Logger Utility
+
+' The LogLevel enumeration
+enum LogLevel <<enumeration>> {
+  DEBUG
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+' The static Logger class
+class Logger <<utility>> {
+  ' --- Private Static Members ---
+  - {static} CurrentLogLevel: LogLevel
+  - {static} RESET_COLOR: const std::string
+  - {static} DEBUG_COLOR: const std::string
+  - {static} INFO_COLOR: const std::string
+  - {static} WARNING_COLOR: const std::string
+  - {static} ERROR_COLOR: const std::string
+  - {static} CRITICAL_COLOR: const std::string
+  --
+  ' --- Private Static Helpers ---
+  - {static} GetTimestamp(): std::string
+  - {static} LogLevelToString(level: LogLevel): std::string
+  - {static} GetColor(level: LogLevel): std::string
+  --
+  ' --- Public Static API ---
+  + {static} SetLogLevel(NewLevel: const LogLevel): void
+  + {static} GetLogLevel(): LogLevel
+  + {static} Log(level: LogLevel, file: const char*, line: int, message: const std::string&): void
+}
+
+' --- Relationships ---
+
+' The Logger utility uses the LogLevel enum extensively.
+Logger ..> LogLevel : uses
+
+' Note explaining the primary usage via macros
+note right of Logger
+  <b>Usage via Macros:</b>
+  The primary interface for this logger
+  is through preprocessor macros like:
+  - LOG_DEBUG(fmt, ...)
+  - LOG_INFO(fmt, ...)
+  - LOG_ERROR(fmt, ...)
+
+  These macros wrap the `Logger::Log` call,
+  automatically providing the file and line number.
+end note
+
+@enduml

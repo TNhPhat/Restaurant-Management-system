@@ -1,0 +1,58 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Bill Filtering Criteria
+
+' Forward-declare external dependencies
+class DateTime
+enum BillType
+
+' --- Data Structures for Criteria ---
+class AmountRange <<struct>> {
+  + minAmount: double
+  + maxAmount: double
+  --
+  + AmountRange(min: double, max: double)
+}
+
+class DateRange <<struct>> {
+  + startDate: DateTime
+  + endDate: DateTime
+  --
+  + DateRange(const DateTime& start, const DateTime& end)
+}
+
+' --- The Main Filter Container Class ---
+class FilterCriteria {
+  - m_AmountRange: std::optional<AmountRange>
+  - m_DateRange: std::optional<DateRange>
+  - m_ShowIncome: bool
+  - m_ShowExpense: bool
+  --
+  + SetAmountRange(min: double, max: double): void
+  + SetDateRange(const DateTime& start, const DateTime& end): void
+  + SetBillType(type: BillType): void
+  + ClearAmountRange(): void
+  + ClearDateRange(): void
+  + ClearAll(): void
+  + GetAmountRange(): const std::optional<AmountRange>&
+  + GetDateRange(): const std::optional<DateRange>&
+  + GetShowIncome(): const bool&
+  + GetShowExpense(): const bool&
+}
+
+' --- Relationships ---
+
+' Composition: FilterCriteria optionally contains an AmountRange and a DateRange.
+' The "0..1" multiplicity correctly models std::optional.
+FilterCriteria "*"-- "0..1" AmountRange : contains >
+FilterCriteria "*"-- "0..1" DateRange : contains >
+
+' Composition: A DateRange is always composed of exactly two DateTime objects.
+DateRange "*"-- "2" DateTime
+
+' Dependency: FilterCriteria uses the BillType enum in its SetBillType method.
+FilterCriteria ..> BillType : uses
+
+@enduml

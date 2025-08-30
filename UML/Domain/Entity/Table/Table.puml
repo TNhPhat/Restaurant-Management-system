@@ -1,0 +1,46 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Table Class and Status Enum
+
+' Forward-declare the Reservation class to show the relationship
+class Reservation
+
+' The TableStatus enumeration
+enum TableStatus <<enumeration>> {
+  Free
+  Reserved
+  Occupied
+  Other
+}
+
+' The Table class
+class Table {
+  - m_TableID: int
+  - m_Status: TableStatus
+  - m_MaxCapacity: int
+  - m_LocationIdentifier: int
+  - m_Reservations: std::vector<std::shared_ptr<const Reservation>>
+  --
+  + Table()
+  + Table(TableID: int, MaxCapacity: int, LocationIdentifier: int)
+  + ~Table()
+  + GetTableID(): int
+  + GetTableStatus(): TableStatus
+  + GetMaxCapacity(): int
+  + SetTableStatus(NewTableStatus: const TableStatus&): void
+  + AddReservation(NewReservation: const std::shared_ptr<const Reservation>): bool
+  + RemoveReservation(PhoneNumber: std::string): bool
+  + GetReservations(): const std::vector<std::shared_ptr<const Reservation>>&
+}
+
+' --- Relationships ---
+
+' Composition: A Table has exactly one TableStatus.
+Table "*"-- "1" TableStatus
+
+' Aggregation: A Table can have a collection of Reservations.
+Table o-- "*" Reservation : has reservations >
+
+@enduml
