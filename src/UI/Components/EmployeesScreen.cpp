@@ -143,7 +143,7 @@ void EmployeesScreen::DrawAddButton() {
         ImGui::Combo("##Gender", &m_genderField, genders, IM_ARRAYSIZE(genders));
 
         ImGui::TextUnformatted("Salary");
-        ImGui::InputInt("VND##Salary", &m_salaryField, 100000, 500000);
+        ImGui::InputInt("USD##Salary", &m_salaryField, 100000, 500000);
         if (m_salaryField < 0) m_salaryField = 0;
 
         ImGui::TextUnformatted("Position");

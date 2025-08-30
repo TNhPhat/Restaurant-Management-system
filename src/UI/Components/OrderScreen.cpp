@@ -216,7 +216,6 @@ void OrderScreen::DrawMealSelectionPopup() {
                 bool isSelected = (m_SelectedMenuSectionID == section->GetID());
                 if (ImGui::Selectable(section->GetTitle().c_str(), isSelected)) {
                     m_SelectedMenuSectionID = section->GetID();
-                    m_SelectedMenuItemQuantities.clear();
                 }
             }
             ImGui::EndCombo();

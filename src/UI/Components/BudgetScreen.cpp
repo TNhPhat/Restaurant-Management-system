@@ -85,7 +85,7 @@ void BudgetScreen::Render(float DT) {
             ImGui::TextUnformatted("Message");
             ImGui::InputText("##Message", &m_nameField);
             ImGui::TextUnformatted("Amount");
-            ImGui::InputDouble("VND##Amount", &m_priceField);
+            ImGui::InputDouble("USD##Amount", &m_priceField);
             ImGui::TextUnformatted("Date");
             std::string buttonText = m_dateField.ToStringDateTime();
             if (ImGui::Button(buttonText.c_str())) {
@@ -150,7 +150,7 @@ void BudgetScreen::Render(float DT) {
             ImGui::TextUnformatted("Message");
             ImGui::InputText("##Message", &m_nameField);
             ImGui::TextUnformatted("Amount");
-            ImGui::InputDouble("VND##Amount", &m_priceField);
+            ImGui::InputDouble("USD##Amount", &m_priceField);
             ImGui::TextUnformatted("Date");
             std::string buttonText = m_dateField.ToStringDateTime();
             if (ImGui::Button(buttonText.c_str())) {
