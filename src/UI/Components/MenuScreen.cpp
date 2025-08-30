@@ -2,6 +2,7 @@
 
 #include "Constants.hpp"
 #include "FileMenuRepository.hpp"
+#include "imgui.h"
 #include "Application/Storage/StorageManager.hpp"
 #include "UI/UICore/Core.hpp"
 #include "misc/cpp/imgui_stdlib.h"
@@ -843,10 +844,25 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                         instance->GetMenuItemByID(this->m_CurrentChoiceID)->GetTitle().c_str());
             ImGui::Separator();
             ImGui::TextUnformatted("Ingredients (separated by commas)");
+            if (StorageManager::GetInstance().GetStorages().empty()) {
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+                                   "You need to have at least one storage to add ingredients.");
+                if (ImGui::Button("OK", ImVec2(120, 0))) {
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::EndPopup();
+                ImGui::EndChild();
+                return ret;
+            }
             auto ingredients = StorageManager::GetInstance().GetStorages().front()->GetResources();
             std::string prev = "Select ingredients";
             if (m_SelectedID != -1) {
-                prev = ingredients[m_SelectedID]->GetName();
+                for (auto &ingredient: ingredients) {
+                    if (ingredient->GetID() == m_SelectedID) {
+                        prev = ingredient->GetName();
+                        break;
+                    }
+                }
             }
             if (ImGui::BeginCombo("##Ingredients", prev.c_str(), ImGuiComboFlags_None)) {
                 static ImGuiTextFilter filter;
@@ -869,7 +885,13 @@ bool ItemSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             ImGui::SameLine();
             if (ImGui::Button("Add Ingredient")) {
                 if (m_SelectedID != -1) {
-                    const auto &ingredient = ingredients[m_SelectedID];
+                    std::shared_ptr<Resource> ingredient = nullptr;
+                    for (auto &ingr: ingredients) {
+                        if (ingr->GetID() == m_SelectedID) {
+                            ingredient = ingr;
+                            break;
+                        }
+                    }
                     if (m_ingredientsField.find(ingredient->GetName()) == m_ingredientsField.end()) {
                         m_ingredientsField[ingredient->GetName()] = 1;
                     } else {
@@ -1161,10 +1183,25 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
                         instance->GetMenuAddonByID(this->m_CurrentChoiceID)->GetName().c_str());
             ImGui::Separator();
             ImGui::TextUnformatted("Ingredients");
+            if (StorageManager::GetInstance().GetStorages().empty()) {
+                ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+                                   "No storage found. Please create a storage and add resources first.");
+                if (ImGui::Button("OK", ImVec2(120, 0))) {
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::EndPopup();
+                ImGui::EndChild();
+                return false;
+            }
             auto ingredients = StorageManager::GetInstance().GetStorages().front()->GetResources();
             std::string prev = "Select ingredients";
             if (m_SelectedID != -1) {
-                prev = ingredients[m_SelectedID]->GetName();
+                for (auto &ingredient: ingredients) {
+                    if (ingredient->GetID() == m_SelectedID) {
+                        prev = ingredient->GetName();
+                        break;
+                    }
+                }
             }
             if (ImGui::BeginCombo("##Ingredients", prev.c_str(), ImGuiComboFlags_None)) {
                 static ImGuiTextFilter filter;
@@ -1187,7 +1224,14 @@ bool AddonSubMenuScreen::RenderLeft(std::shared_ptr<MenuManager> &instance) {
             ImGui::SameLine();
             if (ImGui::Button("Add Ingredient")) {
                 if (m_SelectedID != -1) {
-                    const auto &ingredient = ingredients[m_SelectedID];
+                    const std::shared_ptr<Resource> ingredient = [&]() {
+                        for (auto &ingr: ingredients) {
+                            if (ingr->GetID() == m_SelectedID) {
+                                return ingr;
+                            }
+                        }
+                        return std::shared_ptr<Resource>(nullptr);
+                    }();
                     if (m_ingredientsField.find(ingredient->GetName()) == m_ingredientsField.end()) {
                         m_ingredientsField[ingredient->GetName()] = 1;
                     } else {
