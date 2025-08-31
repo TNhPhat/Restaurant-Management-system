@@ -1,0 +1,53 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title EmployeesScreen Diagram
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class Core
+class EmployeeManager
+class Employee
+class DateTime
+class DateTimePicker
+
+' --- The Concrete Screen Implementation ---
+class EmployeesScreen {
+  ' --- Data Members ---
+  - m_EmployeeManager: std::shared_ptr<EmployeeManager>
+  - m_dateJoinedField: DateTime
+  - m_datePicker: DateTimePicker
+  ' (other primitive state members omitted for clarity)
+  --
+  ' --- Public Methods ---
+  + EmployeesScreen(core: Core&)
+  + Render(dt: float): void
+  + Init(): void
+  + OnExit(): void
+  --
+  ' --- Private UI Helper Methods ---
+  - DrawTable(): void
+  - DrawSaveButton(): void
+  - DrawAddButton(): void
+  - DrawBackButton(): void
+}
+
+' --- Relationships ---
+
+' Inheritance: EmployeesScreen is a type of Screen.
+Screen <|-- EmployeesScreen
+
+' Aggregation: The screen uses an EmployeeManager to perform its logic.
+EmployeesScreen o-- "1" EmployeeManager : uses >
+
+' Composition: The screen is composed of state and UI helper objects.
+EmployeesScreen "*"-- "1" DateTime : has >
+EmployeesScreen "*"-- "1" DateTimePicker : has >
+
+' Dependency: The screen displays and manages a collection of Employee objects.
+EmployeesScreen ..> Employee : displays/manages
+
+EmployeesScreen ..> Core : depends on
+
+@enduml

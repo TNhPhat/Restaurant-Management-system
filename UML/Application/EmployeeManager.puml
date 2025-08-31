@@ -1,0 +1,45 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title EmployeeManager Facade
+
+' --- Subsystem Components (Services) ---
+class AttendanceService
+class EmployeeInfoService
+
+' --- Domain Entities and Value Objects ---
+class Employee
+enum EmployeePosition
+class DateTime
+
+' --- The Facade Class ---
+' Provides a simplified, unified interface to the employee subsystem.
+class EmployeeManager <<facade>> {
+  - m_Attendance: std::unique_ptr<AttendanceService>
+  - m_Info: std::unique_ptr<EmployeeInfoService>
+  --
+  + EmployeeManager()
+  + AddEmployee(Employee: std::shared_ptr<Employee>): void
+  + SearchEmployeebyID(ID: const int&): std::shared_ptr<Employee>
+  + RemoveEmployeebyID(ID: const int&): void
+  + CheckIn(ID: const int&, Time: const DateTime&): void
+  + CheckOut(ID: const int&, Time: const DateTime&): void
+  + CalcTotalWorkedHoursByID(ID: const int&, Start: const DateTime&, End: const DateTime&): float
+  + SaveEmployeeInfo(): void
+  + SaveAttendanceRecord(): void
+}
+
+' --- Relationships ---
+
+' Composition: The manager owns and controls the lifetime of its services.
+EmployeeManager "*"-- "1" AttendanceService : owns >
+EmployeeManager "*"-- "1" EmployeeInfoService : owns >
+
+' Dependencies: The manager's methods operate on various domain objects,
+' delegating the work to its internal services.
+EmployeeManager ..> Employee : delegates operations for >
+EmployeeManager ..> EmployeePosition : uses
+EmployeeManager ..> DateTime : uses
+
+@enduml

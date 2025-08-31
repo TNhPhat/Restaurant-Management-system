@@ -1,0 +1,51 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title MenuManager Facade
+
+' --- Subsystem Component (Interface) ---
+abstract class IMenuRepository <<abstract>>
+
+' --- Domain Entities ---
+class Menu
+class MenuSection
+class MenuItem
+class MenuAddon
+
+' --- The Facade Class ---
+' Provides a simplified interface to the menu repository subsystem.
+class MenuManager <<facade>> {
+  - m_MenuRepository: std::shared_ptr<IMenuRepository>
+  --
+  + MenuManager(MenuRepository: std::shared_ptr<IMenuRepository>)
+  + ~MenuManager()
+
+  ' (Menu methods)
+  + GetMenuByID(MenuID: int): std::shared_ptr<Menu>
+  + SaveMenu(MenuPtr: const std::shared_ptr<Menu>&): std::shared_ptr<Menu>
+  + RemoveMenu(MenuID: const int): void
+
+  ' (MenuItem methods)
+  + GetMenuItemByID(MenuItemID: int): std::shared_ptr<MenuItem>
+  + SaveMenuItem(MenuItemPtr: const std::shared_ptr<MenuItem>&): std::shared_ptr<MenuItem>
+  + RemoveMenuItem(MenuItemID: int): void
+
+  ' (Other methods)
+  + GetSectionByID(SectionID: int): std::shared_ptr<MenuSection>
+  + GetMenuAddonByID(MenuAddonID: int): std::shared_ptr<MenuAddon>
+  + LoadAll(MenuFilePath: std::string, ItemFilePath: std::string, AddonFilePath: std::string): void
+}
+
+' --- Relationships ---
+
+' Aggregation: The manager uses and shares ownership of an IMenuRepository instance.
+MenuManager o-- "1" IMenuRepository : uses >
+
+' Dependencies: The manager delegates operations for these entities to its repository.
+MenuManager ..> Menu : delegates operations for >
+MenuManager ..> MenuSection : delegates operations for >
+MenuManager ..> MenuItem : delegates operations for >
+MenuManager ..> MenuAddon : delegates operations for >
+
+@enduml

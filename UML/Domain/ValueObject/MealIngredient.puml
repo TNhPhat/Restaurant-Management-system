@@ -1,0 +1,16 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title MealIngredient Struct Diagram
+
+class MealIngredient <<struct>> {
+  + Name: std::string
+  + Quantity: int
+  --
+  + MealIngredient()
+  + MealIngredient(const std::string& name, int quantity)
+  + MealIngredient(const std::pair<std::string, int>& ingredient)
+}
+
+@enduml

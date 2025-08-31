@@ -1,0 +1,48 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title StorageManager Singleton
+
+' --- Forward declarations for context ---
+class Storage
+class JsonHandle
+class Logger
+
+' --- The Singleton Manager Class ---
+class StorageManager <<singleton>> {
+  ' --- Private Instance Members ---
+  - m_Storages: std::vector<std::shared_ptr<Storage>>
+  - m_FileHandle: std::unique_ptr<JsonHandle>
+  - m_FilePath: std::string
+  - m_IsLoaded: bool
+  ' --- Private Singleton Constructor/Destructor ---
+  - StorageManager()
+  - ~StorageManager()
+  --
+  ' --- Public Static Accessor ---
+  + {static} GetInstance(): StorageManager&
+
+  ' --- Public Instance Methods ---
+  + SetFilePath(FilePath: const std::string): void
+  + LoadStorageFromFile(): bool
+  + SaveStorageToFile(): void
+  + IsLoaded(): bool
+  + GetStorages(): std::vector<std::shared_ptr<Storage>>&
+}
+
+' --- Relationships ---
+
+' Composition: The manager owns its file handler.
+StorageManager "*"-- "1" JsonHandle : owns >
+
+' Aggregation: The manager holds a collection of all Storage objects.
+StorageManager o-- "*" Storage : manages >
+
+' Dependency: The manager uses the Logger for logging operations.
+StorageManager ..> Logger : uses
+
+' Self-reference to model the static instance of the singleton
+StorageManager o--> "s_Instance" StorageManager
+
+@enduml

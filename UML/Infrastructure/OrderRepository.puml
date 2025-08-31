@@ -1,0 +1,34 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Order Repository Diagram
+
+' --- Forward declarations for context ---
+class JsonHandle
+abstract class IMealRepository <<abstract>>
+class Order
+
+' --- The Repository Class ---
+class OrderRepository {
+  - m_FilePath: std::string
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  - m_MealRepo: std::shared_ptr<IMealRepository>
+  --
+  + OrderRepository(FilePath: const std::string&, MealRepo: const std::shared_ptr<IMealRepository>&)
+  + LoadAllOrders(): std::vector<std::shared_ptr<Order>>
+  + SaveAllOrders(Orders: const std::vector<std::shared_ptr<Order>>&): void
+}
+
+' --- Relationships ---
+
+' Composition: The repository owns its file handler.
+OrderRepository "*"-- "1" JsonHandle : owns >
+
+' Aggregation: The repository uses a meal repository, but does not own it.
+OrderRepository o-- "1" IMealRepository : uses >
+
+' Dependency: The repository's main purpose is to persist and retrieve Order objects.
+OrderRepository ..> Order : persists >
+
+@enduml

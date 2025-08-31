@@ -1,0 +1,40 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Singleton Class: IDManager
+
+' Forward-declare the dependency from the previous diagram
+' to provide context for the relationship.
+class JsonHandle
+
+class IDManager <<singleton>> {
+  ' --- Static Members ---
+  - {static} s_Instance: std::unique_ptr<IDManager>
+  + {static} Init(const std::string& FilePath): void
+  + {static} GetInstance(): IDManager&
+
+  ' --- Instance Members ---
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  - m_CurrentIDs: std::unordered_map<std::string, int>
+  - m_FilePath: std::string
+
+  ' --- Private Methods ---
+  - IDManager(const std::string& FilePath)
+  - LoadID(): void
+
+  ' --- Public Methods ---
+  + GetNextID(const std::string& EntityType): int
+  + SaveID(): void
+}
+
+' --- Relationships ---
+
+' IDManager owns and manages the lifetime of a JsonHandle instance.
+' This is a composition relationship.
+IDManager "*"-- "1" JsonHandle : owns >
+
+' The Singleton's static instance points to the single object of the class.
+IDManager o--> "s_Instance" IDManager
+
+@enduml

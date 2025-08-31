@@ -1,0 +1,68 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title OrderScreen Diagram
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class Core
+class OrderManager
+abstract class IMenuRepository <<abstract>>
+abstract class IMealRepository <<abstract>>
+class TableManager
+class Order
+class Table
+class DateTime
+class DateTimePicker
+enum OrderStatus
+
+' --- The Concrete Screen Implementation ---
+class OrderScreen {
+  ' --- Aggregated Managers/Repositories ---
+  - m_Manager: std::shared_ptr<OrderManager>
+  - m_MenuRepo: std::shared_ptr<const IMenuRepository>
+  - m_MealRepo: std::shared_ptr<IMealRepository>
+  - m_TableManager: std::shared_ptr<TableManager>
+
+  ' --- Composed State Objects ---
+  - m_NewDate: DateTime
+  - m_DatePicker: DateTimePicker
+
+  ' --- Other state members (omitted for clarity) ---
+  ' - m_EditedTableID, m_EditedDateTime, etc.
+  --
+  ' --- Public Methods ---
+  + OrderScreen(core: Core&, manager: std::shared_ptr<OrderManager>, menuRepo: ..., mealRepo: ...)
+  + Render(dt: float): void
+  + Init(): void
+  + OnExit(): void
+  --
+  ' --- Private UI Helper Methods ---
+  - DrawOrderTable(): void
+  - DrawMealSelectionPopup(): void
+  - DrawMealDetailsPopup(): void
+}
+
+' --- Relationships ---
+
+' Inheritance: OrderScreen is a type of Screen.
+Screen <|-- OrderScreen
+
+' Aggregation: The screen uses several managers and repositories, which are shared resources.
+OrderScreen o-- "1" OrderManager : uses >
+OrderScreen o-- "1" IMenuRepository : uses >
+OrderScreen o-- "1" IMealRepository : uses >
+OrderScreen o-- "1" TableManager : uses >
+
+' Composition: The screen is composed of state and UI helper objects.
+OrderScreen "*"-- "1" DateTime : has >
+OrderScreen "*"-- "1" DateTimePicker : has >
+
+' Dependencies: The screen displays and manages collections of Order and Table objects.
+OrderScreen ..> Order : displays/manages
+OrderScreen ..> Table : displays
+OrderScreen ..> OrderStatus : uses
+
+OrderScreen ..> Core : uses
+@enduml

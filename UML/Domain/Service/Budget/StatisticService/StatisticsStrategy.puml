@@ -1,0 +1,53 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Statistics Strategy and Calculator
+
+' --- Forward declarations for context ---
+class Bill
+class MonthlySummary
+
+' --- The Strategy Pattern components ---
+interface IStatisticsStrategy <<interface>> {
+  + {abstract} CalculateStatistics(bills: const std::vector<std::shared_ptr<Bill>>&): std::vector<MonthlySummary>
+}
+
+class YearlyMonthlySummaryStrategy {
+  - m_TargetYear: int
+  --
+  + YearlyMonthlySummaryStrategy(year: int)
+  + CalculateStatistics(bills: const std::vector<std::shared_ptr<Bill>>&): std::vector<MonthlySummary>
+}
+
+' --- The Utility Calculator component ---
+class HistoricalAveragesCalculator <<utility>> {
+  + {static} CalculateHistoricalAverages(monthlySummaries: const std::vector<MonthlySummary>&): HistoricalData
+}
+
+' The nested struct for the calculator's return type
+class HistoricalData <<struct>> {
+    + averageMonthlyIncome: double
+    + averageMonthlyExpense: double
+    + averageMonthlyNet: double
+    + totalMonths: int
+}
+
+' --- Relationships ---
+
+' Realization: The concrete strategy implements the strategy interface.
+IStatisticsStrategy <|.. YearlyMonthlySummaryStrategy
+
+' Nesting: HistoricalData is defined inside HistoricalAveragesCalculator.
+HistoricalAveragesCalculator +-- HistoricalData
+
+' Dependencies:
+' The strategy pattern components use Bill and return MonthlySummary.
+IStatisticsStrategy ..> Bill : uses
+IStatisticsStrategy ..> MonthlySummary : returns
+
+' The calculator uses MonthlySummary and returns its own HistoricalData struct.
+HistoricalAveragesCalculator ..> MonthlySummary : uses
+HistoricalAveragesCalculator ..> HistoricalData : returns
+
+@enduml

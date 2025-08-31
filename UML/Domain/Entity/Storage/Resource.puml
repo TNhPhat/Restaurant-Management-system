@@ -1,0 +1,33 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Resource Class Diagram
+
+' Forward-declare the Logger dependency to show the relationship
+class Logger
+
+class Resource {
+  - m_ResourceID: const int {readOnly}
+  - m_Name: std::string
+  - m_Quantity: int
+  - m_Price: float
+  --
+  + Resource(ID: const int)
+  + ~Resource()
+  + SetName(Name: std::string): void
+  + SetQuantity(Quantity: int): void
+  + SetPrice(Price: float): void
+  + Add(q: int): void
+  + Use(q: int): bool
+  + GetName(): std::string
+  + GetID(): int
+  + GetQuantity(): int
+  + GetPrice(): float
+}
+
+' --- Relationships ---
+' The Resource class uses the Logger for logging purposes (in its implementation).
+Resource ..> Logger : uses
+
+@enduml

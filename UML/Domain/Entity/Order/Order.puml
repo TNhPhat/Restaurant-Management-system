@@ -1,0 +1,41 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Order Class Diagram
+
+' Forward-declare dependencies to show relationships
+class DateTime
+enum OrderStatus <<enumeration>>
+class Meal
+
+class Order {
+  - m_OrderID: const int {readOnly}
+  - m_TableID: int
+  - m_Phone: std::string
+  - m_Date: DateTime
+  - m_Status: OrderStatus
+  - m_Meals: std::shared_ptr<Meal>
+  --
+  + Order(const int&, const int&, const std::string&, const DateTime&)
+  + ~Order()
+  + GetID(): int
+  + GetTableID(): int
+  + GetStatus(): OrderStatus
+  + GetDate(): DateTime
+  + GetTotalPrice(): double
+  + SetOrderStatus(const OrderStatus& NewOrderStatus): void
+  + SetTableID(const int& newID): void
+  + GetMeal(): std::shared_ptr<Meal>
+}
+
+' --- Relationships ---
+
+' Composition: An Order is composed of a DateTime and an OrderStatus.
+Order "*"-- "1" DateTime
+Order "*"-- "1" OrderStatus
+
+' Aggregation: An Order contains a reference to a single Meal.
+Order o-- "1" Meal : contains >
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title ReservationManager Facade
+
+' --- Subsystem Component ---
+class FileReservationRepository
+
+' --- Domain Entities and Value Objects ---
+class Reservation
+class DateTime
+
+' --- The Facade Class ---
+' Provides a simplified interface to the reservation repository subsystem.
+class ReservationManager <<facade>> {
+  - m_ReservationRepository: std::unique_ptr<FileReservationRepository>
+  --
+  + ReservationManager(ReservationRepository: std::unique_ptr<FileReservationRepository>&)
+  + ~ReservationManager()
+  + AddAReservationByPhoneNumber(PhoneNumber: std::string): void
+  + RemoveReservationByPhoneNumber(PhoneNumber: std::string): void
+  + GetAllReservations(): std::vector<std::shared_ptr<Reservation>>
+  + GetReservationsInRange(from: DateTime, to: DateTime): std::vector<std::shared_ptr<Reservation>>
+  + SaveReservations(filePath: std::string) const: void
+}
+
+' --- Relationships ---
+
+' Composition: The manager owns and controls the lifetime of its repository.
+ReservationManager "*"-- "1" FileReservationRepository : owns >
+
+' Dependencies: The manager delegates operations for Reservation objects
+' and uses DateTime for its methods.
+ReservationManager ..> Reservation : delegates operations for >
+ReservationManager ..> DateTime : uses
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Bill Class Diagram
+
+' Forward-declare dependencies to show relationships
+class DateTime
+enum BillType <<enumeration>>
+
+class Bill {
+  - m_BillID: const int {readOnly}
+  - m_Date: DateTime
+  - m_Message: std::string
+  - m_Total: double
+  - m_Type: BillType
+
+  + Bill(const int&, const DateTime&, const std::string&, const double&, const BillType&)
+  + GetID(): int
+  + GetTotal(): double
+  + GetDate(): DateTime
+  + GetMessage(): std::string
+  + GetType(): BillType
+  + SetMessage(const std::string& Message): void
+  + SetTotal(const double& Total): void
+  + SetDate(const DateTime& Date): void
+  + SetType(const BillType& Type): void
+}
+
+' --- Relationships ---
+' Bill is composed of a DateTime and a BillType.
+Bill "*"-- "1" DateTime
+Bill "*"-- "1" BillType
+
+@enduml

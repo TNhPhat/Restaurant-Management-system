@@ -1,0 +1,57 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Meal and MealItem Class Diagram
+
+' Forward-declare dependencies to show relationships
+class MenuItem
+class MealAddon
+class DateTime
+class MealIngredient
+
+class Meal {
+  - m_MealID: const int {readOnly}
+  - m_MealDate: DateTime
+  - m_MealItems: std::vector<std::shared_ptr<MealItem>>
+  --
+  + GetID(): int
+  + GetPrice(): double
+  + GetMealItems(): std::vector<std::shared_ptr<MealItem>>
+  + GetResources(): std::vector<MealIngredient>
+  + GetDate(): DateTime
+  + AddItem(const std::shared_ptr<MealItem>& Item): std::shared_ptr<MealItem>
+  + RemoveItem(const int ItemID): void
+  + UpdateMealDate(const DateTime& date): void
+}
+
+class MealItem {
+  - m_MealItemID: const int {readOnly}
+  - m_MenuItem: std::shared_ptr<MenuItem>
+  - m_Quantity: int
+  - m_Addons: std::vector<std::shared_ptr<MealAddon>>
+  - m_Note: std::string
+  --
+  + GetID(): int
+  + GetPrice(): double
+  + GetQuantity(): int
+  + GetAddons(): std::vector<std::shared_ptr<MealAddon>>
+  + GetNote(): std::string
+  + GetMenuItemTitle(): std::string
+  + SetQuantity(int Quantity): void
+  + AddAddon(const std::shared_ptr<MenuAddon>& Addon, unsigned int Quantity = 1): void
+  + RemoveAddon(int AddonID, unsigned int Quantity = 1): void
+}
+
+' --- Relationships ---
+
+' Composition: A Meal is composed of MealItems and has a DateTime.
+Meal "*"-- "*" MealItem : composed of >
+Meal "*"-- "1" DateTime
+Meal -- MealIngredient : uses >
+
+' Aggregation: A MealItem refers to a MenuItem and can have MealAddons.
+MealItem o-- "1" MenuItem : refers to >
+MealItem o-- "*" MealAddon : has >
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Concrete Reservation Repository
+
+' --- Forward declarations for context ---
+abstract class IReservationRepository <<abstract>>
+class JsonHandle
+
+' --- The Concrete Repository Implementation ---
+class FileReservationRepository {
+  - m_FileHandle: std::unique_ptr<JsonHandle>
+  --
+  + FileReservationRepository(filePath: std::string)
+  + SaveReservations(filePath: std::string) const: void
+}
+
+' --- Relationships ---
+
+' Inheritance: Implements the abstract base class contract.
+IReservationRepository <|-- FileReservationRepository
+
+' Composition: Owns its file handler for persistence.
+FileReservationRepository "*"-- "1" JsonHandle : owns >
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Budget Class Diagram
+
+' Forward-declare the Bill class to show the relationship
+class Bill
+
+class Budget {
+  - m_TotalIncome: double
+  - m_TotalExpenses: double
+  - m_Bills: std::vector<std::shared_ptr<Bill>>
+  --
+  + LoadBills(const std::vector<std::shared_ptr<Bill>>& Bills): void
+  + AddIncome(const std::shared_ptr<Bill>& NewBill): void
+  + AddExpense(const std::shared_ptr<Bill>& NewBill): void
+  + RemoveBillByID(const int& BillID): bool
+  + GetTotalIncome(): double
+  + GetTotalExpenses(): double
+  + GetAllBills(): std::vector<std::shared_p tr<Bill>>
+}
+
+' --- Relationships ---
+' Budget aggregates a collection of Bill objects.
+' The open diamond represents aggregation (shared ownership).
+Budget o-- "*" Bill : manages >
+
+@enduml

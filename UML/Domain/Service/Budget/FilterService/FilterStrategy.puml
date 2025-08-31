@@ -1,0 +1,40 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Bill Filtering Strategy
+
+' --- Forward declarations for context ---
+class Bill
+class FilterCriteria
+class AmountRange
+class DateRange
+
+' --- The Strategy Interface ---
+interface IFilterStrategy <<interface>> {
+  + {abstract} Filter(bills: const std::vector<std::shared_ptr<Bill>>&, criteria: const FilterCriteria&): std::vector<std::shared_prt<Bill>>
+}
+
+' --- The Concrete Strategy Implementation ---
+class BillFilterStrategy {
+  + Filter(bills: const std::vector<std::shared_ptr<Bill>>&, criteria: const FilterCriteria&): std::vector<std::shared_ptr<Bill>>
+  --
+  - PassesAmountFilter(bill: const std::shared_ptr<Bill>&, range: const AmountRange&): bool
+  - PassesDateFilter(bill: const std::shared_ptr<Bill>&, range: const DateRange&): bool
+  - PassesBillTypeFilter(bill: const std::shared_ptr<Bill>&, type: BillType): bool
+}
+
+' --- Relationships ---
+
+' Realization: The concrete strategy implements the filter interface.
+IFilterStrategy <|.. BillFilterStrategy
+
+' Dependency: The strategy uses Bill objects and FilterCriteria to perform its work.
+IFilterStrategy ..> Bill : operates on
+IFilterStrategy ..> FilterCriteria : uses
+
+' Note: BillFilterStrategy also has more specific dependencies on AmountRange and DateRange,
+' but these are encapsulated within FilterCriteria, so the top-level dependency is sufficient.
+BillFilterStrategy ..> AmountRange : uses
+BillFilterStrategy ..> DateRange : uses
+@enduml

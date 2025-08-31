@@ -1,0 +1,29 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title OrderService Utility Class
+
+' Forward-declare dependencies to show relationships
+class Order
+class IDManager
+class DateTime
+enum OrderStatus
+
+class OrderService <<utility>> {
+  + GenerateOrder(tableID: const int&, customerPhone: const std::string&, date: const DateTime&, meals: const std::shared_ptr<Meal>&): std::shared_ptr<Order>
+  + FilterByDate(orders: const std::vector<std::shared_ptr<Order>>&, date: const DateTime&): std::vector<std::shared_ptr<Order>>
+  + FilterByDateRange(orders: const std::vector<std::shared_ptr<Order>>&, startDate: const DateTime&, endDate: const DateTime&): std::vector<std::shared_ptr<Order>>
+  + FilterByStatus(orders: const std::vector<std::shared_ptr<Order>>&, status: OrderStatus): std::vector<std::shared_ptr<Order>>
+  + SortByDate(orders: const std::vector<std::shared_ptr<Order>>&, ascending: bool = true): std::vector<std::shared_ptr<Order>>
+  + SortByTotal(orders: const std::vector<std::shared_ptr<Order>>&, ascending: bool = true): std::vector<std::shared_ptr<Order>>
+}
+
+' --- Dependencies ---
+' OrderService depends on several other classes and enums to perform its operations.
+OrderService ..> Order : uses
+OrderService ..> IDManager : uses
+OrderService ..> DateTime : uses
+OrderService ..> OrderStatus : uses
+
+@enduml

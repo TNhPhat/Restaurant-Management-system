@@ -1,0 +1,30 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Abstract Table Repository
+
+' --- Forward declarations for context ---
+class Table
+
+' --- The Abstract Base Class for a Table Repository ---
+abstract class ITableRepository <<abstract>> {
+  ' --- Private Data Members (In-memory cache) ---
+  - m_Tables: std::vector<std::shared_ptr<Table>>
+  --
+  ' --- Pure Virtual Method (Persistence Contract) ---
+  + {abstract} SaveTables(filePath: std::string) const: void
+  --
+  ' --- Concrete Public Methods (In-memory management) ---
+  + SaveTable(table: const std::shared_ptr<Table>&): std::shared_ptr<Table>
+  + RemoveTable(tableID: int): void
+  + GetTables(): std::vector<std::shared_ptr<Table>>
+  + GetTableByID(tableID: int): std::shared_ptr<Table>
+}
+
+' --- Relationships ---
+
+' Aggregation: The repository manages an in-memory collection of tables.
+ITableRepository o-- "*" Table : manages >
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title MonthlySummary Struct Diagram
+
+class MonthlySummary <<struct>> {
+  ' --- Attributes ---
+  + year: int
+  + month: int
+  + totalIncome: double
+  + totalExpenses: double
+  + netIncome: double
+  + incomeCount: int
+  + expenseCount: int
+  --
+  ' --- Constructors ---
+  + MonthlySummary()
+  + MonthlySummary(y: int, m: int)
+  --
+  ' --- Public Methods ---
+  + AddIncome(amount: double): void
+  + AddExpense(amount: double): void
+  + GetAverageIncome(): double
+  + GetAverageExpense(): double
+  + GetMonthName(): std::string
+  --
+  ' --- Private Methods ---
+  - UpdateNetIncome(): void
+}
+
+@enduml

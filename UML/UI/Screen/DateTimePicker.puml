@@ -1,0 +1,50 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title DateTimePicker UI Component
+
+' --- Forward declarations for context ---
+class DateTime
+package "Dear ImGui" as IMGUI_LIB <<library>>{
+}
+
+' --- The UI Widget Class ---
+class DateTimePicker {
+  ' --- Static Utility Method ---
+  + {static} DateTimePopup(label: const char*, dateTime: DateTime&, showTime: bool, showSeconds: bool): bool
+  --
+  ' --- Private Instance Members (State) ---
+  - m_DateTime: DateTime
+  - m_ShowTime: bool
+  - m_ShowSeconds: bool
+  - m_CalendarYear: int
+  - m_CalendarMonth: int
+  --
+  ' --- Constructors ---
+  + DateTimePicker()
+  + DateTimePicker(const DateTime& dateTime)
+  --
+  ' --- Public Render Methods ---
+  + Render(label: const char*): bool
+  + RenderDateOnly(label: const char*): bool
+  + RenderTimeOnly(label: const char*): bool
+  --
+  ' --- Public Get/Set Methods ---
+  + SetDateTime(const DateTime& dateTime): void
+  + GetDateTime(): const DateTime&
+  --
+  ' --- Private Helper Methods ---
+  - RenderCalendar(): void
+  - RenderTimeControls(): void
+}
+
+' --- Relationships ---
+
+' Composition: A picker is composed of one DateTime object which represents its state.
+DateTimePicker "*"-- "1" DateTime : holds >
+
+' Dependency: The picker is a UI widget that uses the ImGui library to render itself.
+DateTimePicker ..> IMGUI_LIB : uses
+
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Dashboard Screen
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class Core
+class OrderManager
+abstract class IMealRepository <<abstract>>
+class ReservationManager
+class BudgetManager
+class MenuManager
+
+' --- The Concrete Screen Implementation ---
+class Dashboard {
+  ' --- Private Members ---
+  - m_OrderManager: std::shared_ptr<OrderManager>
+  - m_MealRepo: std::shared_ptr<IMealRepository>
+  - m_ReservationManager: std::shared_ptr<ReservationManager>
+  - m_BudgetManager: std::shared_ptr<BudgetManager>
+  - m_MenuManager: std::shared_ptr<MenuManager>
+  --
+  ' --- Public Overridden Methods ---
+  + Dashboard(core: Core&)
+  + Render(DT: float): void
+  + Init(): void
+  + OnExit(): void
+
+  ' --- Private Helper Methods ---
+  - NavigateToOrderScreen(): void
+  - NavigateToMenuScreen(): void
+  - NavigateToBudgetScreen(): void
+  - NavigateToReservationScreen(): void
+  - NavigateToStorageScreen(): void
+  - NavigateToEmployeesScreen(): void
+}
+
+' --- Relationships ---
+
+' Inheritance: Dashboard is a concrete implementation of a Screen.
+Screen <|-- Dashboard
+
+' Aggregation: The Dashboard uses and shares ownership of various manager/repository objects.
+' These are the main subsystems it provides access to.
+Dashboard o-- "1" OrderManager : aggregates >
+Dashboard o-- "1" IMealRepository : aggregates >
+Dashboard o-- "1" ReservationManager : aggregates >
+Dashboard o-- "1" BudgetManager : aggregates >
+Dashboard o-- "1" MenuManager : aggregates >
+
+Dashboard ..> OrderScreen: navigates to >
+Dashboard ..> MenuScreen: navigates to >
+Dashboard ..> BudgetScreen: navigates to >
+Dashboard ..> ReservationScreen: navigates to >
+Dashboard ..> StorageScreen: navigates to >
+Dashboard ..> EmployeesScreen: navigates to >
+Dashboard --l> "1" Core : references
+
+@enduml

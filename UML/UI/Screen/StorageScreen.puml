@@ -1,0 +1,41 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title StorageScreen Diagram
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class Core
+class StorageManager
+class Storage
+
+' --- The Concrete Screen Implementation ---
+class StorageScreen {
+  - m_Storages: std::vector<std::shared_ptr<Storage>>&
+  --
+  ' --- Public Methods ---
+  + StorageScreen(core: Core&)
+  + Render(dt: float): void
+  + Init(): void
+  + OnExit(): void
+  --
+  ' --- Private UI Helper Methods ---
+  - DrawTable(): void
+  - DrawSaveButton(): void
+  - DrawAddButton(): void
+  - DrawBackButton(): void
+}
+
+' --- Relationships ---
+
+' Inheritance: StorageScreen is a type of Screen.
+Screen <|-- StorageScreen
+
+' Dependency: StorageScreen relies on the StorageManager singleton to get its data.
+StorageScreen ..> StorageManager : uses singleton >
+
+' Dependency: The screen's main purpose is to display a collection of Storage objects.
+StorageScreen ..> Storage : displays
+
+@enduml

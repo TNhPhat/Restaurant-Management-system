@@ -1,0 +1,48 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Reservation Class and Status Enum
+
+' Forward-declare the DateTime class to show the relationship
+class DateTime
+
+' The ReservationStatus enumeration
+enum ReservationStatus <<enumeration>> {
+  Requested
+  Pending
+  Confirmed
+  CheckedIn
+  Canceled
+  Abandoned
+}
+
+' The Reservation class
+class Reservation {
+  - m_PhoneNumber: std::string
+  - m_TimeOfReservation: DateTime
+  - m_PeopleCount: int
+  - m_Status: ReservationStatus
+  - m_CheckinTime: DateTime
+  --
+  + Reservation()
+  + Reservation(PhoneNumber: std::string, TimeOfReservation: const DateTime&, PeopleCount: int, CheckinTime: const DateTime&)
+  + setPhoneNumber(PhoneNumber: std::string): void
+  + setTimeOfReservation(TimeOfReservation: const DateTime&): void
+  + setPeopleCount(count: int): void
+  + setReservationStatus(Status: ReservationStatus): void
+  + setCheckinTime(CheckinTime: const DateTime&): void
+  + getPhoneNumber(): std::string
+  + getTimeOfReservation(): DateTime
+  + getPeopleCount(): int
+  + getStatus(): ReservationStatus
+  + getCheckinTime(): DateTime
+}
+
+' --- Relationships ---
+
+' Composition: A Reservation has a status and two DateTime objects.
+Reservation "*"-- "1" ReservationStatus
+Reservation "*"-- "2" DateTime : has >
+
+@enduml

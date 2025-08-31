@@ -1,0 +1,56 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title BudgetScreen Diagram
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class BudgetManager
+class Bill
+class DateTime
+class DateTimePicker
+class FilterCriteria
+
+package "Dear ImGui" as IMGUI_LIB <<library>> {
+    class ImGuiTextFilter
+}
+
+' --- The Concrete Screen Implementation ---
+class BudgetScreen {
+  ' --- Data Members ---
+  - s_budgetManager: std::shared_ptr<BudgetManager>
+  - m_currentBills: std::vector<std::shared_ptr<Bill>>
+  - m_dateField: DateTime
+  - m_datePicker: DateTimePicker
+  - m_filter: ImGuiTextFilter
+  - m_fromDate: DateTime
+  - m_toDate: DateTime
+  - m_filterCriteria: FilterCriteria
+  ' (other primitive state members omitted for clarity)
+  --
+  ' --- Public Methods ---
+  + BudgetScreen(core: Core&, budgetManager: std::shared_ptr<BudgetManager>&)
+  + Render(DT: float): void
+  + Init(): void
+  + OnExit(): void
+}
+
+' --- Relationships ---
+
+' Inheritance: BudgetScreen is a type of Screen.
+Screen <|-- BudgetScreen
+
+' Aggregation: The screen uses a BudgetManager to perform its logic.
+BudgetScreen o-- "1" BudgetManager : uses >
+
+' Composition: The screen is composed of several state and UI helper objects.
+BudgetScreen "*"-- "3" DateTime : has >
+BudgetScreen "*"-- "1" DateTimePicker : has >
+BudgetScreen "*"-- "1" FilterCriteria : has >
+BudgetScreen "*"-- "1" ImGuiTextFilter
+
+' Dependency: The screen displays and manages a collection of Bill objects.
+BudgetScreen ..> Bill : displays/manages
+
+@enduml

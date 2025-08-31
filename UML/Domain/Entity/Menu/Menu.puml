@@ -1,0 +1,93 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Menu System Class Diagram
+
+class Menu {
+  - m_MenuID: const int {readOnly}
+  - m_Name: std::string
+  - m_Description: std::string
+  - m_Sections: std::vector<std::shared_ptr<MenuSection>>
+  --
+  + GetID(): int
+  + GetName(): std::string
+  + GetDescription(): std::string
+  + GetSections(): std::vector<std::shared_ptr<MenuSection>>
+  + SetName(const std::string& Name): void
+  + SetDescription(const std::string& Description): void
+  + AddSection(const std::shared_ptr<MenuSection>& Section): std::shared_ptr<MenuSection>
+  + RemoveSection(const int SectionID): void
+}
+
+class MenuSection {
+  - m_MenuSectionID: const int {readOnly}
+  - m_Title: std::string
+  - m_Description: std::string
+  - m_MenuItems: std::vector<std::shared_ptr<MenuItem>>
+  - m_MenuID: int
+  --
+  + GetID(): int
+  + GetTitle(): std::string
+  + GetDescription(): std::string
+  + GetMenuItems(): std::vector<std::shared_ptr<MenuItem>>
+  + GetMenuID(): int
+  + SetTitle(const std::string& Title): void
+  + SetDescription(const std::string& Description): void
+  + AddMenuItem(const std::shared_ptr<MenuItem>& Item): std::shared_ptr<MenuItem>
+  + RemoveItem(const int ItemID): void
+}
+
+class MenuItem {
+  - m_MenuItemID: const int {readOnly}
+  - m_Price: double
+  - m_Title: std::string
+  - m_Description: std::string
+  - m_Ingredients: std::map<std::string, int>
+  - m_AvailableAddons: std::vector<std::shared_ptr<MenuAddon>>
+  - m_MealCount: int
+  --
+  + GetID(): int
+  + GetTitle(): std::string
+  + GetPrice(): double
+  + GetIngredients(): std::vector<MealIngredient>
+  + GetAvailableAddons(): std::vector<std::shared_ptr<MenuAddon>>
+  + SetTitle(const std::string& Title): void
+  + SetPrice(double Price): void
+  + AddAddon(const std::shared_ptr<MenuAddon>& Addon): void
+  + RemoveAddon(const std::shared_ptr<MenuAddon>& Addon): void
+}
+
+class MenuAddon {
+  - m_AddonID: const int {readOnly}
+  - m_Name: std::string
+  - m_Price: double
+  - m_Ingredients: std::map<std::string, int>
+  --
+  + GetID(): int
+  + GetName(): std::string
+  + GetPrice(): double
+  + GetIngredients(): std::vector<MealIngredient>
+  + SetName(const std::string& Name): void
+  + SetPrice(double Price): void
+  + AddIngredient(const MealIngredient& Ingredient): void
+  + RemoveIngredient(const std::string& IngredientName): void
+}
+
+class MealIngredient <<struct>> {
+  + Name: std::string
+  + Quantity: int
+}
+
+
+' --- Relationships ---
+
+' Composition: The lifetime of the parts is managed by the whole.
+Menu "*"-- "*" MenuSection : composed of >
+MenuSection "*"-- "*" MenuItem : composed of >
+MenuAddon "*"-- "*" MealIngredient : composed of >
+
+' Aggregation: MenuItem has a collection of addons, which can exist independently.
+MenuItem o-- "*" MenuAddon : has >
+
+@enduml

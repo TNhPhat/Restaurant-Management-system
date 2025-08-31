@@ -1,0 +1,70 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Employee and Attendance Repositories
+
+' --- Forward declarations for context ---
+class JsonHandle
+class DateTime
+class Employee
+package "nlohmann" as JSON_Lib <<library>> {
+  class json
+}
+
+' --- Data Entity Class ---
+class AttendanceRecord {
+  - m_ID: int
+  - CheckInTime: std::shared_ptr<DateTime>
+  - CheckOutTime: std::shared_ptr<DateTime>
+  - m_TotalWorkedHours: float
+  --
+  + AttendanceRecord(const int& ID)
+  + CheckIn(const DateTime& Time): void
+  + CheckOut(const DateTime& Time): void
+  + GetID(): int
+  + GetCheckInTime(): DateTime
+  + GetCheckOutTime(): DateTime
+  + GetWorkedHours(): float
+  + ToJson(): json
+}
+
+' --- Repository for Employee Information ---
+class EmployeeRepositoryInfo {
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  --
+  + EmployeeRepositoryInfo()
+  + ~EmployeeRepositoryInfo()
+  + GetAllEmployeeInfo(): std::vector<std::shared_ptr<Employee>>
+  + SaveEmployeeInfo(EmployeeInfo: std::vector<std::shared_ptr<Employee>>&): void
+  + GetFileHandler(): JsonHandle&
+}
+
+' --- Repository for Attendance Records ---
+class EmployeeRepositoryAttendance {
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  --
+  + EmployeeRepositoryAttendance()
+  + ~EmployeeRepositoryAttendance()
+  + GetAllEmployeeAttendanceRecord(): std::vector<std::shared_ptr<AttendanceRecord>>
+  + SaveEmployeeAttendaceRecord(record: std::vector<std::shared_ptr<AttendanceRecord>>&): void
+  + GetFileHandler(): JsonHandle&
+}
+
+' --- Relationships ---
+
+' Composition: Both repositories own their JsonHandle instance.
+EmployeeRepositoryInfo "*"-- "1" JsonHandle : owns >
+EmployeeRepositoryAttendance "*"-- "1" JsonHandle : owns >
+
+' Aggregation: An AttendanceRecord holds shared references to two DateTime objects.
+AttendanceRecord o-- "2" DateTime : holds >
+
+' Dependencies:
+' - Repositories depend on the entities they persist.
+' - AttendanceRecord depends on the json library for serialization.
+EmployeeRepositoryInfo ..> Employee : persists >
+EmployeeRepositoryAttendance ..> AttendanceRecord : persists >
+AttendanceRecord ..> JSON_Lib
+
+@enduml

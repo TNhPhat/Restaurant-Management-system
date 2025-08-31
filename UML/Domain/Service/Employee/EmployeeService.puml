@@ -1,0 +1,61 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Employee Services
+
+' --- Forward declarations for dependencies ---
+class EmployeeRepositoryAttendance
+class AttendanceRecord
+class EmployeeRepositoryInfo
+class Employee
+enum EmployeePosition
+class DateTime
+
+' --- Attendance Service ---
+class AttendanceService {
+  - m_repo: std::unique_ptr<EmployeeRepositoryAttendance>
+  - m_record: std::vector<std::shared_ptr<AttendanceRecord>>
+  - m_CheckInRecord: std::map<int, DateTime>
+  --
+  + AttendanceService()
+  + ~AttendanceService()
+  + CheckIn(const int& ID, const DateTime& Time): void
+  + CheckOut(const int& ID, const DateTime& Time): void
+  + CalcTotalWorkedHoursByID(const int& ID, const DateTime& Start, const DateTime& End): float
+  + SaveAttendanceRecord(): void
+}
+
+' --- Employee Info Service ---
+class EmployeeInfoService {
+  - m_repo: std::unique_ptr<EmployeeRepositoryInfo>
+  - m_EmployeeList: std::vector<std::shared_ptr<Employee>>
+  --
+  + EmployeeInfoService()
+  + AddEmployee(Employee: std::shared_ptr<Employee>): void
+  + GetAllEmployeeInfo(): std::vector<std::shared_ptr<Employee>>
+  + SearchEmployeebyID(const int& ID): std::shared_ptr<Employee>
+  + SearchEmployeebyName(const std::string& Name): std::vector<std::shared_ptr<Employee>>
+  + SearchEmployeebyPosition(const EmployeePosition& Position): std::vector<std::shared_ptr<Employee>>
+  + RemoveEmployeebyID(const int& ID): void
+  + SaveEmployeeInfo(): void
+}
+
+
+' --- Relationships for AttendanceService ---
+' Composition: owns its repository
+AttendanceService "*"-- "1" EmployeeRepositoryAttendance : owns >
+' Aggregation: manages a collection of records
+AttendanceService o-- "*" AttendanceRecord : manages >
+' Dependency: uses DateTime for records
+AttendanceService ..> DateTime : uses
+
+' --- Relationships for EmployeeInfoService ---
+' Composition: owns its repository
+EmployeeInfoService "*"-- "1" EmployeeRepositoryInfo : owns >
+' Aggregation: manages a list of employees
+EmployeeInfoService o-- "*" Employee : manages >
+' Dependency: uses EmployeePosition for searching
+EmployeeInfoService ..> EmployeePosition : uses
+
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title ReservationScreen Diagram
+
+' --- Forward declarations for context ---
+abstract class Screen <<abstract>>
+class Core
+class ReservationManager
+class Reservation
+enum ReservationStatus
+class DateTimePicker
+class DateTime
+
+' --- The Concrete Screen Implementation ---
+class ReservationScreen {
+  ' --- Aggregated Manager ---
+  - m_Manager: std::shared_ptr<ReservationManager>
+
+  ' --- Composed State Objects ---
+  - m_EditedDateTime: std::unordered_map<std::string, DateTime>
+  - m_EditedReservationTime: std::unordered_map<std::string, DateTime>
+  - m_DatePicker: DateTimePicker
+
+  ' --- Other state members omitted for clarity ---
+  --
+  ' --- Public Methods ---
+  + ReservationScreen(core: Core&, manager: std::shared_ptr<ReservationManager>)
+  + Render(dt: float): void
+  + Init(): void
+  + OnExit(): void
+  --
+  ' --- Private UI Helper Methods ---
+  - DrawReservationTable(): void
+  - DrawSaveButton(): void
+  - DrawBackButton(): void
+}
+
+' --- Relationships ---
+
+' Inheritance: ReservationScreen is a type of Screen.
+Screen <|-- ReservationScreen
+
+' Aggregation: The screen uses a ReservationManager to perform its logic.
+ReservationScreen o-- "1" ReservationManager : uses >
+
+' Composition: The screen is composed of state and UI helper objects.
+ReservationScreen "*"-- "1" DateTimePicker : has >
+ReservationScreen ..> DateTime : uses
+
+' Dependency: The screen displays and manages Reservation objects and uses the ReservationStatus enum.
+ReservationScreen ..> Reservation : displays/manages
+ReservationScreen ..> ReservationStatus : uses
+
+ReservationScreen ..> Core : depends on
+@enduml

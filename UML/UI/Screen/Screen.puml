@@ -1,0 +1,37 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Abstract Screen Class (State)
+
+' --- Forward declarations for context ---
+class Core
+package "Dear ImGui" as IMGUI_LIB <<library>> {
+  class ImGuiIO
+  class ImGuiContext
+  class ImGuiStyle
+}
+
+' --- The Abstract Base Class for all Application Screens ---
+' This acts as the "State" in a State design pattern.
+abstract class Screen <<abstract>> {
+  # m_Core: Core&
+  --
+  + Screen(core: Core&)
+  + virtual ~Screen()
+  + {abstract} Render(DT: float): void
+  + {abstract} Init(): void
+  + {abstract} OnExit(): void
+}
+
+' --- Relationships ---
+
+' Association: A Screen has a mandatory, non-owning reference to the Core.
+' It needs the Core to function.
+Screen --> "1" Core : references
+
+' Dependency: The Screen class (and its derivatives) will use the ImGui
+' library for rendering.
+Screen ..> IMGUI_LIB : uses
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Concrete Menu Repository
+
+' --- Forward declarations for context ---
+abstract class IMenuRepository <<abstract>>
+class JsonHandle
+
+' --- The Concrete Repository Implementation ---
+class FileMenuRepository {
+  - m_FileHandle: std::unique_ptr<JsonHandle>
+  --
+  + FileMenuRepository(MenuFilePath: std::string, ItemFilePath: std::string, AddonFilePath: std::string)
+  + SaveMenus(filePath: std::string) const: void
+  + SaveItems(filePath: std::string) const: void
+  + SaveAddons(filePath: std::string) const: void
+}
+
+' --- Relationships ---
+
+' Inheritance: Implements the abstract base class contract.
+IMenuRepository <|-- FileMenuRepository
+
+' Composition: Owns its file handler for persistence logic.
+FileMenuRepository "*"-- "1" JsonHandle : owns >
+
+@enduml

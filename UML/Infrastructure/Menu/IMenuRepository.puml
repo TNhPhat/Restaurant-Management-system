@@ -1,0 +1,49 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Abstract Menu Repository
+
+' --- Forward declarations for context ---
+class Menu
+class MenuSection
+class MenuItem
+class MenuAddon
+
+' --- The Abstract Base Class for a Menu Repository ---
+abstract class IMenuRepository <<abstract>> {
+  ' --- Private Data Members (In-memory cache) ---
+  - m_Menus: std::vector<std::shared_ptr<Menu>>
+  - m_Sections: std::vector<std::shared_ptr<MenuSection>>
+  - m_Items: std::vector<std::shared_ptr<MenuItem>>
+  - m_Addons: std::vector<std::shared_ptr<MenuAddon>>
+  --
+  ' --- Pure Virtual Methods (Persistence Contract) ---
+  + {abstract} SaveMenus(filePath: std::string) const: void
+  + {abstract} SaveItems(filePath: std::string) const: void
+  + {abstract} SaveAddons(filePath: std::string) const: void
+
+  ' --- Concrete Public Methods (In-memory management) ---
+  + SaveMenu(MenuPtr: const std::shared_ptr<Menu>&): std::shared_ptr<Menu>
+  + RemoveMenu(MenuID: int): void
+  + GetMenuByID(MenuID: int): std::shared_ptr<Menu>
+  + SaveSection(Section: const std::shared_ptr<MenuSection>&): void
+  + RemoveSection(SectionID: int): void
+  + GetSectionByID(SectionID: int): std::shared_ptr<MenuSection>
+  + SaveMenuItem(item: const std::shared_ptr<MenuItem>&): std::shared_ptr<MenuItem>
+  + RemoveMenuItem(ItemID: int): void
+  + GetMenuItemByID(ID: int): std::shared_ptr<MenuItem>
+  + SaveMenuAddon(addon: const std::shared_ptr<MenuAddon>&): std::shared_ptr<MenuAddon>
+  + RemoveMenuAddon(AddonID: int): void
+  + GetMenuAddonByID(ID: int): std::shared_ptr<MenuAddon>
+}
+
+' --- Relationships ---
+
+' Aggregation: The repository manages collections of these entities.
+IMenuRepository o-- "*" Menu : manages
+IMenuRepository o-- "*" MenuSection : manages
+IMenuRepository o-- "*" MenuItem : manages
+IMenuRepository o-- "*" MenuAddon : manages
+
+@enduml

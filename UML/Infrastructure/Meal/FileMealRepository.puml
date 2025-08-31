@@ -1,0 +1,31 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Concrete Meal Repository
+
+' --- Forward declarations for context ---
+abstract class IMealRepository <<abstract>>
+interface IMenuRepository <<interface>>
+class JsonHandle
+
+' --- The Concrete Repository Implementation ---
+class FileMealRepository {
+  - m_FileHandler: std::unique_ptr<JsonHandle>
+  --
+  + FileMealRepository(filePath: const std::string&, menuItemRepository: const IMenuRepository&)
+  + SaveMeals(filePath: std::string) const: void
+}
+
+' --- Relationships ---
+
+' Inheritance: Realizes the abstract repository
+IMealRepository <|-- FileMealRepository
+
+' Composition: Owns its file handler for persistence
+FileMealRepository "*"-- "1" JsonHandle : owns >
+
+' Dependency: Uses a menu repository (via Dependency Injection)
+FileMealRepository ..> IMenuRepository : uses
+
+@enduml

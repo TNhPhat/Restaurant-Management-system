@@ -1,0 +1,30 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Storage Class Diagram
+
+' Forward-declare the Resource class to show the relationship
+class Resource
+
+class Storage {
+  - m_StorageID: const int {readOnly}
+  - m_Resources: std::vector<std::shared_ptr<Resource>>
+  --
+  + Storage(ID: const int)
+  + ~Storage()
+  + GetID(): const int
+  + GetResources(): std::vector<std::shared_ptr<Resource>>&
+  + SearchByID(ID: const int): Resource*
+  + AddResource(ID: int, Name: std::string, Quantity: int, Price: float): bool
+  + Use(ID: int, q: int): bool
+  + Add(ID: int, q: int): bool
+  + Delete(ID: int): bool
+}
+
+' --- Relationships ---
+' Storage aggregates a collection of Resource objects.
+' The open diamond represents aggregation (shared ownership).
+Storage o-- "*" Resource : manages >
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title BillType Enumeration and Utilities
+
+enum BillType <<enumeration>> {
+  Income
+  Expense
+}
+
+class BillTypeUtils <<utility>> {
+  + {static} BillTypeToString(type: BillType): std::string
+  + {static} StringToBillType(typeStr: const std::string&): BillType
+}
+
+' The utility functions depend on and operate on the BillType enum.
+BillTypeUtils ..> BillType : uses
+
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+hide empty members
+title Person Class and Gender Enum
+
+' Define the external library as a package
+package "nlohmann" as JSON_Lib <<library>> {
+  class json
+}
+
+' The Gender enumeration
+enum Gender <<enumeration>> {
+  Female
+  Male
+}
+
+' The Person base class
+class Person {
+  ' --- Static Methods ---
+  ' --- Instance Members ---
+  - m_Name: std::string
+  - m_Email: std::string
+  - m_Phone: std::string
+  - m_Gender: Gender
+  --
+  ' --- Constructors & Destructor ---
+  + {static} StringToGender(const std::string& gender): Gender
+
+  + Person()
+  + Person(const std::string&, const std::string&, const std::string&, const Gender&)
+  + virtual ~Person()
+
+  ' --- Public Methods ---
+  + GetName(): std::string
+  + GetEmail(): std::string
+  + GetPhone(): std::string
+  + GetGender(): Gender
+  + SetName(const std::string& Name): void
+  + SetEmail(const std::string& Email): void
+  + SetPhone(const std::string& Phone): void
+  + SetGender(const Gender& Gender): void
+  + GenderToString(): std::string
+  + virtual ToJson(): json
+}
+
+' --- Relationships ---
+
+' A Person has a Gender. This is a composition relationship.
+Person "*"-- "1" Gender
+
+' Person depends on the json library for its ToJson method.
+Person ..> JSON_Lib
+
+@enduml
